@@ -10,7 +10,7 @@ function Dashboard({ children }) {
         <TopBar />
         <div className="dashboard__content">
           {children}
-          This is dashboard
+          This is dashboard ABCXYZ
         </div>
       </div>
     </div>

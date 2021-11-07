@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Context from "../../Context/Context";
 import API from "../../API";
 import "./Login.scss";
+import Logo from "../../components/Layouts/Logo";
 
 const isEmail = (email) => {
   const regex =
@@ -97,7 +98,10 @@ function LoginForm(props) {
     <div className="form__section">
       <div className="container form__container">
         <form className="form form__login" onSubmit={handleLoginSubmit}>
-          <h2 className="form__title">Welcome + Logo</h2>
+          <div className="form__title">
+            <h2>Welcome to</h2>
+            <Logo size="medium" />
+          </div>
           <div className="form__group">
             <label htmlFor="email" className="form__lb">
               Email

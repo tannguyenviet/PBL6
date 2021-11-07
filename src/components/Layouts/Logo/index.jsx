@@ -14,7 +14,7 @@ function Logo(props) {
           alt=""
         /> */}
         {/* <img src="/logo.jpg" alt="" /> */}
-        <h3>Logo</h3>
+        <h3>PBL6</h3>
       </Link>
     </div>
   );

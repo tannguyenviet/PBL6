@@ -8,10 +8,7 @@ function Dashboard({ children }) {
       <SideBar />
       <div className="dashboard__container">
         <TopBar />
-        <div className="dashboard__content">
-          {children}
-          This is dashboard ABCXYZ
-        </div>
+        <div className="dashboard__content">{children}</div>
       </div>
     </div>
   );

@@ -54,9 +54,15 @@ function Header(props) {
             <li className="menu__item user__info">
               <a href="#a">{userInfo.name}</a>
               <ul className="menu__sub">
-                <li className="menu__sub-item">
-                  <Link to="/profile">Profile</Link>
-                </li>
+                {userInfo.id === 1 ? (
+                  <li className="menu__sub-item">
+                    <Link to="/admin">Dashboard</Link>
+                  </li>
+                ) : (
+                  <li className="menu__sub-item">
+                    <Link to="/profile">Profile</Link>
+                  </li>
+                )}
                 <li className="menu__sub-item">
                   <a href="#a" onClick={handleLogOut}>
                     Log out

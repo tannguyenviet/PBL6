@@ -5,4 +5,25 @@
   border-bottom: 1px solid $secondary-bg;
   height: 8rem;
   max-height: 8rem;
+  padding: 2rem 1rem;
+  @include flex(center);
+  color: $secondary-text;
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 500;
+    flex-grow: 1;
+  }
+  &__nav {
+    flex-basis: 15%;
+    @include flex(center, space-evenly);
+
+    &-item {
+      transition: all 0.2s linear;
+      &:hover {
+        cursor: pointer;
+        color: $hover-text;
+      }
+    }
+  }
 }

@@ -111,8 +111,64 @@ body.hidden {
     top: 0;
     right: 0;
     left: 26rem;
+    margin: 0 2.5rem;
   }
   &__content {
-    padding: 2rem;
+    padding: 2rem 1rem;
   }
+}
+
+table {
+  border-collapse: collapse;
+  border-radius: 6px;
+  width: 100%;
+  text-align: left;
+
+  overflow: hidden;
+  box-shadow: $shadow-primary;
+  color: $secondary-text;
+
+  thead {
+    box-shadow: $shadow-primary;
+  }
+  th {
+    padding: 1.2rem 2rem 2rem;
+    font-weight: 600;
+  }
+
+  tr:nth-child(even) {
+    background-color: $secondary-bg;
+  }
+
+  td {
+    padding: 1.6rem 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+
+    &:last-child {
+      @include flex(center);
+      gap: 2rem;
+      i {
+        transition: all 0.2s linear;
+
+        &:hover {
+          color: $hover-text;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.btn {
+  display: inline-block;
+  padding: 1.2rem 1.5rem;
+  margin-top: 2rem;
+  border-radius: 5px;
+
+  font-weight: 500;
+  font-size: 1.4rem;
+  color: $secondary-text;
+  background: $gradient-btn;
 }

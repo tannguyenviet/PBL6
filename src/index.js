@@ -26,7 +26,7 @@ ReactDOM.render(
             <Route path="/ticket" component={TicketPage} />
             <Route path="/movie/list" component={MoviePage} />
             <Route path="/movie/detail/:id" component={MovieDetailPage} />
-            <Route component={AdminPage} />
+            <Route path="/admin" component={AdminPage} />
             <Route default component={NotFoundPage} />
           </Switch>
         </App>

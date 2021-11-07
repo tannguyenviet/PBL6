@@ -4,7 +4,15 @@ import "./TopBar.scss";
 function TopBar(props) {
   return (
     <div className="topbar">
-      <h1>This is TOPBAR</h1>
+      <h2 className="topbar__title">Dashboard</h2>
+      <ul className="topbar__nav">
+        <li className="topbar__nav-item">
+          <i className="far fa-bell"></i>
+        </li>
+        <li className="topbar__nav-item">
+          <i className="fas fa-cog"></i>
+        </li>
+      </ul>
     </div>
   );
 }

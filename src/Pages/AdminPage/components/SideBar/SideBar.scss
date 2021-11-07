@@ -1,0 +1,11 @@
+@import "../../../../sass/variables";
+@import "../../../../sass/mixins";
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 26rem;
+  border-right: 1.5px solid $secondary-bg;
+}

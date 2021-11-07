@@ -1,0 +1,64 @@
+@import "../../../sass/mixins";
+@import "../../../sass/variables";
+
+.footer {
+  background-color: $secondary-bg;
+  padding-top: 5rem;
+  &__top {
+    @include flex(center, space-between);
+    padding-bottom: 1rem;
+  }
+  &__socials {
+    @include flex(center, space-evenly);
+
+    &-icon {
+      padding: 7.5px;
+    }
+    &-link {
+      @include flex(center, center);
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      color: #fff;
+      transition: all 0.2s linear;
+      border: 1px solid $primary-bg;
+      &:hover {
+        color: $hover-text;
+        background-color: $primary-bg;
+      }
+
+      i {
+        font-size: 16px;
+        color: $secondary-text;
+      }
+    }
+  }
+
+  &__bot {
+    @include flex(center, space-between);
+    padding: 2.5rem 0;
+    &-left {
+      p {
+        color: #dbe2fb;
+        a {
+          color: $hover-text;
+        }
+      }
+    }
+    &-links {
+      @include flex(center, space-between);
+    }
+    &-link {
+      padding: 0 1rem;
+      a {
+        color: #dbe2fb;
+      }
+
+      &:hover {
+        a {
+          color: $hover-text;
+        }
+      }
+    }
+  }
+}

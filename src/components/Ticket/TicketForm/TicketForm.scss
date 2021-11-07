@@ -1,0 +1,253 @@
+@import "../../../sass/mixins";
+@import "../../../sass/variables";
+.ticket-form__section {
+  padding: 5rem 0;
+  background-color: $secondary-bg;
+}
+
+.search-ticket {
+  &__section {
+    margin-top: -15rem;
+  }
+  &__box {
+    position: relative;
+    background: url("../../../assets/images/backgrounds/ticket-bg01.jpg")
+      no-repeat center / cover;
+    padding: 4.5rem 3rem;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      opacity: 0.7;
+      background-image: linear-gradient(
+        -320deg,
+        #ac32e4 0%,
+        #7918f2 48%,
+        #4801ff 100%
+      );
+    }
+  }
+
+  &__top {
+    position: relative;
+    @include flex(center, space-between);
+    gap: 2rem;
+  }
+
+  &__header {
+    text-transform: uppercase;
+    font-weight: 600;
+    flex-basis: calc(50% - 2rem);
+    letter-spacing: 1px;
+
+    .category {
+      color: $hover-text;
+      font-size: 1.8rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .title {
+      font-size: 2.8rem;
+    }
+  }
+
+  &__menu {
+    @include flex(center, flex-end);
+    flex-basis: calc(50% - 2rem);
+  }
+  &__tab {
+    margin: 0 1rem;
+    padding: 1.6rem 5rem;
+    border-radius: 30px;
+    background: $gradient-btn;
+    cursor: pointer;
+
+    span {
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+  }
+
+  &__bot {
+    position: relative;
+    margin-top: 5rem;
+    padding: 3rem 0;
+    background-color: transparent;
+    border-top: 1.2px solid black;
+    border-bottom: 1.2px solid black;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      background-color: #000;
+      opacity: 0.4;
+    }
+  }
+
+  &__form {
+    $form-gap: 2rem;
+    @include flex(center, space-between);
+    gap: $form-gap;
+    position: relative;
+    padding: 0 4rem;
+    color: $secondary-text;
+
+    .form-group {
+      flex-basis: calc(25% - #{$form-gap});
+      @include flex(center);
+
+      input[type="date"] {
+        background-color: $secondary-bg;
+        padding: 8px 5px;
+        border: 1px solid $secondary-text;
+        outline: none;
+        border-radius: 5px;
+        color: $secondary-text;
+      }
+
+      ::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        background-color: $secondary-text;
+        border-radius: 3px;
+        transition: all 0.2s linear;
+        &:hover {
+          background-color: #fff;
+        }
+      }
+
+      &.search {
+        @include flex(center, space-between);
+        padding: 1.5rem 0;
+        border-bottom: 1px solid #fff;
+        input {
+          color: #fff;
+          font-size: 1.6rem;
+          border: 0;
+          outline: none;
+          background-color: transparent;
+        }
+        span {
+          cursor: pointer;
+          &:hover {
+            color: $hover-text;
+          }
+        }
+        ::placeholder {
+          color: $secondary-text;
+          opacity: 1;
+          font-family: "Poppins", sans-serif;
+          font-weight: 300;
+        }
+      }
+
+      .thumb {
+        margin-right: 8px;
+        flex-shrink: 0;
+      }
+
+      .type {
+        margin-right: 12px;
+        font-size: 1.4rem;
+      }
+
+      .select-bar {
+        flex: 1;
+        position: relative;
+        font-size: 14px;
+        font-weight: 500;
+        width: 150px;
+
+        cursor: pointer;
+        border: 1px solid $secondary-text;
+        border-radius: 4px;
+        overflow: hidden;
+
+        &:hover {
+          .list-data {
+            display: block;
+          }
+        }
+
+        &:after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          right: 1rem;
+          pointer-events: none;
+
+          border: 5px solid transparent;
+          border-top-color: #fff;
+          border-radius: 2px;
+          transform: translateY(-30%);
+        }
+
+        select {
+          width: 100%;
+          padding: 10px;
+          background-color: $secondary-bg;
+          color: $secondary-text;
+          cursor: pointer;
+
+          border: 0;
+          font-weight: 500;
+          outline: none;
+          appearance: none;
+        }
+
+        // .current {
+        //   @include flex(center, space-around);
+        //   border-radius: 5px;
+        //   background-color: $secondary-bg;
+        //   padding: 10px 0;
+        //   &:hover {
+        //     color: #fff;
+        //   }
+        // }
+
+        // .list-data {
+        //   margin-top: 1.5rem;
+        //   position: absolute;
+        //   top: 100%;
+        //   left: 0;
+        //   width: 100%;
+        //   z-index: 1;
+        //   display: none;
+
+        //   &:before {
+        //     content: "";
+        //     position: absolute;
+        //     left: 0;
+        //     right: 0;
+        //     top: -1.5rem;
+        //     background-color: transparent;
+        //     height: 1.5rem;
+        //   }
+
+        //   li {
+        //     padding: 1.2rem 1rem;
+        //     background-color: $drop-down-bg;
+        //     &:first-child {
+        //       border-radius: 5px 5px 0 0;
+        //     }
+        //     &:last-child {
+        //       border-radius: 0 0 5px 5px;
+        //     }
+        //     &:hover {
+        //       background-color: #1c4866;
+        //       color: #fff;
+        //     }
+        //   }
+        // }
+      }
+    }
+  }
+}

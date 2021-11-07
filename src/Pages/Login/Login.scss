@@ -1,0 +1,107 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+
+.form {
+  max-width: 45rem;
+  margin: 0 auto;
+  padding: 3rem 4rem;
+  border-radius: 8px;
+
+  font-weight: 500;
+  text-align: center;
+  color: $secondary-text;
+  background-color: transparent;
+  box-shadow: 0 0 15px 0px rgba(191, 204, 250, 0.5);
+
+  &__register {
+    max-width: 52rem;
+  }
+
+  &__section {
+    padding: 18rem 0;
+    margin-top: 4rem;
+    background: url("../../assets/images/backgrounds/account-bg.jpg") no-repeat
+      center / cover;
+  }
+  &__title {
+    font-size: 3.2rem;
+    margin-bottom: 4rem;
+    color: #fff;
+    @include flex(center, center);
+  }
+  &__row {
+    @include flex(stretch, space-between);
+    gap: 20px;
+    .form__group {
+      flex-basis: 50%;
+    }
+  }
+  &__group {
+    @include flex(flex-start, flex-start, nowrap, column);
+    margin-bottom: 2.4rem;
+  }
+  &__lb {
+    margin-bottom: 1rem;
+  }
+  &__ip {
+    border: 0;
+    outline: none;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 5px;
+    margin-bottom: 8px;
+
+    &.ip__gender {
+      padding: 1rem 0;
+      @include flex(center);
+    }
+
+    & > span {
+      margin: 0 5px;
+    }
+  }
+  &__error {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    color: $error;
+  }
+
+  &__option {
+    font-size: 1.4rem;
+    color: #fff;
+    span {
+      margin: 0 5px;
+    }
+    a {
+      color: $secondary-text;
+      transition: all 0.2s linear;
+      &:hover {
+        color: $hover-text;
+      }
+    }
+  }
+
+  &__btn {
+    margin-top: 5rem;
+    button {
+      outline: none;
+      cursor: pointer;
+      border: 0;
+      border-radius: 3rem;
+      padding: 1rem 2rem;
+      background: $gradient-btn;
+      width: 17rem;
+
+      color: $secondary-text;
+      font-family: "Poppins", sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+      transition: all 0.2s linear;
+      &:hover {
+        box-shadow: 0px 5px 15px 0px rgba(85, 6, 212, 0.9);
+        color: #fff;
+      }
+    }
+  }
+}

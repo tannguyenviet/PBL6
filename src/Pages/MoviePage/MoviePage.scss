@@ -1,0 +1,38 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+
+.gallery {
+  $width_gap: 2rem;
+  &__section {
+    margin: 10rem 0;
+  }
+  &__bar {
+    position: relative;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 5rem;
+    @include flex(center);
+  }
+  &__tab {
+    font-size: 2.6rem;
+    width: 20%;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  &__underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 20%;
+    background-color: $hover-text;
+    transition: all 0.4s ease-in-out;
+  }
+  &__list {
+    @include flex(center, space-between, wrap);
+    gap: $width_gap;
+  }
+  &__item {
+    flex-basis: calc(25% - #{$width_gap});
+  }
+}

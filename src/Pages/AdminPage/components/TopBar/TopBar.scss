@@ -1,0 +1,8 @@
+@import "../../../../sass/variables";
+@import "../../../../sass/mixins";
+
+.topbar {
+  border-bottom: 1px solid $secondary-bg;
+  height: 8rem;
+  max-height: 8rem;
+}

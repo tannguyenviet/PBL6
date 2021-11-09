@@ -38,14 +38,7 @@
     padding: 12px;
     position: relative;
     cursor: pointer;
-    a {
-      color: #fff;
-      line-height: 1.5;
-      font-weight: 500;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      transition: color 0.2s linear;
-    }
+
     &:hover {
       .menu__sub {
         opacity: 1;
@@ -56,12 +49,18 @@
         color: $hover-text;
       }
     }
+  }
 
-    // &.user__info {
-    //   a {
-    //     color: $secondary-text;
-    //   }
-    // }
+  &__link {
+    color: #fff;
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s linear;
+  }
+  &__link--active {
+    color: $hover-text;
   }
 
   &__sub {

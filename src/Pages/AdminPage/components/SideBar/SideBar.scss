@@ -70,6 +70,13 @@
         }
       }
 
+      &.active {
+        span {
+          cursor: pointer;
+          color: $hover-text;
+        }
+      }
+
       &:hover {
         span {
           cursor: pointer;

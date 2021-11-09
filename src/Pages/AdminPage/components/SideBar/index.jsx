@@ -1,6 +1,6 @@
 import React from "react";
 import "./SideBar.scss";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import Logo from "../../../../components/Layouts/Logo";
 
@@ -22,44 +22,69 @@ function SideBar(props) {
       </div>
       <nav className="sidebar__nav">
         <li className="sidebar__nav-item">
-          <Link className="sidebar__nav-link" to="/admin">
+          <NavLink
+            exact
+            activeClassName="sidebar__nav-link active"
+            className="sidebar__nav-link"
+            to="/admin"
+          >
             <span>
               <i className="fas fa-home"></i>
             </span>
             <span>Dashboard</span>
-          </Link>
+          </NavLink>
         </li>
         <li className="sidebar__nav-item">
-          <Link className="sidebar__nav-link" to="/admin/movies">
+          <NavLink
+            exact
+            activeClassName="sidebar__nav-link active"
+            className="sidebar__nav-link"
+            to="/admin/movies"
+          >
             <span>
               <i className="fas fa-film"></i>
             </span>
             <span>Movies</span>
-          </Link>
+          </NavLink>
         </li>
         <li className="sidebar__nav-item">
-          <Link className="sidebar__nav-link" to="/admin/showtime">
+          <NavLink
+            exact
+            activeClassName="sidebar__nav-link active"
+            className="sidebar__nav-link"
+            to="/admin/showtime"
+          >
             <span>
               <i className="far fa-calendar-alt"></i>
             </span>
             <span>Showtime</span>
-          </Link>
+          </NavLink>
         </li>
         <li className="sidebar__nav-item">
-          <Link className="sidebar__nav-link" to="/admin/theater">
+          <NavLink
+            exact
+            activeClassName="sidebar__nav-link active"
+            className="sidebar__nav-link"
+            to="/admin/theater"
+          >
             <span>
               <i className="fas fa-place-of-worship"></i>
             </span>
             <span>Theater</span>
-          </Link>
+          </NavLink>
         </li>
         <li className="sidebar__nav-item">
-          <Link className="sidebar__nav-link" to="/admin/ticket">
+          <NavLink
+            exact
+            activeClassName="sidebar__nav-link active"
+            className="sidebar__nav-link"
+            to="/admin/ticket"
+          >
             <span>
               <i className="fas fa-ticket-alt"></i>
             </span>
             <span>Ticket</span>
-          </Link>
+          </NavLink>
         </li>
         <li className="sidebar__nav-item" onClick={handleNavItemActive}>
           <div className="sidebar__nav-link">
@@ -73,10 +98,22 @@ function SideBar(props) {
           </div>
           <ul className="sidebar__nav-sublist">
             <li className="sidebar__nav-subitem">
-              <Link to="/admin/member">Member</Link>
+              <NavLink
+                exact
+                activeClassName="sidebar__nav-link active"
+                to="/admin/member"
+              >
+                Member
+              </NavLink>
             </li>
             <li className="sidebar__nav-subitem">
-              <Link to="/admin/staff">Staff</Link>
+              <NavLink
+                exact
+                activeClassName="sidebar__nav-link active"
+                to="/admin/staff"
+              >
+                Staff
+              </NavLink>
             </li>
           </ul>
         </li>

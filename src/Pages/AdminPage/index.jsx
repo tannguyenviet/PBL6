@@ -1,12 +1,15 @@
 import React from "react";
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
 import App from "./App";
 import Dashboard from "./pages/Dashboard";
 import Showtime from "./pages/Showtime";
+import NotFoundPage from "../NotFoundPage";
 
 function AdminPage(props) {
   const history = useHistory();
+  const match = useRouteMatch();
   const userInfo = JSON.parse(localStorage.getItem("user_info"));
+
   if (!userInfo || userInfo.id !== 1) {
     history.replace("/login");
   }
@@ -14,11 +17,12 @@ function AdminPage(props) {
   return (
     <App>
       <Switch>
-        <Route path="/admin" exact component={Dashboard} />
-        <Route path="/admin/member" />
-        <Route path="/admin/movie" />
-        <Route path="/admin/showtime" component={Showtime} />
-        <Route path="/admin/staff" />
+        <Route path={match.url} exact component={Dashboard} />
+        <Route path={`${match.url}/member`} />
+        <Route path={`${match.url}/movie`} />
+        <Route path={`${match.url}/showtime`} component={Showtime} />
+        <Route path={`${match.url}/staff`} />
+        <Route default component={NotFoundPage} />
       </Switch>
     </App>
   );

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import Context from "../../../Context/Context";
 import Logo from "../../Layouts/Logo";
@@ -26,53 +26,110 @@ function Header(props) {
         <Logo />
         <nav className="menu">
           <li className="menu__item">
-            <Link to="/">Home</Link>
+            <NavLink
+              exact
+              className="menu__link"
+              activeClassName="menu__link--active"
+              to="/"
+            >
+              Home
+            </NavLink>
           </li>
           <li className="menu__item">
-            <a href="#a">
+            <div className="menu__link">
               Movies <i className="fas fa-caret-down"></i>
-            </a>
+            </div>
             <ul className="menu__sub">
               <li className="menu__sub-item">
-                <Link to="/movie/list">Now Playing</Link>
+                <NavLink
+                  exact
+                  className="menu__link"
+                  activeClassName="menu__link--active"
+                  to="/movie/list"
+                >
+                  Now Playing
+                </NavLink>
               </li>
               <li className="menu__sub-item">
-                <Link to="/movie/list">Comming soon</Link>
+                <NavLink
+                  exact
+                  className="menu__link"
+                  activeClassName="menu__link--active"
+                  to="/movie/list"
+                >
+                  Coming soon
+                </NavLink>
               </li>
               <li className="menu__sub-item">
-                <Link to="/ticket">Buy Ticket</Link>
+                <NavLink
+                  exact
+                  className="menu__link"
+                  activeClassName="menu__link--active"
+                  to="/ticket"
+                >
+                  Buy Ticket
+                </NavLink>
               </li>
             </ul>
           </li>
           <li className="menu__item">
-            <a href="#a">Contact</a>
+            <NavLink
+              className="menu__link"
+              activeClassName="menu__link--active"
+              to="/contact"
+            >
+              Contact
+            </NavLink>
           </li>
           <li className="menu__item">
-            <a href="#a">About</a>
+            <NavLink
+              className="menu__link"
+              activeClassName="menu__link--active"
+              to="/about"
+            >
+              About
+            </NavLink>
           </li>
+
           {userInfo ? (
             <li className="menu__item user__info">
-              <a href="#a">{userInfo.name}</a>
+              <div className="menu__link">{userInfo.name}</div>
               <ul className="menu__sub">
                 {userInfo.id === 1 ? (
                   <li className="menu__sub-item">
-                    <Link to="/admin">Dashboard</Link>
+                    <NavLink
+                      exact
+                      className="menu__link"
+                      activeClassName="menu__link--active"
+                      to="/admin"
+                    >
+                      Dashboard
+                    </NavLink>
                   </li>
                 ) : (
                   <li className="menu__sub-item">
-                    <Link to="/profile">Profile</Link>
+                    <NavLink
+                      exact
+                      className="menu__link"
+                      activeClassName="menu__link--active"
+                      to="/profile"
+                    >
+                      Profile
+                    </NavLink>
                   </li>
                 )}
                 <li className="menu__sub-item">
-                  <a href="#a" onClick={handleLogOut}>
+                  <Link className="menu__link" onClick={handleLogOut} to="/">
                     Log out
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
           ) : (
             <li className="menu__item btn-login">
-              <Link to="/login">Join us</Link>
+              <Link className="menu__link" to="/login">
+                Join us
+              </Link>
             </li>
           )}
         </nav>

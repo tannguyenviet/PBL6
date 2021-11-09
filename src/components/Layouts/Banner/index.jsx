@@ -28,6 +28,22 @@ const movieBanner = (
   </h1>
 );
 
+const seatBanner = (
+  <h1 className="banner__title">
+    <p>
+      Find <span>Seats</span> Here
+    </p>
+  </h1>
+);
+
+const payBanner = (
+  <h1 className="banner__title">
+    <p>
+      Tickets <span>Payment</span>
+    </p>
+  </h1>
+);
+
 function Banner(props) {
   const { subtitle, animate, page } = props;
   const titleRef = useRef(null);
@@ -51,6 +67,10 @@ function Banner(props) {
         return ticketBanner;
       case "movie":
         return movieBanner;
+      case "seat":
+        return seatBanner;
+      case "payment":
+        return payBanner;
       default:
         return (
           <h1 className="banner__title">

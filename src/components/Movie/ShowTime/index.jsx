@@ -1,12 +1,14 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import "./ShowTime.scss";
-// import PropTypes from 'prop-types';
-
-// ShowTime.propTypes = {
-
-// };
 
 function ShowTime() {
+  const history = useHistory();
+  const handleShowTimeClicked = (e) => {
+    console.log(e.target.innerText);
+    history.push("/seat");
+  };
+
   return (
     <div className="showtime__info">
       <div className="showtime__movie">
@@ -25,10 +27,10 @@ function ShowTime() {
       <div className="showtime__time">
         <div className="showtime__day">Monday</div>
         <ul className="showtime__group">
-          <li>17:00</li>
-          <li>18:30</li>
-          <li>19:30</li>
-          <li>20:00</li>
+          <li onClick={handleShowTimeClicked}>17:00</li>
+          <li onClick={handleShowTimeClicked}>18:30</li>
+          <li onClick={handleShowTimeClicked}>19:30</li>
+          <li onClick={handleShowTimeClicked}>20:00</li>
         </ul>
       </div>
     </div>

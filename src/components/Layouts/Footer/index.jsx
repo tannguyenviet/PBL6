@@ -18,7 +18,10 @@ function Footer(props) {
               </a>
             </li>
             <li className="footer__socials-icon">
-              <a href="#a" className="footer__socials-link">
+              <a
+                href="https://github.com/KimTanneel/PBL6"
+                className="footer__socials-link"
+              >
                 <i className="fab fa-github"></i>
               </a>
             </li>

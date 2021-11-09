@@ -1,0 +1,152 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+
+.payment {
+  &__section {
+    margin: 10rem 0;
+  }
+  &__container {
+    @include flex(flex-start, space-between);
+  }
+  &__left {
+    background-color: $secondary-bg;
+    width: 32%;
+    padding: 3rem;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  &__title {
+    font-size: 2.8rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+
+    padding-bottom: 2.4rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  }
+  &__part {
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+
+    div {
+      @include flex(center, space-between);
+      margin-bottom: 2rem;
+
+      span:first-child {
+        font-weight: 400;
+        font-size: 1.4rem;
+      }
+      span:last-child {
+        font-weight: 500;
+        color: $secondary-text;
+      }
+    }
+  }
+  &__ticket {
+    position: relative;
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      width: 4rem;
+      height: 4rem;
+      border-radius: 50%;
+      background-color: $primary-bg;
+      bottom: 0;
+    }
+
+    &:before {
+      left: -3rem;
+      transform: translate(-50%, 50%);
+    }
+
+    &:after {
+      right: -3rem;
+      transform: translate(50%, 50%);
+    }
+  }
+  &__total {
+    @include flex(flex-start, space-between);
+    text-transform: uppercase;
+
+    span:first-child {
+      font-weight: 600;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+    }
+    span:last-child {
+      font-weight: 500;
+      font-size: 1.8rem;
+      color: $secondary-text;
+    }
+  }
+
+  &__right {
+    flex-basis: 65%;
+  }
+
+  &__user {
+    padding: 3rem 5rem 2rem;
+    border-radius: 3px;
+    margin-bottom: 5rem;
+    background-color: $secondary-bg;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    &-group {
+      margin-bottom: 3rem;
+      @include flex(center);
+
+      label {
+        width: 20%;
+        font-size: 1.4rem;
+      }
+
+      input {
+        flex-grow: 1;
+        padding: 1.2rem 2rem;
+        color: $secondary-text;
+        background-color: transparent;
+
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        outline: none;
+        border-radius: 5px;
+      }
+    }
+  }
+
+  &__methods {
+    padding: 2rem;
+    background-color: $primary-bg;
+    &-list {
+      @include flex(stretch, space-evenly);
+    }
+
+    &-item {
+      flex-basis: 20%;
+      @include flex(center, center, nowrap, column);
+      padding: 2rem;
+      border: 1px solid $secondary-bg;
+      border-radius: 10px;
+      transition: all 0.2s linear;
+
+      &:hover {
+        cursor: pointer;
+        border-color: $hover-text;
+      }
+
+      i {
+        font-size: 3rem;
+        color: $secondary-text;
+        margin-bottom: 1.5rem;
+      }
+    }
+
+    span {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+  }
+}

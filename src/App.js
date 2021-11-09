@@ -15,7 +15,7 @@ function App(props) {
   //States
   const [active, setActive] = useState("");
 
-  //Active when scroll
+  //Active header vs toTop when scroll
   useEffect(() => {
     const handleToTopScroll = () => {
       setActive(window.scrollY > 0 ? "active" : "");

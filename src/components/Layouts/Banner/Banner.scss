@@ -24,6 +24,24 @@
         background-attachment: fixed;
       }
     }
+    &--seat {
+      padding: 20rem 0;
+      .banner__background {
+        background: url("../../../assets/images/backgrounds/seat2.jpg")
+          no-repeat top / cover;
+        background-attachment: fixed;
+        filter: hue-rotate(20deg);
+      }
+    }
+    &--payment {
+      padding: 20rem 0;
+      .banner__background {
+        background: url("../../../assets/images/backgrounds/payment.jpg")
+          no-repeat center / cover;
+        background-attachment: fixed;
+        filter: hue-rotate(230deg) brightness(50%);
+      }
+    }
   }
 
   &__background {

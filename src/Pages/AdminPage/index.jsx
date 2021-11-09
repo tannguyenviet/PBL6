@@ -10,6 +10,7 @@ function AdminPage(props) {
   if (!userInfo || userInfo.id !== 1) {
     history.replace("/login");
   }
+
   return (
     <App>
       <Switch>

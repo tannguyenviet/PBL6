@@ -13,6 +13,8 @@ import MovieDetailPage from "./Pages/MoviePage/MovieDetail";
 import TicketPage from "./Pages/TicketPage";
 import NotFoundPage from "./Pages/NotFoundPage";
 import AdminPage from "./Pages/AdminPage";
+import SeatPage from "./Pages/SeatPage";
+import PaymentPage from "./Pages/PaymentPage";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -26,6 +28,8 @@ ReactDOM.render(
             <Route path="/ticket" component={TicketPage} />
             <Route path="/movie/list" component={MoviePage} />
             <Route path="/movie/detail/:id" component={MovieDetailPage} />
+            <Route path="/seat" component={SeatPage} />
+            <Route path="/payment" component={PaymentPage} />
             <Route path="/admin" component={AdminPage} />
             <Route default component={NotFoundPage} />
           </Switch>
@@ -35,7 +39,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

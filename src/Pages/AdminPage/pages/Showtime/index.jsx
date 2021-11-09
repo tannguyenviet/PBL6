@@ -31,7 +31,9 @@ function Showtime(props) {
           ))}
         </tbody>
       </table>
-      <Link className="btn btn-add">New Showtime</Link>
+      <Link to="/admin/showtime/add" className="btn btn-add">
+        New Showtime
+      </Link>
     </section>
   );
 }

@@ -25,3 +25,20 @@ content-type: application/json
     "published":1
 }
 ###
+
+POST http://localhost:8080/account
+content-type: application/json
+
+{
+        "username": "tuanakb3",
+        "password": "tuandeptrai",
+        "name": "Tuấn đẹp trai",
+        "phone": "121212312",
+        "email": "tuanak691@gmail.com",
+        "address": "Sơn Trà, Đà Nẵng",
+        "birthday": "2015-10-20T17:00:00.000Z",
+        "gender": true,
+        "role_id": 3
+}
+###
+GET http://localhost:8080/account

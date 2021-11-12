@@ -1,16 +1,14 @@
-
 const tutorials = require("../controller/tutorial");
-
+const passport = require("passport");
 const router = require("express").Router();
-
 // Create a new Tutorial
-router.post("/", tutorials.create);
+router.post("/", passport.authenticate("jwt", { session: false }), tutorials.create);
 
 // Retrieve all Tutorials
-router.get("/", tutorials.findAll);
+router.get("/", passport.authenticate("jwt", { session: false }), tutorials.findAll);
 
 // Retrieve all published Tutorials
-router.get("/published", tutorials.findAllPublished ); 
+router.get("/published", tutorials.findAllPublished);
 // function get + /published -> hardcode
 
 // Retrieve a single Tutorial with id

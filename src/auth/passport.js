@@ -2,7 +2,7 @@ const passport = require("passport");
 const passportJwt = require("passport-jwt");
 const ExtractJwt = passportJwt.ExtractJwt;
 const StrategyJwt = passportJwt.Strategy;
-const db = require("../src/utils/db");
+const db = require("../utils/db");
 const Account = db.account;
 
 passport.use(

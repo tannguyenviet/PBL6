@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require('morgan');
 require("dotenv").config();
-require("../auth/passport");
+require("./auth/passport");
 const route = require("./routes/index");
 const middlewares = require("./app/middlewares/notFound_errorHandleMiddleware");
 const passport = require("passport");

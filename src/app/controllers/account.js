@@ -1,5 +1,6 @@
 const db = require("../../utils/db");
 const Account = db.account;
+const Membership = db.membership;
 const Op = db.Sequelize.Op;
 const jwt = require("jsonwebtoken");
 
@@ -28,7 +29,30 @@ exports.register = async(req, res) => {
     // Save account in the database
     Account.create(newAccount)
         .then(data => {
-            res.send(data);
+            if (data.role_id == 3) {
+                const newMember = {
+                    rank_number: 0,
+                    point_total: 0,
+                    point_exchange: 0,
+                    accountId: data.id
+                }
+                Membership.create(newMember)
+                    .then(member => {
+                        return res.send({
+                            account: data,
+                            member: member
+                        })
+                    })
+                    .catch(err => {
+                        res.status(500).send({
+                            message: err.message || "Some error occurred while Create Member."
+                        });
+                    })
+            } else {
+                return res.send({
+                    account: data
+                })
+            };;
         })
         .catch(err => {
             res.status(500).send({

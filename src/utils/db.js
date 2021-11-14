@@ -1,15 +1,15 @@
 const dbConfig = require("../config/db.config");
-const tutorialModel = require("../model/tutorial");
-const commentModel = require("../model/comment");
-const roleModel = require("../model/model_role");
-const accountModel = require("../model/model_account");
-const membershipModel = require("../model/model_membership");
-const theatherModel = require("../model/model_theather");
-const roomFilmModel = require("../model/model_room_film");
-const ticketModel = require("../model/model_ticket");
-const priceTypeModel = require("../model/model_price_type");
-const showTimeModel = require("../model/model_showtime");
-const filmModel = require("../model/model_film");
+const tutorialModel = require("../app/models/tutorial");
+const commentModel = require("../app/models/comment");
+const roleModel = require("../app/models/model_role");
+const accountModel = require("../app/models/model_account");
+const membershipModel = require("../app/models/model_membership");
+const theatherModel = require("../app/models/model_theather");
+const roomFilmModel = require("../app/models/model_room_film");
+const ticketModel = require("../app/models/model_ticket");
+const priceTypeModel = require("../app/models/model_price_type");
+const showTimeModel = require("../app/models/model_showtime");
+const filmModel = require("../app/models/model_film");
 
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {

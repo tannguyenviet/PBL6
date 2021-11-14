@@ -1,4 +1,4 @@
-const tutorials = require("../controller/tutorial");
+const tutorials = require("../app/controllers/tutorial");
 const passport = require("passport");
 const router = require("express").Router();
 // Create a new Tutorial

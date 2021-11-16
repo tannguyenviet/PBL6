@@ -4,9 +4,13 @@ const router = require("express").Router();
 
 
 // Retrieve all film
-router.get("/", film.findAll);
+router.get("/list", film.findAll);
+//Get NowPlaying films
+router.get("/now-playing", film.findNowPlaying);
+//Get UpComing films
+router.get("/up-coming", film.findUpComing);
 // Create a new film
-router.post("/create", film.create);
+router.get("/create", film.create);
 
 // Retrieve a single film with id
 router.get("/:id", film.findOne);

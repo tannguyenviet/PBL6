@@ -1,16 +1,17 @@
 const db = require("../../utils/db");
 const Film = db.film;
 const Op = db.Sequelize.Op;
-const {
-    getListFilmIds,
-    getListDetailFilms
-} = require('../middlewares/CreateFilms')
 
-// [POST] ../film/create 
+const {
+    listFilmsIds,
+    getListDetailFilms
+} = require('../../utils/createFilms')
+
+// [GET] ../film/create 
 // Import nowPlaying Film from Create_films.js and save in database
 exports.create = (req, res) => {
     (async() => {
-        const listIds = await getListFilmIds('now_playing');
+        const listIds = await listFilmsIds();
         const listFilms = await getListDetailFilms(listIds);
         // Create 
         const dataFilms = await Film.findAll().catch(
@@ -23,7 +24,7 @@ exports.create = (req, res) => {
         if (differenceFilms.length > 0) {
             Film.bulkCreate(differenceFilms)
                 .then(data => {
-                    res.send(data);
+                    res.json(data);
                 })
                 .catch(err => {
                     res.status(500).send({
@@ -39,12 +40,12 @@ exports.create = (req, res) => {
     })();
 };
 
-// [GET] ../film
+// [GET] ../film/list
 // Retrieve all film from the database.
 exports.findAll = (req, res) => {
     Film.findAll()
         .then(data => {
-            res.send(data);
+            res.json(data);
         })
         .catch(err => {
             res.status(500).send({
@@ -52,6 +53,49 @@ exports.findAll = (req, res) => {
             });
         });
 };
+
+// [GET] ../film/now-playing
+// Retrieve all film 14 days before today
+exports.findNowPlaying = (req, res) => {
+    const twoWeeksAgo = new Date(new Date().setDate(new Date().getDate() - 14));
+    Film.findAll({
+            where: {
+                time_release: {
+                    [Op.between]: [twoWeeksAgo, new Date()]
+                }
+            }
+        })
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving film."
+            });
+        });
+};
+
+// [GET] ../film/up-coming
+// Retrieve all film 14 days from today 
+exports.findUpComing = (req, res) => {
+    const twoWeeksFromNow = new Date(new Date().setDate(new Date().getDate() + 14));
+    Film.findAll({
+            where: {
+                time_release: {
+                    [Op.between]: [new Date(), twoWeeksFromNow]
+                }
+            }
+        })
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving film."
+            });
+        });
+}
+
 // [GET] ../film/id
 // Find a single Film with an id
 exports.findOne = (req, res) => {

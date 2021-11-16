@@ -6,8 +6,8 @@ const {
     getListDetailFilms
 } = require('../middlewares/CreateFilms')
 
-//[POST]/film/create 
-//Import nowPlaying Film from Create_films.js and save in database
+// [POST] ../film/create 
+// Import nowPlaying Film from Create_films.js and save in database
 exports.create = (req, res) => {
     (async() => {
         const listIds = await getListFilmIds('now_playing');
@@ -39,6 +39,7 @@ exports.create = (req, res) => {
     })();
 };
 
+// [GET] ../film
 // Retrieve all film from the database.
 exports.findAll = (req, res) => {
     Film.findAll()
@@ -51,7 +52,7 @@ exports.findAll = (req, res) => {
             });
         });
 };
-
+// [GET] ../film/id
 // Find a single Film with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
@@ -73,6 +74,7 @@ exports.findOne = (req, res) => {
         });
 };
 
+// [PUT] ../film/id
 // Update a Film by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
@@ -97,6 +99,7 @@ exports.update = (req, res) => {
         });
 };
 
+// [DELETE] ../film/id
 // Delete a Film with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
@@ -121,10 +124,3 @@ exports.delete = (req, res) => {
             });
         });
 };
-
-// Delete all film from the database.
-exports.deleteAll = (req, res) => {
-
-};
-
-// Find all published film

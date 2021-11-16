@@ -4,7 +4,8 @@ const Membership = db.membership;
 const Op = db.Sequelize.Op;
 const jwt = require("jsonwebtoken");
 
-// [POST]: /account/register -- Create and Save a new account
+// [POST] ../account/register
+// Create and Save a new account
 exports.register = async(req, res) => {
     if (!req.body.username || !req.body.password) {
         res.status(400).send({
@@ -12,7 +13,6 @@ exports.register = async(req, res) => {
         });
         return;
     };
-    // 
     const { username, password, name, phone, Username, address, birthday, gender, role_id } = req.body;
     // check alreadyExistsUser
     const alreadyExistsUser = await Account.findOne({ where: { username } }).catch(
@@ -23,7 +23,6 @@ exports.register = async(req, res) => {
     if (alreadyExistsUser) {
         return res.status(409).json({ message: "User with username already exists!" });
     }
-
     const newAccount = { username, password, name, phone, Username, address, birthday, gender, role_id };
 
     // Save account in the database
@@ -61,6 +60,7 @@ exports.register = async(req, res) => {
         });
 };
 
+// [POST] ../account/login
 exports.login = (req, res) => {
     const { username, password } = req.body;
     Account.findOne({ where: { username } })
@@ -78,8 +78,6 @@ exports.login = (req, res) => {
             const jwtToken = jwt.sign({ id: account.id, username: account.username },
                 process.env.JWT_SECRET
             );
-
-            //const jwtToken = { id: account.id, username: account.username };
             res.json({ message: "Welcome Back!", token: jwtToken });
         })
         .catch(
@@ -89,10 +87,9 @@ exports.login = (req, res) => {
                 });
             }
         );
+};
 
-
-}
-
+// [GET] ../account/id
 // Retrieve all accounts from the database.
 exports.findAll = (req, res) => {
     const title = req.query.title;
@@ -112,7 +109,7 @@ exports.findAll = (req, res) => {
             });
         });
 };
-
+// [GET] ../account/id
 // Find a single account with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
@@ -134,6 +131,7 @@ exports.findOne = (req, res) => {
         });
 };
 
+// [PUT] ../account/id
 // Update a account by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
@@ -158,6 +156,7 @@ exports.update = (req, res) => {
         });
 };
 
+// [DELETE] ../account/id
 // Delete a account with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;

@@ -38,6 +38,12 @@ module.exports = (sequelize, Datatypes) => {
             },
             image: {
                 type: Datatypes.STRING
+            },
+            trailer: {
+                type: Datatypes.STRING
+            },
+            idFilmsOnWeb: {
+                type: Datatypes.INTEGER,
             }
 
         }, {

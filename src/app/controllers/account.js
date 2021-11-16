@@ -182,21 +182,3 @@ exports.delete = (req, res) => {
             });
         });
 };
-
-// Delete all accounts from the database.
-exports.deleteAll = (req, res) => {
-
-};
-
-// Find all published accounts
-exports.findAllPublished = (req, res) => {
-    Account.findAll({ where: { published: true } })
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while retrieving accounts."
-            });
-        });
-};

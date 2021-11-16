@@ -11,10 +11,6 @@ router.post("/login", account.login);
 // Retrieve all account
 router.get("/", account.findAll);
 
-// Retrieve all published account
-router.get("/published", account.findAllPublished);
-// function get + /published -> hardcode
-
 // Retrieve a single account with id
 router.get("/:id", account.findOne);
 
@@ -22,9 +18,6 @@ router.get("/:id", account.findOne);
 router.put("/:id", account.update);
 
 // Delete a account with id
-router.delete("/:id", account.delete);
-
-// Delete all account
-// router.delete("/", account.deleteAll);
+router.delete("/:id", account.delete);;
 
 module.exports = router

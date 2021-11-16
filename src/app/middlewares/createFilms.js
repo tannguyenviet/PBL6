@@ -1,10 +1,13 @@
 const apiKey = '7bc4b591e6a52add38951fed88df21fd';
-import fetch from "node-fetch";
-globalThis.fetch = fetch
+const fetch = require('node-fetch');
+//globalThis.fetch = fetch
 
-function getListFilmIds() {
-    let nowPlayingLink = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`
-    return fetch(nowPlayingLink)
+
+
+async function getListFilmIds(string) {
+
+    let filmsLink = `https://api.themoviedb.org/3/movie/${string}?api_key=${apiKey}`
+    return fetch(filmsLink)
         .then(response => response.json())
         .then(data => data.results.map(r => r.id));
 
@@ -16,7 +19,7 @@ function getDetailForEachFilm(id) {
         .then(response => response.json())
         .then(data => {
             return {
-                idFilm: data.id,
+                idFilmsOnWeb: data.id,
                 name: data.original_title,
                 time_release: data.release_date,
                 country: data.production_companies[0].origin_country,
@@ -64,6 +67,21 @@ async function getListDetailFilms(listIds) {
     const results = await Promise.all(unresolvedPromises);
     return results
 }
-const listIds = await getListFilmIds();
-const listDetails = await getListDetailFilms(listIds)
-console.log(listDetails)
+
+async function listFilms() {
+    const listDetails = await getListDetailFilms(listIds)
+    return listDetails
+}
+
+// const ids = await getListFilmIds('now_playing')
+// console.log(ids)
+// (async() => {
+//     const listIds = await getListFilmIds('now_playing');
+//     return await getListDetailFilms(listIds)
+
+// })();
+
+module.exports = {
+    getListFilmIds,
+    getListDetailFilms
+};

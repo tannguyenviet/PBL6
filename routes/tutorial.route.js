@@ -2,10 +2,18 @@ const tutorials = require("../controller/tutorial");
 const passport = require("passport");
 const router = require("express").Router();
 // Create a new Tutorial
-router.post("/", passport.authenticate("jwt", { session: false }), tutorials.create);
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  tutorials.create
+);
 
 // Retrieve all Tutorials
-router.get("/", passport.authenticate("jwt", { session: false }), tutorials.findAll);
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  tutorials.findAll
+);
 
 // Retrieve all published Tutorials
 router.get("/published", tutorials.findAllPublished);
@@ -23,4 +31,4 @@ router.delete("/:id", tutorials.delete);
 // Delete all Tutorials
 // router.delete("/", tutorials.deleteAll);
 
-module.exports = router
+module.exports = router;

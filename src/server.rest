@@ -41,4 +41,4 @@ content-type: application/json
         "role_id": 3
 }
 ###
-GET http://localhost:8080/account
+GET http://localhost:8080/account/

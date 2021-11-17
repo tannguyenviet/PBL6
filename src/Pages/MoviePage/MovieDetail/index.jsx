@@ -67,6 +67,17 @@ function MovieDetail(props) {
                     <span>{movieInfo.runtime} mins</span>
                   </span>
                 </div>
+                <div className="detail__movie-director">
+                  <span>Director:</span>
+                  <span>ABCXYZ</span>
+                </div>
+                <div className="detail__movie-stars">
+                  <span>Actors:</span>
+                  <p>
+                    Josephine Langford, Hero Fiennes Tiffin, Louise Lombard,
+                    Chance Perdomo, Rob Estes, Arielle Kebbel, Stephen Moyer,
+                  </p>
+                </div>
                 <div className="detail__movie-desc">
                   <span>Description:</span>
                   <p>{movieInfo.overview}</p>

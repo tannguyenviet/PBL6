@@ -1,11 +1,25 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import Select from "react-select";
 import "./TicketForm.scss";
+import { style, theme } from "./TicketFormSetup";
 
 const getCurrentDate = () => {
   var date = new Date();
   return date.toISOString().substr(0, 10);
 };
+
+const listCity = [
+  { value: "danang", label: "Da Nang" },
+  { value: "hcm", label: "Ho Chi Minh" },
+  { value: "hanoi", label: "Ha Noi" },
+];
+
+const listTheater = [
+  { value: "1", label: "Rap 1" },
+  { value: "2", label: "Rap 2" },
+  { value: "3", label: "Rap 3" },
+];
 
 function TicketForm(props) {
   //States
@@ -18,6 +32,10 @@ function TicketForm(props) {
     setTicketForm({
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleDropListChange = (value) => {
+    console.log(value);
   };
 
   return (
@@ -36,11 +54,14 @@ function TicketForm(props) {
         </div>
         <div className="type">City</div>
         <div className="select-bar">
-          <select name="city" id="">
-            <option value="danang">Đà Nẵng</option>
-            <option value="hanoi">Hà Nội</option>
-            <option value="hcm">Hồ Chí Minh</option>
-          </select>
+          <Select
+            name="city"
+            placeholder="Select city"
+            options={listCity}
+            styles={style}
+            theme={theme}
+            onChange={handleDropListChange}
+          />
         </div>
       </div>
       <div className="form-group">
@@ -59,13 +80,16 @@ function TicketForm(props) {
         <div className="thumb">
           <img src="/images/icons/cinema.png" alt="cinema-thumb" />
         </div>
-        <div className="type">Cinema</div>
+        <div className="type">Theater</div>
         <div className="select-bar">
-          <select name="city" id="">
-            <option value="">Rạp 1</option>
-            <option value="">Rạp 2</option>
-            <option value="">Rạp 3</option>
-          </select>
+          <Select
+            name="theater"
+            placeholder="Select theater"
+            options={listTheater}
+            styles={style}
+            theme={theme}
+            onChange={handleDropListChange}
+          />
         </div>
       </div>
     </form>
@@ -78,25 +102,8 @@ TicketForm.propTypes = {
 
 export default TicketForm;
 
-/*
-                  <div className="current">
-                    <span>Rạp 1</span>
-                    <i className="fas fa-caret-down"></i>
-                  </div>
-                  <ul className="list-data">
-                    <li>Rạp 1</li>
-                    <li>Rạp 2</li>
-                    <li>Rạp 3</li>
-                  </ul>
- */
-/* <div className="select-bar">
-                  <div className="current">
-                    <span>Đà Nẵng</span>
-                    <i className="fas fa-caret-down"></i>
-                  </div>
-                  <ul className="list-data">
-                    <li>Đà Nẵng</li>
-                    <li>Hồ Chí Minh</li>
-                    <li>Hà Nội</li>
-                  </ul>
-                </div> */
+/* <select name="city" id="">
+            <option value="">Rạp 1</option>
+            <option value="">Rạp 2</option>
+            <option value="">Rạp 3</option>
+          </select> */

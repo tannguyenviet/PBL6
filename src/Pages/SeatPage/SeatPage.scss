@@ -48,7 +48,6 @@
     background: url("../../assets/images/others/seat.png") no-repeat center /
       cover;
     font-size: 1.2rem;
-    transition: all 0.4s linear;
   }
 }
 
@@ -91,7 +90,7 @@
 }
 
 .selecting {
-  filter: hue-rotate(240deg) saturate(3) contrast(80%);
+  filter: hue-rotate(240deg) saturate(3) contrast(90%);
 }
 .selected {
   filter: hue-rotate(130deg) saturate(1.5);

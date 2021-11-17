@@ -55,16 +55,6 @@ function Header(props) {
                   exact
                   className="menu__link"
                   activeClassName="menu__link--active"
-                  to="/movie/list"
-                >
-                  Coming soon
-                </NavLink>
-              </li>
-              <li className="menu__sub-item">
-                <NavLink
-                  exact
-                  className="menu__link"
-                  activeClassName="menu__link--active"
                   to="/ticket"
                 >
                   Buy Ticket

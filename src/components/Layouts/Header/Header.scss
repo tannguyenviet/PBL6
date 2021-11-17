@@ -58,9 +58,10 @@
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: color 0.2s linear;
-  }
-  &__link--active {
-    color: $hover-text;
+
+    &--active {
+      color: $hover-text;
+    }
   }
 
   &__sub {

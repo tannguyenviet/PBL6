@@ -16,7 +16,7 @@
     right: 0;
     bottom: 0;
     z-index: -1;
-    opacity: 0.4;
+    opacity: 0.25;
   }
 
   &__movie {
@@ -115,6 +115,26 @@
         margin-right: 2rem;
       }
     }
+    &-director {
+      margin-bottom: 1.5rem;
+      span {
+        margin-right: 1rem;
+      }
+    }
+
+    &-stars {
+      @include flex();
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+      span {
+        margin-right: 2rem;
+      }
+      p {
+        @include truncate-text(1);
+        max-width: 80%;
+      }
+    }
+
     &-desc {
       span {
         display: inline-block;

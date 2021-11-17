@@ -71,15 +71,15 @@ function PaymentPage(props) {
               <div className="payment__title">Payment Methods</div>
               <ul className="payment__methods-list">
                 <li className="payment__methods-item">
-                  <i class="far fa-credit-card"></i>
+                  <i className="far fa-credit-card"></i>
                   <span>Credit Card</span>
                 </li>
                 <li className="payment__methods-item">
-                  <i class="fab fa-cc-visa"></i>
+                  <i className="fab fa-cc-visa"></i>
                   <span>Visa Card</span>
                 </li>
                 <li className="payment__methods-item">
-                  <i class="fab fa-cc-paypal"></i>
+                  <i className="fab fa-cc-paypal"></i>
                   <span>Paypal</span>
                 </li>
               </ul>

@@ -14,6 +14,7 @@ const isEmail = (email) => {
 function Register() {
   //States
   const [registerInfo, setRegisterInfo] = useState({
+    username: "",
     name: "",
     email: "",
     password: "",
@@ -21,7 +22,7 @@ function Register() {
     phone: "",
     address: "",
     birthday: "",
-    gender: "male",
+    gender: "1",
   });
   const [formErrors, setFormErrors] = useState({});
   const [toastMessage, setToastMessage] = useState();
@@ -40,8 +41,23 @@ function Register() {
     e.preventDefault();
     setFormErrors({});
     let flag = true;
-    const { name, email, password, confirm, phone, address, birthday } =
-      registerInfo;
+    const {
+      username,
+      name,
+      email,
+      password,
+      confirm,
+      phone,
+      address,
+      birthday,
+    } = registerInfo;
+    if (!username || username.trim().length === 0) {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        username: "Username is empty",
+      }));
+      flag = false;
+    }
     if (!name || name.trim().length === 0) {
       setFormErrors((prevErrors) => ({
         ...prevErrors,
@@ -110,13 +126,17 @@ function Register() {
     }
 
     if (flag) {
-      const url = "/register";
-      const data = registerInfo;
+      const url = "/account/register";
+      const data = { ...registerInfo };
+      delete data.confirm;
+      data["role_id"] = 3;
+      data.gender = Boolean(parseInt(data.gender));
       const config = {
         headers: {
           ContentType: "application/json",
         },
       };
+
       try {
         const res = await API.post(url, data, config);
         if (res.status === 200) {
@@ -124,11 +144,17 @@ function Register() {
         } else {
           setToastMessage({ type: "error" });
         }
+        console.log(res);
       } catch (error) {
+        setToastMessage({
+          type: "error",
+          mess: "Username exsisted",
+        });
         console.log("error: ", error);
       }
 
       setRegisterInfo({
+        username: "",
         name: "",
         email: "",
         password: "",
@@ -136,13 +162,13 @@ function Register() {
         phone: "",
         address: "",
         birthday: "",
-        gender: "male",
+        gender: "1",
       });
     }
   };
 
   //Render
-  const { name, email, password, confirm, phone, address, birthday } =
+  const { username, name, email, password, confirm, phone, address, birthday } =
     formErrors;
   return (
     <div className="form__section">
@@ -155,6 +181,19 @@ function Register() {
             <span>Sign up to</span>
             <Logo size="medium" />
           </h2>
+          <div className="form__group">
+            <label htmlFor="username" className="form__lb">
+              Username
+            </label>
+            <input
+              type="text"
+              className="form__ip"
+              name="username"
+              value={registerInfo.username}
+              onChange={handleInputChange}
+            />
+            <span className="form__error">{username}</span>
+          </div>
           <div className="form__group">
             <label htmlFor="name" className="form__lb">
               Name
@@ -264,9 +303,9 @@ function Register() {
                   <input
                     type="radio"
                     name="gender"
-                    value="male"
+                    value="1"
                     onChange={handleInputChange}
-                    checked={registerInfo.gender === "male"}
+                    checked={registerInfo.gender === "1"}
                   />{" "}
                   Male
                 </span>
@@ -274,8 +313,8 @@ function Register() {
                   <input
                     type="radio"
                     name="gender"
-                    value="female"
-                    checked={registerInfo.gender === "female"}
+                    value="0"
+                    checked={registerInfo.gender === "0"}
                     onChange={handleInputChange}
                   />{" "}
                   Female

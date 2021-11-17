@@ -98,7 +98,7 @@
     @include flex(center, space-between);
     gap: $form-gap;
     position: relative;
-    padding: 0 4rem;
+    padding: 0 2rem;
     color: $secondary-text;
 
     .form-group {
@@ -167,15 +167,8 @@
         width: 150px;
 
         cursor: pointer;
-        border: 1px solid $secondary-text;
         border-radius: 4px;
-        overflow: hidden;
-
-        &:hover {
-          .list-data {
-            display: block;
-          }
-        }
+        //overflow: hidden;
 
         &:after {
           content: "";
@@ -190,62 +183,17 @@
           transform: translateY(-30%);
         }
 
-        select {
-          width: 100%;
-          padding: 10px;
-          background-color: $secondary-bg;
-          color: $secondary-text;
-          cursor: pointer;
-
-          border: 0;
-          font-weight: 500;
-          outline: none;
-          appearance: none;
-        }
-
-        // .current {
-        //   @include flex(center, space-around);
-        //   border-radius: 5px;
-        //   background-color: $secondary-bg;
-        //   padding: 10px 0;
-        //   &:hover {
-        //     color: #fff;
-        //   }
-        // }
-
-        // .list-data {
-        //   margin-top: 1.5rem;
-        //   position: absolute;
-        //   top: 100%;
-        //   left: 0;
+        // select {
         //   width: 100%;
-        //   z-index: 1;
-        //   display: none;
+        //   padding: 10px;
+        //   background-color: $secondary-bg;
+        //   color: $secondary-text;
+        //   cursor: pointer;
 
-        //   &:before {
-        //     content: "";
-        //     position: absolute;
-        //     left: 0;
-        //     right: 0;
-        //     top: -1.5rem;
-        //     background-color: transparent;
-        //     height: 1.5rem;
-        //   }
-
-        //   li {
-        //     padding: 1.2rem 1rem;
-        //     background-color: $drop-down-bg;
-        //     &:first-child {
-        //       border-radius: 5px 5px 0 0;
-        //     }
-        //     &:last-child {
-        //       border-radius: 0 0 5px 5px;
-        //     }
-        //     &:hover {
-        //       background-color: #1c4866;
-        //       color: #fff;
-        //     }
-        //   }
+        //   border: 0;
+        //   font-weight: 500;
+        //   outline: none;
+        //   appearance: none;
         // }
       }
     }

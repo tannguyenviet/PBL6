@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-
+import PropTypes from "prop-types";
 import "./Banner.scss";
 
 const handleTitleAnimation = (titleRef) => {
@@ -96,5 +96,17 @@ function Banner(props) {
     </section>
   );
 }
+
+Banner.propTypes = {
+  subtitle: PropTypes.string,
+  animate: PropTypes.bool,
+  page: PropTypes.string,
+};
+
+Banner.defaultProps = {
+  subtitle: "",
+  animate: false,
+  page: "",
+};
 
 export default Banner;

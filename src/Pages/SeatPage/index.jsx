@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./SeatPage.scss";
 import Banner from "../../components/Layouts/Banner";
 import TicketSummary from "../../components/Ticket/TicketSummary";
@@ -10,9 +10,20 @@ function SeatPage(props) {
   const listRow = ["A", "B", "C", "D", "E", "F", "G"];
   const listSeat = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
   const history = useHistory();
+  const [selectingSeats, setSelectingSeats] = useState([]);
 
   const handleSelectSeat = (e) => {
-    console.log(e.target.dataset.value);
+    const selectingSeat = e.target.dataset.value;
+    if (selectingSeats.includes(selectingSeat)) {
+      const currentSeats = selectingSeats.filter(
+        (seat) => seat !== selectingSeat
+      );
+      setSelectingSeats(currentSeats);
+      return;
+    }
+    setSelectingSeats((prevSelectingSeats) => {
+      return [...prevSelectingSeats, selectingSeat];
+    });
   };
 
   const handleSeatPlanProceed = () => {
@@ -36,16 +47,30 @@ function SeatPage(props) {
               <div className="seat-row" key={row}>
                 <span>{row}</span>
                 <ul className="seat-list">
-                  {listSeat.map((seat, index) => (
-                    <li
-                      className="seat-img"
-                      key={row + index}
-                      data-value={row + index}
-                      onClick={handleSelectSeat}
-                    >
-                      {row + index}
-                    </li>
-                  ))}
+                  {listSeat.map((seat, index) => {
+                    if (selectingSeats.includes((row + index).toString())) {
+                      return (
+                        <li
+                          className="seat-img selecting"
+                          key={row + index}
+                          data-value={row + index}
+                          onClick={handleSelectSeat}
+                        >
+                          {row + index}
+                        </li>
+                      );
+                    } else
+                      return (
+                        <li
+                          className="seat-img"
+                          key={row + index}
+                          data-value={row + index}
+                          onClick={handleSelectSeat}
+                        >
+                          {row + index}
+                        </li>
+                      );
+                  })}
                 </ul>
                 <span>{row}</span>
               </div>

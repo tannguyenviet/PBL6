@@ -38,11 +38,21 @@ function ToastMessage(props) {
         }`}
       >
         <div className="toast__mess-icon">
-          <i className="fas fa-check"></i>
+          {mess.type === "error" ? (
+            <i className="fas fa-times"></i>
+          ) : (
+            <i className="fas fa-check"></i>
+          )}
         </div>
         <div className="toast__mess-content">
-          <h4 className="toast__mess-title">Create account successfully</h4>
-          <p className="toast__mess-desc">Now you can sign in to PBL6</p>
+          <h4 className="toast__mess-title">
+            {mess.mess || "Create account successfully"}
+          </h4>
+          <p className="toast__mess-desc">
+            {mess.type === "error"
+              ? "Try Again"
+              : "Now you can sign in to PBL6"}
+          </p>
         </div>
       </div>
     </div>

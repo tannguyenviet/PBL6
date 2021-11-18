@@ -1,31 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
-import { baseURLFake, API_KEY } from "../../../API";
 import "./TrailerModal.scss";
 import Context from "../../../Context/Context";
 
 function TrailerModal(props) {
-  const { id } = props;
+  //Get status: ON-OFF of modal
   const context = useContext(Context);
   const { setOpenModal } = context;
 
-  //States
-  const [source, setSource] = useState();
-
-  //Call API GET TRAILER
-  useEffect(() => {
-    const getMovieById = async (id) => {
-      const res = await fetch(`${baseURLFake}movie/${id}/videos?${API_KEY}`);
-      const data = await res.json();
-      const listTrailer = data.results;
-      console.log("List trailer: ", listTrailer);
-      const trailer = listTrailer.find((trailer) =>
-        trailer.name.includes("Trailer")
-      );
-      setSource(trailer);
-    };
-    getMovieById(id);
-  }, [id]);
+  //Props
+  const { trailer, name } = props.src;
 
   //Close modal when click into overlay
   const handleTrailerModal = (e) => {
@@ -36,15 +20,16 @@ function TrailerModal(props) {
     }
   };
 
+  //Render
   return (
     <div className="modal__bg">
       <div className="modal__container" onClick={handleTrailerModal}>
         <iframe
           width="850"
           height="500"
-          src={`https://www.youtube.com/embed/${source && source.key}`}
-          title={source && source.name}
+          src={trailer}
           frameBorder="0"
+          title={name}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         ></iframe>
@@ -54,11 +39,11 @@ function TrailerModal(props) {
 }
 
 TrailerModal.propTypes = {
-  id: PropTypes.number,
+  src: PropTypes.object,
 };
 
 TrailerModal.defaultProps = {
-  id: null,
+  src: null,
 };
 
 /* <video className="modal__trailer" controls>

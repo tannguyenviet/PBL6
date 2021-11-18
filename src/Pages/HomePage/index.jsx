@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { baseURLFake, API_KEY } from "../../API";
+import API from "../../API";
 import Context from "../../Context/Context";
 import TrailerModal from "../../components/Movie/TrailerModal";
 import Banner from "../../components/Layouts/Banner";
@@ -10,19 +10,26 @@ import CarouselSection from "../../components/Layouts/CarouselSection";
 
 function HomePage(props) {
   const [movieList, setMovieList] = useState([]); //carousel
-  const [modalVideoId, setModalVideoId] = useState(); //Get movide id to pass into TrailerModel
+  const [trailerSrc, setTrailerSrc] = useState(); //Get movide id to pass into TrailerModel
   const context = useContext(Context);
   const { openModal } = context;
 
-  //GET MOVIE API SHOW IN Carousel
+  //GET MOVIE LIST API SHOW IN CAROUSEL
   useEffect(() => {
-    const getNowPlayingList = async () => {
-      const res = await fetch(`${baseURLFake}movie/now_playing?${API_KEY}`);
-      const data = await res.json();
-      const nowPlayingList = data.results;
-      setMovieList(nowPlayingList);
+    const getMovieList = async () => {
+      try {
+        const url = "/film/list";
+        const res = await API.get(url);
+        if (res.status === 200) {
+          setMovieList(res.data);
+        }
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
     };
-    getNowPlayingList();
+
+    getMovieList();
   }, []);
 
   return (
@@ -54,11 +61,11 @@ function HomePage(props) {
             <MovieCard
               key={movie.id}
               movieInfo={movie}
-              setModalVideoId={setModalVideoId}
+              setTrailerSrc={setTrailerSrc}
             />
           ))}
       </CarouselSection>
-      {openModal && <TrailerModal id={modalVideoId} />}
+      {openModal && <TrailerModal src={trailerSrc} />}
     </>
   );
 }

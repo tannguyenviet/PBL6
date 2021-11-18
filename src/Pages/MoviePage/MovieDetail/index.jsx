@@ -1,27 +1,42 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./MovieDetail.scss";
 
-import { baseURLFake, API_KEY, IMG_URL } from "../../../API";
+import API from "../../../API";
 import Context from "../../../Context/Context";
 import TicketForm from "../../../components/Ticket/TicketForm";
 import TrailerModal from "../../../components/Movie/TrailerModal";
 import ShowTime from "../../../components/Movie/ShowTime";
+import { useHistory } from "react-router-dom";
 
 function MovieDetail(props) {
   const movieId = props.match.params.id;
+
+  const history = useHistory();
+
+  //GET STATUS: ON-OFF OF MODAL
   const context = useContext(Context);
   const { openModal, setOpenModal } = context;
+
   //States
   const [movieInfo, setMovieInfo] = useState();
 
+  //GET MOVIE DETAIL API BY ID
   useEffect(() => {
     const getMovieById = async (id) => {
-      const res = await fetch(`${baseURLFake}movie/${id}?${API_KEY}`);
-      const movieInfo = await res.json();
-      setMovieInfo(movieInfo);
-      // console.log(movieInfo);
+      try {
+        const url = `/film/${id}`;
+        const res = await API.get(url);
+        if (res.status === 200) {
+          setMovieInfo(res.data);
+          console.log(res);
+        }
+      } catch (error) {
+        console.log(error);
+        history.push("/notfound");
+      }
     };
     getMovieById(movieId);
+    // eslint-disable-next-line
   }, [movieId]);
 
   //Functions
@@ -36,51 +51,50 @@ function MovieDetail(props) {
           <div className="detail__background"></div>
           <div className="container detail__container">
             <div className="detail__movie">
-              <div className="detail__movie-img">
-                <img
-                  src={`${IMG_URL}${movieInfo.poster_path}`}
-                  alt="movie-img"
-                />
-                <div className="play-btn" onClick={handleTrailerModal}>
+              <div className="detail__movie-img" onClick={handleTrailerModal}>
+                <img src={movieInfo.image} alt="movie-img" />
+                <div className="play-btn">
                   <i className="fas fa-play"></i>
                 </div>
               </div>
               <div className="detail__movie-info">
-                <h3 className="detail__movie-name">{movieInfo.title}</h3>
+                <h3 className="detail__movie-name">{movieInfo.name}</h3>
                 <div className="detail__movie-rating">
-                  Rating: <span>{movieInfo.vote_average}</span>
+                  <span>Rating: </span>
+                  <span>{movieInfo.rating}</span>
                   <i className="fas fa-star"></i>
                 </div>
                 <div className="detail__movie-genre">
-                  Genres:
-                  {movieInfo.genres.map((genre) => (
-                    <span key={genre.id}>{genre.name}</span>
+                  <span>Genrers: </span>
+                  {movieInfo.hashtag.split(",").map((genre) => (
+                    <span key={genre}>{genre}</span>
                   ))}
                 </div>
-                <div className="detail__movie-datetime">
+                <p className="detail__movie-datetime">
                   <span>
-                    <i className="far fa-calendar-alt"></i>{" "}
-                    <span>{movieInfo.release_date}</span>
+                    <i className="far fa-calendar-alt"></i>
+                    <span>{movieInfo.time_release.slice(0, 10)}</span>
                   </span>
                   <span>
-                    <i className="far fa-clock"></i>{" "}
-                    <span>{movieInfo.runtime} mins</span>
+                    <i className="far fa-clock"></i>
+                    <span>{movieInfo.duration} mins</span>
                   </span>
-                </div>
+                  <span>
+                    <i className="fas fa-globe-asia"></i>
+                    <span>{movieInfo.country}</span>
+                  </span>
+                </p>
                 <div className="detail__movie-director">
                   <span>Director:</span>
-                  <span>ABCXYZ</span>
+                  <span>{movieInfo.director}</span>
                 </div>
                 <div className="detail__movie-stars">
                   <span>Actors:</span>
-                  <p>
-                    Josephine Langford, Hero Fiennes Tiffin, Louise Lombard,
-                    Chance Perdomo, Rob Estes, Arielle Kebbel, Stephen Moyer,
-                  </p>
+                  <p>{movieInfo.stars}</p>
                 </div>
                 <div className="detail__movie-desc">
                   <span>Description:</span>
-                  <p>{movieInfo.overview}</p>
+                  <p>{movieInfo.description}</p>
                 </div>
               </div>
             </div>
@@ -97,7 +111,11 @@ function MovieDetail(props) {
           <ShowTime />
         </div>
       </div>
-      {openModal && <TrailerModal id={movieInfo.id} />}
+      {openModal && (
+        <TrailerModal
+          src={{ trailer: movieInfo.trailer, name: movieInfo.name }}
+        />
+      )}
     </>
   );
 }

@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./MovieCard.scss";
-import { IMG_URL } from "../../../API";
 import Context from "../../../Context/Context";
 
 function MovieCard(props) {
@@ -12,36 +11,29 @@ function MovieCard(props) {
   const context = useContext(Context);
   const { setOpenModal } = context;
 
-  const { movieInfo, setModalVideoId } = props;
-  const {
-    id: movieId,
-    original_title: title,
-    vote_average: rating,
-    poster_path: poster,
-  } = movieInfo;
+  const { movieInfo, setTrailerSrc } = props;
+  const { id, name, image, rating, trailer } = movieInfo;
 
   //Open - Close Modal
-  const handleTrailerModal = (e, movieId) => {
+  const handleTrailerModal = (e, trailer, name) => {
     e.stopPropagation();
     setOpenModal(true);
-    setModalVideoId(movieId);
+    setTrailerSrc({ trailer, name });
   };
 
+  //Move to movie detai
   const handleMovieCardClicked = (e, movieId) => {
     history.push(`/movie/detail/${movieId}`);
   };
 
   return (
-    <div
-      className="movie__item"
-      onClick={(e) => handleMovieCardClicked(e, movieId)}
-    >
+    <div className="movie__item" onClick={(e) => handleMovieCardClicked(e, id)}>
       <div className="movie__item-img">
-        <img src={`${IMG_URL}${poster}`} alt="movie-poster" />
+        <img src={image} alt="movie-poster" />
       </div>
       <div className="movie__item-content">
         <div className="movie__item-info">
-          <h3 className="movie__item-title">{title}</h3>
+          <h3 className="movie__item-title">{name}</h3>
           <h5 className="movie__item-rating">
             {rating}
             <i className="fas fa-star"></i>
@@ -50,28 +42,27 @@ function MovieCard(props) {
         <div className="movie__item-options">
           <div
             className="movie__item-btn btn-trailer"
-            onClick={(e) => handleTrailerModal(e, movieId)}
+            onClick={(e) => handleTrailerModal(e, trailer, name)}
           >
             Trailer
           </div>
           <div className="movie__item-btn btn-buy">
-            <Link to={`/movie/detail/${movieId}`}>Buy Ticket</Link>
+            <Link to={`/movie/detail/${id}`}>Buy Ticket</Link>
           </div>
         </div>
       </div>
     </div>
   );
 }
-// http://pixner.net/boleto/demo/assets/images/movie/movie03.jpg
 
 MovieCard.propTypes = {
   movieInfo: PropTypes.object,
-  setModalSource: PropTypes.func,
+  setTrailerSrc: PropTypes.func,
 };
 
 MovieCard.defaultProps = {
   movieInfo: {},
-  setModalSource: null,
+  setTrailerSrc: null,
 };
 
 export default MovieCard;

@@ -18,7 +18,7 @@ function MovieList(props) {
   const { openModal } = context;
   const tabRef = useRef();
 
-  //GET MOVIE API SHOW IN Gallery
+  //GET MOVIE API SHOW IN GALLERY
   useEffect(() => {
     const getNowPlayingList = async () => {
       const res = await fetch(`${baseURLFake}movie/${listType}?${API_KEY}`);

@@ -32,6 +32,23 @@
       margin-right: 4rem;
       flex-shrink: 0;
       overflow: hidden;
+      opacity: 1;
+
+      &:hover {
+        cursor: pointer;
+        img {
+          opacity: 0.7;
+        }
+
+        .play-btn {
+          transform: translate(-50%, -50%) scale(1);
+          pointer-events: auto;
+        }
+      }
+
+      img {
+        transition: all 0.2s linear;
+      }
 
       .play-btn {
         position: absolute;
@@ -40,14 +57,15 @@
         width: 5rem;
         height: 5rem;
 
-        border: 1px solid #fff;
+        border: 2px solid #fff;
         border-radius: 50%;
         color: #ffffff;
         background-color: rgba(0, 0, 0, 0.5);
 
         cursor: pointer;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%) scale(0);
         transition: all 0.2s linear;
+        pointer-events: none;
         @include flex(center, center);
 
         &:hover {
@@ -63,9 +81,20 @@
         }
       }
     }
+
     &-info {
       padding: 3rem 2rem 0;
+
+      > div {
+        > span:first-child {
+          color: #fff;
+          opacity: 0.85;
+          font-size: 1.4rem;
+          width: 10rem;
+        }
+      }
     }
+
     &-name {
       font-size: 3.2rem;
       font-weight: 600;
@@ -74,14 +103,15 @@
       margin-bottom: 4rem;
       color: #fff;
     }
+
     &-rating {
       margin: 1rem 0 3rem;
       @include flex(center);
       span {
-        margin: 0 1rem 0 2rem;
         font-size: 1.4rem;
       }
       i {
+        margin-left: 6px;
         font-size: 12px;
       }
     }
@@ -89,13 +119,14 @@
     &-genre {
       margin-bottom: 3rem;
 
-      span {
+      span:not(:first-child) {
         padding: 8px 2.2rem;
         margin: 1rem;
-        border: 1px solid $secondary-text;
+        border: 1.5px solid $secondary-text;
         border-radius: 3rem;
         font-size: 1.4rem;
         transition: all 0.2s linear;
+
         &:hover {
           cursor: pointer;
           border-color: $hover-text;
@@ -115,20 +146,16 @@
         margin-right: 2rem;
       }
     }
+
     &-director {
+      @include flex();
       margin-bottom: 1.5rem;
-      span {
-        margin-right: 1rem;
-      }
     }
 
     &-stars {
       @include flex();
       margin-bottom: 1.5rem;
       line-height: 1.4;
-      span {
-        margin-right: 2rem;
-      }
       p {
         @include truncate-text(1);
         max-width: 80%;

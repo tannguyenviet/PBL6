@@ -3,31 +3,86 @@ const Account = db.account;
 const Membership = db.membership;
 const Op = db.Sequelize.Op;
 const jwt = require("jsonwebtoken");
+// 
+const crypto = require("crypto");
+const nodemailer = require("nodemailer")
 
 // [POST] ../account/register
 // Create and Save a new account
 exports.register = async(req, res) => {
     if (!req.body.username || !req.body.password) {
-        res.status(400).send({
+        return res.status(400).send({
             message: "username or password can not be empty!"
         });
-        return;
     };
-    const { username, password, name, phone, Username, address, birthday, gender, role_id } = req.body;
+    const { username, password, name, phone, email, address, birthday, gender, role_id } = req.body;
     // check alreadyExistsUser
-    const alreadyExistsUser = await Account.findOne({ where: { username } }).catch(
+    const alreadyExistsUser = await Account.findAll({
+        where: {
+            [Op.or]: [{ username: username }, { email: email }]
+        }
+    }).catch(
         (err) => {
-            console.log("Error: ", err);
+            return res.status(500).send({
+                message: err.message || "Some error occurred while findAll account."
+            });
         }
     );
-    if (alreadyExistsUser) {
-        return res.status(409).json({ message: "User with username already exists!" });
+    if (alreadyExistsUser.length > 0) {
+        return res.status(409).json({ message: "User with username or email already exists!" });
     }
-    const newAccount = { username, password, name, phone, Username, address, birthday, gender, role_id };
 
+    const newAccount = { username, password, name, phone, email, address, birthday, gender, role_id };
+    newAccount.emailToken = crypto.randomBytes(64).toString('hex');
+    newAccount.isVerified = false;
     // Save account in the database
     Account.create(newAccount)
         .then(data => {
+            let transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'tuanak691@gmail.com', // ethereal user
+                    pass: '0905803676', // ethereal password
+                },
+            });
+
+            const msg = {
+                    from: '"The Exapress App" <theExpressApp@example.com>', // sender address
+                    to: `${email}`, // list of receivers
+                    subject: "Sup", // Subject line
+                    text: `Hello, thanks for registering on our site.
+                    Please click the link below to verify your account: 
+                    http://${req.headers.host}/account/verify-email?token=${newAccount.emailToken}` // plain text body
+                }
+                // send mail with defined transport object
+            transporter.sendMail(msg).then((info) => {
+                console.log("Message sent: %s", info.messageId);
+                console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                return res.json({ message: "Please check your Email to active your Account!" })
+            }).catch(err => {
+                console.log("Error while sending email: %s", err)
+                return res.status(500).send({
+                    message: err.message || "Some error occurred while sending email."
+                });
+            });
+        })
+        .catch(err => {
+            return res.status(500).send({
+                message: err.message || "Some error occurred while Create raw account."
+            });
+        });
+};
+exports.verifyEmail = async(req, res) => {
+    try {
+        const account = await Account.findOne({ where: { emailToken: req.query.token } })
+        if (!account) {
+            return res.status(400).send({
+                message: "Token is inValid. Maybe this Account was already created.Please contact us for assistance"
+            })
+        }
+        account.emailToken = null;
+        account.isVerified = true;
+        account.save().then(data => {
             if (data.role_id == 3) {
                 const newMember = {
                     rank_number: 0,
@@ -36,53 +91,52 @@ exports.register = async(req, res) => {
                     accountId: data.id
                 }
                 Membership.create(newMember)
-                    .then(member => {
-                        return res.send({
-                            account: data,
-                            member: member
-                        })
-                    })
                     .catch(err => {
-                        res.status(500).send({
+                        return res.status(500).send({
                             message: err.message || "Some error occurred while Create Member."
                         });
                     })
-            } else {
-                return res.send({
-                    account: data
-                })
-            };;
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while Register account."
+            }
+            return res.status(200).send({
+                message: "Your account is now verified.",
             });
         });
-};
+    } catch (error) {
+        return res.status(500).send({
+            message: error.message || "Some error occurred while activating your account.",
+
+        });
+    }
+}
 
 // [POST] ../account/login
 exports.login = (req, res) => {
     const { username, password } = req.body;
-    Account.findOne({ where: { username } })
+    Account.findOne({
+            where: {
+                [Op.and]: [{ username: username }, { isVerified: true }]
+            }
+        })
         .then(account => {
             if (!account)
                 return res
                     .status(400)
-                    .json({ message: "Username or password does not match!" });
+                    .json({ message: "Account is not exists or not yet verified" });
 
             if (account.password !== password)
                 return res
                     .status(400)
-                    .json({ message: "Username or password does not match!" });
-
+                    .json({ message: "Password does not match" });
             const jwtToken = jwt.sign({ id: account.id, username: account.username },
                 process.env.JWT_SECRET
             );
-            res.json({ message: "Welcome Back!", token: jwtToken });
+            const { id, username, name, phone, email, address, birthday, gender, role_id } = account
+            const info = { id, username, name, phone, email, address, birthday, gender, role_id }
+            return res.json({ info: info, token: jwtToken });
         })
         .catch(
             (err) => {
-                res.status(500).send({
+                return res.status(500).send({
                     message: err.message || "Some error occurred while Login."
                 });
             }
@@ -95,7 +149,7 @@ exports.findAll = (req, res) => {
     const title = req.query.title;
     var condition = title ? {
         title: {
-            [Op.like]: `%${title}%`
+            [Op.like]: ` % $ { title } % `
         }
     } : null;
 
@@ -120,7 +174,9 @@ exports.findOne = (req, res) => {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `Cannot find account with id=${id}.`
+                    message: `
+                            Cannot find account with id = $ { id }.
+                            `
                 });
             }
         })
@@ -145,7 +201,8 @@ exports.update = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `Cannot update account with id=${id}. Maybe account was not found or req.body is empty!`
+                    message: `
+                            Cannot update account with id = $ { id }.Maybe account was not found or req.body is empty!`
                 });
             }
         })
@@ -171,7 +228,8 @@ exports.delete = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `Cannot delete account with id=${id}. Maybe account was not found!`
+                    message: `
+                            Cannot delete account with id = $ { id }.Maybe account was not found!`
                 });
             }
         })

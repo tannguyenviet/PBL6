@@ -4,7 +4,8 @@ const router = require("express").Router();
 
 // Register a new account
 router.post("/register", account.register);
-
+// Verify a new account
+router.get("/verify-email", account.verifyEmail);
 // Login account
 router.post("/login", account.login);
 

@@ -28,7 +28,13 @@ module.exports = (sequelize, Datatypes) => {
         },
         gender: {
             type: Datatypes.BOOLEAN,
-        }
+        },
+        emailToken: {
+            type: Datatypes.STRING(255),
+        },
+        isVerified: {
+            type: Datatypes.BOOLEAN,
+        },
         // id member ship + id role
         // account_type:{
         //   type:Datatypes.INTEGER,

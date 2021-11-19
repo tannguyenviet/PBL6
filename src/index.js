@@ -15,6 +15,7 @@ import NotFoundPage from "./Pages/NotFoundPage";
 import AdminPage from "./Pages/AdminPage";
 import SeatPage from "./Pages/SeatPage";
 import PaymentPage from "./Pages/PaymentPage";
+import ProfilePage from "./Pages/ProfilePage";
 import BounceLoader from "react-spinners/BounceLoader";
 
 const HomePage = React.lazy(() => import("./Pages/HomePage"));
@@ -40,6 +41,7 @@ ReactDOM.render(
               <Route path="/movie/detail/:id" component={MovieDetailPage} />
               <Route path="/seat" component={SeatPage} />
               <Route path="/payment" component={PaymentPage} />
+              <Route path="/profile" component={ProfilePage} />
               <Route path="/admin" component={AdminPage} />
               <Route default component={NotFoundPage} />
             </Switch>

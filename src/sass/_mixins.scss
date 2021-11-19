@@ -12,3 +12,8 @@
   -webkit-line-clamp: $line;
   -webkit-box-orient: vertical;
 }
+
+@mixin flex-row($col, $width_gap) {
+  $total_gap: calc(#{$width_gap} * (#{$col} - 1));
+  width: calc((100% - #{$total_gap}) / #{$col});
+}

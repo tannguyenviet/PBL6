@@ -67,8 +67,10 @@
     cursor: pointer;
 
     span {
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
+      color: $hover-text;
+      letter-spacing: 1px;
     }
   }
 

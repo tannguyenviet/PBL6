@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import Select from "react-select";
-import "./TicketForm.scss";
-import { style, theme } from "./TicketFormSetup";
 
-const getCurrentDate = () => {
-  var date = new Date();
-  return date.toISOString().substr(0, 10);
-};
+import "./TicketForm.scss";
+import ToastMessage from "../../Layouts/ToastMessage";
+import Context from "../../../Context/Context";
+import { style, theme } from "./TicketFormSetup";
+import { useHistory } from "react-router-dom";
 
 const listCity = [
   { value: "danang", label: "Da Nang" },
@@ -22,30 +21,129 @@ const listTheater = [
 ];
 
 function TicketForm(props) {
+  //Props
+  const { nowPlayingList } = props;
+
+  const history = useHistory();
+
   //States
-  const [ticketForm, setTicketForm] = useState(() => {
-    return { date: getCurrentDate() };
+  //Bind ticket info to Input of 'React select'
+  const [ticketSelected, setTicketSelected] = useState(() => {
+    const ticketInfo = JSON.parse(sessionStorage.getItem("ticket_info"));
+    if (ticketInfo) {
+      const theaterSelected = listTheater.find(
+        (t) => t.value === ticketInfo.theater
+      );
+      const citySelected = listCity.find((c) => c.value === ticketInfo.city);
+      return { theater: theaterSelected, city: citySelected };
+    }
   });
+
+  //Active toast
+  const [toastMessage, setToastMessage] = useState();
+
+  //context
+  const context = useContext(Context);
+  const { ticketInfo, setTicketInfo } = context;
+
+  //Get movie list for movie select options
+  const listNowPlaying =
+    nowPlayingList &&
+    nowPlayingList.map((movie) => {
+      return { value: movie.id, label: movie.name };
+    });
 
   //Functions
   const handleDateChange = (e) => {
-    setTicketForm({
+    setTicketInfo({
+      ...ticketInfo,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleDropListChange = (value) => {
-    console.log(value);
+  const handleDropListChange = (value, { name }) => {
+    setTicketInfo({
+      ...ticketInfo,
+      [name]: value.value,
+    });
+    setTicketSelected({
+      ...ticketSelected,
+      [name]: { value: value.value, label: value.label },
+    });
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const { date, city, movie, theater } = ticketInfo;
+    let flag = true;
+
+    if (!theater) {
+      setToastMessage({
+        type: "error",
+        mess: "Theater is not selected",
+      });
+      flag = false;
+    }
+
+    if (!date) {
+      setToastMessage({
+        type: "error",
+        mess: "Date is not selected",
+      });
+      flag = false;
+    }
+
+    if (!city) {
+      setToastMessage({
+        type: "error",
+        mess: "City is not selected",
+      });
+      flag = false;
+    }
+
+    if (!movie) {
+      setToastMessage({
+        type: "error",
+        mess: "Movie is not selected",
+      });
+      flag = false;
+    }
+
+    if (flag) {
+      const userInfo = JSON.parse(localStorage.getItem("user_info"));
+      if (!userInfo) {
+        setToastMessage({
+          type: "error",
+          mess: "Please login to get your ticket",
+        });
+      } else {
+        sessionStorage.setItem("ticket_info", JSON.stringify(ticketInfo));
+        history.push(`/movie/detail/${ticketInfo.movie}`);
+      }
+    }
   };
 
   return (
-    <form className="search-ticket__form">
+    <form
+      className="search-ticket__form"
+      id="search-ticket__form"
+      onSubmit={handleFormSubmit}
+    >
+      {toastMessage && (
+        <ToastMessage mess={toastMessage} setMess={setToastMessage} />
+      )}
       {props.search && (
-        <div className="form-group search">
-          <input type="text" placeholder="Search for Movies" />
-          <span>
-            <i className="fas fa-search"></i>
-          </span>
+        <div className="form-group">
+          <div className="select-bar">
+            <Select
+              name="movie"
+              placeholder="Select movie"
+              options={listNowPlaying}
+              styles={style}
+              theme={theme}
+              onChange={handleDropListChange}
+            />
+          </div>
         </div>
       )}
       <div className="form-group">
@@ -59,6 +157,7 @@ function TicketForm(props) {
             placeholder="Select city"
             options={listCity}
             styles={style}
+            value={ticketSelected && ticketSelected.city}
             theme={theme}
             onChange={handleDropListChange}
           />
@@ -72,7 +171,7 @@ function TicketForm(props) {
         <input
           type="date"
           name="date"
-          value={ticketForm.date}
+          value={ticketInfo.date}
           onChange={handleDateChange}
         />
       </div>
@@ -87,6 +186,7 @@ function TicketForm(props) {
             placeholder="Select theater"
             options={listTheater}
             styles={style}
+            value={ticketSelected && ticketSelected.theater}
             theme={theme}
             onChange={handleDropListChange}
           />
@@ -101,6 +201,16 @@ TicketForm.propTypes = {
 };
 
 export default TicketForm;
+
+//Form search movies
+// <div className="form-group search">
+//   <input type="text" placeholder="Search for Movies" />
+//   <span>
+//     <i className="fas fa-search"></i>
+//   </span>
+// </div>
+
+//-------------------------------------
 
 /* <select name="city" id="">
             <option value="">Rạp 1</option>

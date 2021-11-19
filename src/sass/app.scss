@@ -162,6 +162,20 @@ table {
   }
 }
 
+input {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+button {
+  border: 0;
+  cursor: none;
+  text-align: center;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+}
+
 .btn {
   display: inline-block;
   width: 14rem;

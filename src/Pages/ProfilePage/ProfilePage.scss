@@ -1,0 +1,26 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+.profile {
+  &__section {
+    padding: 20rem 0 10rem;
+    background: url("../../assets/images/backgrounds/account-bg.jpg") no-repeat
+      center / cover;
+    background-attachment: fixed;
+  }
+
+  &__content {
+    @include flex();
+    gap: 8rem;
+  }
+
+  &__info {
+    flex-basis: 60%;
+    input:read-only {
+      background-color: $secondary-text;
+    }
+  }
+
+  &__password {
+    flex: 1;
+  }
+}

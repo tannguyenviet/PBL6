@@ -10,9 +10,13 @@ import CarouselSection from "../../components/Layouts/CarouselSection";
 
 function HomePage(props) {
   const [movieList, setMovieList] = useState([]); //carousel
-  const [trailerSrc, setTrailerSrc] = useState(); //Get movide id to pass into TrailerModel
+  const [nowPlayingList, setNowPlayingList] = useState([]); //Ticket form
+  const [trailerSrc, setTrailerSrc] = useState();
+
   const context = useContext(Context);
   const { openModal } = context;
+
+  sessionStorage.removeItem("ticket_info"); //Remove session storeage of ticket info when back to homepage
 
   //GET MOVIE LIST API SHOW IN CAROUSEL
   useEffect(() => {
@@ -23,13 +27,29 @@ function HomePage(props) {
         if (res.status === 200) {
           setMovieList(res.data);
         }
-        console.log(res);
       } catch (error) {
         console.log(error);
       }
     };
 
     getMovieList();
+  }, []);
+
+  //GET NOW PLAYING LIST API SHOW IN TICKET FORM
+  useEffect(() => {
+    const getNowPlayingMovie = async () => {
+      try {
+        const url = "/film/now-playing";
+        const res = await API.get(url);
+        if (res.status === 200) {
+          setNowPlayingList(res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getNowPlayingMovie();
   }, []);
 
   return (
@@ -44,13 +64,17 @@ function HomePage(props) {
                 <h3 className="title">What are you looking for</h3>
               </div>
               <div className="search-ticket__menu">
-                <div className="search-ticket__tab">
+                <button
+                  className="search-ticket__tab"
+                  type="submit"
+                  form="search-ticket__form"
+                >
                   <span>Get Ticket</span>
-                </div>
+                </button>
               </div>
             </div>
             <div className="search-ticket__bot">
-              <TicketForm search={true} />
+              <TicketForm search={true} nowPlayingList={nowPlayingList} />
             </div>
           </div>
         </div>

@@ -73,14 +73,14 @@ function LoginForm(props) {
       try {
         const res = await API.post(url, data, config);
         if (res.status === 200) {
-          // localStorage.setItem("user_info", JSON.stringify(res.data));
+          localStorage.setItem("user_info", JSON.stringify(res.data.info));
           localStorage.setItem("token", JSON.stringify(res.data.token));
           context.setLogined(true);
           context.setLoading(true);
           setTimeout(() => {
             context.setLoading(false);
             props.history.push("/");
-          }, 4000);
+          }, 3000);
         }
         console.log(res);
       } catch (error) {
@@ -118,7 +118,7 @@ function LoginForm(props) {
             <span className="form__error">{usernameError}</span>
           </div>
           <div className="form__group">
-            <label htmlFor="email" className="form__lb">
+            <label htmlFor="password" className="form__lb">
               Password
             </label>
             <input

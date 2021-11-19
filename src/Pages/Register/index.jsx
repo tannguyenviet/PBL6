@@ -278,11 +278,7 @@ function Register() {
           </div>
           <div className="form__row">
             <div className="form__group">
-              <label
-                htmlFor="birthday"
-                className="form__lb"
-                onChange={handleInputChange}
-              >
+              <label htmlFor="birthday" className="form__lb">
                 Birthday
               </label>
               <input
@@ -306,7 +302,7 @@ function Register() {
                     value="1"
                     onChange={handleInputChange}
                     checked={registerInfo.gender === "1"}
-                  />{" "}
+                  />
                   Male
                 </span>
                 <span>
@@ -316,7 +312,7 @@ function Register() {
                     value="0"
                     checked={registerInfo.gender === "0"}
                     onChange={handleInputChange}
-                  />{" "}
+                  />
                   Female
                 </span>
               </div>

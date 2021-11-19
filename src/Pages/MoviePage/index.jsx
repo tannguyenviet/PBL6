@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useContext } from "react";
 import Banner from "../../components/Layouts/Banner";
 import "./MoviePage.scss";
 
-import { baseURLFake, API_KEY } from "../../API";
+import API from "../../API";
 import Context from "../../Context/Context";
 import TrailerModal from "../../components/Movie/TrailerModal";
 import MovieCard from "../../components/Movie/MovieCard";
@@ -11,23 +11,31 @@ const subtitle =
   "Your favorite movies, now playing, comming soon movies, movie genres and much more";
 
 function MovieList(props) {
-  const [listType, setListType] = useState("now_playing");
+  //States
+  const [listMovieType, setListMovieType] = useState("now-playing");
   const [movieList, setMovieList] = useState([]);
-  const [modalVideoId, setModalVideoId] = useState(); //Get movide id to pass into TrailerModel
+  const [trailerSrc, setTrailerSrc] = useState();
+
   const context = useContext(Context);
   const { openModal } = context;
+
   const tabRef = useRef();
 
   //GET MOVIE API SHOW IN GALLERY
   useEffect(() => {
-    const getNowPlayingList = async () => {
-      const res = await fetch(`${baseURLFake}movie/${listType}?${API_KEY}`);
-      const data = await res.json();
-      const nowPlayingList = data.results;
-      setMovieList(nowPlayingList);
+    const getMovieList = async (type) => {
+      try {
+        const url = `/film/${type}`;
+        const res = await API.get(url);
+        if (res.status === 200) {
+          setMovieList(res.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
-    getNowPlayingList();
-  }, [listType]);
+    getMovieList(listMovieType);
+  }, [listMovieType]);
 
   const handleTabActive = (e) => {
     const tabUnderline = tabRef.current;
@@ -36,9 +44,9 @@ function MovieList(props) {
       e.target.dataset.index * tabWidth
     }px)`;
     if (e.target.dataset.index === "1") {
-      setListType("upcoming");
+      setListMovieType("up-coming");
     } else {
-      setListType("now_playing");
+      setListMovieType("now-playing");
     }
   };
 
@@ -68,16 +76,13 @@ function MovieList(props) {
             {movieList &&
               movieList.map((movie) => (
                 <div className="gallery__item" key={movie.id}>
-                  <MovieCard
-                    movieInfo={movie}
-                    setModalVideoId={setModalVideoId}
-                  />
+                  <MovieCard movieInfo={movie} setTrailerSrc={setTrailerSrc} />
                 </div>
               ))}
           </ul>
         </div>
       </section>
-      {openModal && <TrailerModal id={modalVideoId} />}
+      {openModal && <TrailerModal src={trailerSrc} />}
     </>
   );
 }

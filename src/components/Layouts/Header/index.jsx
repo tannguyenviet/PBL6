@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useHistory } from "react-router-dom";
 
 import Context from "../../../Context/Context";
 import Logo from "../../Layouts/Logo";
 import "./Header.scss";
 
 function Header(props) {
+  const history = useHistory();
+
   //Context
   const context = useContext(Context);
 
@@ -17,7 +19,9 @@ function Header(props) {
   const handleLogOut = (e) => {
     e.preventDefault();
     localStorage.removeItem("user_info");
+    localStorage.removeItem("token");
     context.setLogined(false);
+    history.push("/");
   };
 
   return (

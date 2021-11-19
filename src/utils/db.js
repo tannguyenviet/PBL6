@@ -40,24 +40,47 @@ db.ticket = ticketModel(sequelize, Sequelize);
 db.price_type = priceTypeModel(sequelize, Sequelize);
 db.show_time = showTimeModel(sequelize, Sequelize);
 db.film = filmModel(sequelize, Sequelize);
-
-
+//
 db.tutorials = tutorialModel(sequelize, Sequelize);
 db.comments = commentModel(sequelize, Sequelize);
 
-db.membership.belongsTo(db.account, { allowNull: true });
+//Create relationships
+//// accounts - memberships
 db.account.hasOne(db.membership);
+db.membership.belongsTo(db.account, { allowNull: true });
 
-db.account.belongsToMany(db.show_time, { foreignKey: "account_id", through: "ticket" });
-db.show_time.belongsToMany(db.account, { foreignKey: "show_time_id", through: "ticket" });
-// db.account.hasOne(db.membership, {
-//   foreignKey:{
-//     type: Sequelize.INTEGER,
-//     allowNull:false,
-//     name:"membership_id "
-//   }
-// });
+//// accounts - tickets - show_times
+db.account.hasMany(db.ticket, {
+    foreignKey: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        name: "account_id"
+    }
+});
+db.ticket.belongsTo(db.account, {
+    foreignKey: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        name: "account_id"
+    }
+});
+// 
+db.show_time.hasMany(db.ticket, {
+    foreignKey: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        name: "show_time_id"
+    }
+});
+db.ticket.belongsTo(db.show_time, {
+    foreignKey: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        name: "show_time_id"
+    }
+});
 
+//// roles - accounts 
 db.role.hasMany(db.account, {
     foreignKey: {
         type: Sequelize.INTEGER,
@@ -73,7 +96,7 @@ db.account.belongsTo(db.role, {
     }
 });
 
-
+//// theathers - room_films 
 db.theather.hasMany(db.room_film, {
     foreignKey: {
         type: Sequelize.INTEGER,
@@ -89,40 +112,38 @@ db.room_film.belongsTo(db.theather, {
     }
 });
 
-db.film.belongsToMany(db.price_type, { foreignKey: "film_id", through: "show_time" });
-db.price_type.belongsToMany(db.film, { foreignKey: "price_type_id", through: "show_time" });
-// db.film.hasMany(db.show_time,{
-//   foreignKey:{
-//     type: Sequelize.INTEGER,
-//     allowNull:false,
-//     name:"film_id"
-//   }
-// });
-// db.show_time.belongsTo(db.film,{
-//   foreignKey:{
-//     type: Sequelize.INTEGER,
-//     allowNull:false,
-//     name:"film_id"
-//   }
-// });
+//// films - [show_times] - price_types - room_films
 
-// db.price_type.hasMany(db.show_time,{
-//   foreignKey:{
-//     type: Sequelize.INTEGER,
-//     allowNull:false,
-//     name:"film_id"
-//   }
-// });
-// db.show_time.belongsTo(db.price_type,{
-//   foreignKey:{
-//     type: Sequelize.INTEGER,
-//     allowNull:false,
-//     name:"film_id"
-//   }
-// });
-
-
-
+db.film.hasMany(db.show_time, {
+    foreignKey: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        name: "film_id"
+    }
+});
+db.show_time.belongsTo(db.film, {
+    foreignKey: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        name: "film_id"
+    }
+});
+//
+db.price_type.hasMany(db.show_time, {
+    foreignKey: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        name: "price_type_id"
+    }
+});
+db.show_time.belongsTo(db.price_type, {
+    foreignKey: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        name: "price_type_id"
+    }
+});
+//
 db.room_film.hasMany(db.show_time, {
     foreignKey: {
         type: Sequelize.INTEGER,
@@ -138,6 +159,7 @@ db.show_time.belongsTo(db.room_film, {
     }
 });
 
+//// tutorials - comments
 db.tutorials.hasMany(db.comments, { as: "comments" });
 db.comments.belongsTo(db.tutorials, {
     foreignKey: "tutorial_id",

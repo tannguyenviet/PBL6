@@ -89,11 +89,10 @@ async function listFilmsIds() {
 
 
 
-// const ids = await getListFilmIds('now_playing')
-// console.log(ids)
+
 // (async() => {
 //     const listIds = await getListFilmIds('now_playing');
-//     return await getListDetailFilms(listIds)
+//     console.log(await getListDetailFilms(listIds))
 
 // })();
 

@@ -7,8 +7,8 @@ const route = require("./routes/index");
 const middlewares = require("./app/middlewares/notFound_errorHandleMiddleware");
 const passport = require("passport");
 const app = express();
-// const PORT = process.env.PORT || 8080;
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || 8080;
+//const PORT = process.env.PORT || 8081;
 const db = require("./utils/db");
 //
 db.sequelize.sync();
@@ -16,7 +16,7 @@ db.sequelize.sync();
 app.use(passport.initialize());
 //
 var corsOptions = {
-  origin: "http://localhost:3000",
+    origin: "http://localhost:3000",
 };
 app.use(cors(corsOptions));
 // parse requests of content-type - application/json
@@ -32,5 +32,5 @@ app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
 // set port, listen for requests
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+    console.log(`Server is running on port ${PORT}.`);
 });

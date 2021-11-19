@@ -26,7 +26,7 @@ exports.register = async(req, res) => {
         gender,
         role_id,
     } = req.body;
-    // check alreadyExistsUser
+    // check alreadyExistsUserr
     const alreadyExistsUser = await Account.findAll({
         where: {
             [Op.or]: [{ username: username }, { email: email }],

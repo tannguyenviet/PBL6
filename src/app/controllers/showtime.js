@@ -1,5 +1,6 @@
 const db = require("../../utils/db");
 const Showtime = db.show_time;
+const RoomFilm = db.room_film;
 const Op = db.Sequelize.Op;
 
 // [POST] ../showtime/register
@@ -28,48 +29,84 @@ exports.create = async(req, res) => {
 
 // [GET] ../showtime/id
 // Find a single Showtime with an id
-exports.findOne = (req, res) => {
-    const id = req.params.id;
-    Showtime.findByPk(id)
-        .then(data => {
-            if (data) {
-                res.send(data);
-            } else {
-                res.status(404).send({
-                    message: `Cannot find Showtime with id=${id}.`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error retrieving Showtime with id=" + id
-            });
-        });
-};
+// exports.findOne = (req, res) => {
+//     const id = req.params.id;
+//     Showtime.findByPk(id)
+//         .then(data => {
+//             if (data) {
+//                 res.send(data);
+//             } else {
+//                 res.status(404).send({
+//                     message: `Cannot find Showtime with id=${id}.`
+//                 });
+//             }
+//         })
+//         .catch(err => {
+//             res.status(500).send({
+//                 message: "Error retrieving Showtime with id=" + id
+//             });
+//         });
+// };
 
-// [GET] ../showtime/film/id
-// Retrieve all showtime belong to a film
-exports.findAllWithIdFilm = (req, res) => {
-    const id = req.params.id;
-    Showtime.findAll({
-            where: {
-                [Op.and]: [{ film_id: id }]
-            }
-        })
-        .then(data => {
-            if (data.length > 0) {
-                return res.send(data);
-            } else {
-                return res.status(404).send({
-                    message: `Cannot find any Showtime with idFilm=${id}.`
-                });
-            }
-        })
-        .catch(err => {
-            return res.status(500).send({
-                message: "Error retrieving Showtime with idFilm=" + id
-            });
+// [GET] ../showtime/search?idFilm=""&idTheater=""&date=""
+// Retrieve all showtime belong to a film having a idTheater and a specific date
+exports.findAllWithIdFilmAndIdTheaterAndDate = async(req, res) => {
+    const idFilm = req.query.idFilm;
+    const idTheater = req.query.idTheater;
+    const date1 = new Date(req.query.date);
+    const date2 = new Date(req.query.date);
+    date2.setDate(date2.getDate() + 1);
+    //
+    const listTheaterRoomIDs = await RoomFilm.findAll({
+        attributes: ['id'],
+        where: {
+            [Op.and]: [{ theater_id: idTheater }]
+        }
+    })
+    const listRoomIDs = listTheaterRoomIDs.map(r => r.id);
+    //
+    const listFilms = await Showtime.findAll({
+        where: {
+            [Op.and]: [{ film_id: idFilm }, {
+                time_start: {
+                    [Op.between]: [date1, date2],
+                }
+            }]
+        }
+    })
+    const dataRoomIds = listFilms.map(r => r.room_film_id);
+    //
+    const similarRoomIds = listRoomIDs.filter(
+        (x) => dataRoomIds.includes(x)
+    );
+
+    if (similarRoomIds.length > 0) {
+        return res.send(listFilms.filter(r => similarRoomIds.includes(r.room_film_id)))
+    } else
+        return res.status(404).send({
+            message: `Cannot find Showtime with idTheater=${idTheater}, idFilm=${idFilm}, date=${date1.getDate()}.`
         });
+    // Showtime.findAll({
+    //         where: {
+    //             [Op.and]: [{ film_id: idFilm },
+    //                 [{ room_film_id: listTheaterRoomIDs }]
+    //             ]
+    //         }
+    //     })
+    //     .then(data => {
+    //         if (data.length > 0) {
+    //             return res.send(data);
+    //         } else {
+    //             return res.status(404).send({
+    //                 message: `Cannot find any Showtime with idFilm=${idFilm}.`
+    //             });
+    //         }
+    //     })
+    //     .catch(err => {
+    //         return res.status(500).send({
+    //             message: "Error retrieving Showtime with idFilm=" + idFilm
+    //         });
+    //     });
 };
 
 // [PUT] ../showtime/id

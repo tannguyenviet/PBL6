@@ -4,7 +4,7 @@ const commentModel = require("../app/models/comment");
 const roleModel = require("../app/models/model_role");
 const accountModel = require("../app/models/model_account");
 const membershipModel = require("../app/models/model_membership");
-const theatherModel = require("../app/models/model_theather");
+const theaterModel = require("../app/models/model_theater");
 const roomFilmModel = require("../app/models/model_room_film");
 const ticketModel = require("../app/models/model_ticket");
 const priceTypeModel = require("../app/models/model_price_type");
@@ -34,7 +34,7 @@ db.sequelize = sequelize;
 db.role = roleModel(sequelize, Sequelize);
 db.account = accountModel(sequelize, Sequelize);
 db.membership = membershipModel(sequelize, Sequelize);
-db.theather = theatherModel(sequelize, Sequelize);
+db.theater = theaterModel(sequelize, Sequelize);
 db.room_film = roomFilmModel(sequelize, Sequelize);
 db.ticket = ticketModel(sequelize, Sequelize);
 db.price_type = priceTypeModel(sequelize, Sequelize);
@@ -96,19 +96,19 @@ db.account.belongsTo(db.role, {
     }
 });
 
-//// theathers - room_films 
-db.theather.hasMany(db.room_film, {
+//// theaters - room_films 
+db.theater.hasMany(db.room_film, {
     foreignKey: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        name: "theather_id"
+        name: "theater_id"
     }
 });
-db.room_film.belongsTo(db.theather, {
+db.room_film.belongsTo(db.theater, {
     foreignKey: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        name: "theather_id"
+        name: "theater_id"
     }
 });
 

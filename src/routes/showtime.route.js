@@ -6,11 +6,8 @@ const router = require("express").Router();
 // Create a new showtime
 router.post("/create", showtime.create);
 
-// Retrieve a single showtime with id
-router.get("/:id", showtime.findOne);
-
-// Retrieve all showtime belong to a film
-router.get("/film/:id", showtime.findAllWithIdFilm);
+// Retrieve all showtime of a Film having a specific idTheater and a date
+router.get("/search", showtime.findAllWithIdFilmAndIdTheaterAndDate);
 
 // Update a showtime with id
 router.put("/:id", showtime.update);

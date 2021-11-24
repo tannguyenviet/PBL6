@@ -7,7 +7,10 @@ const router = require("express").Router();
 router.post("/create", ticket.create);
 
 // Retrieve all ticket-locations of a showtime by showtimeId
-router.get("/showtime/:id", ticket.findLocationsByShowtimeId);
+router.get("/location/list", ticket.findLocationsByShowtimeId);
+
+// Retrieve all ticket-locations of a showtime by showtimeId
+router.get("/revenue", ticket.countRevenueByShowtimeId);
 
 // Delete a ticket with id
 router.delete("/:id", ticket.delete);

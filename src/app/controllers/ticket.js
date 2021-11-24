@@ -30,11 +30,10 @@ exports.create = async(req, res) => {
         });
 };
 
-// [GET] ../ticket/showtime/id
+// [GET] ../ticket/location/list?idShowtime=
 // Retrieve all ticket-locations of a showtime by showtimeId
 exports.findLocationsByShowtimeId = (req, res) => {
-    const id = req.params.id;
-
+    const id = req.query.idShowtime;
     Ticket.findAll({
             where: {
                 [Op.and]: [{ show_time_id: id }]
@@ -63,8 +62,38 @@ exports.findLocationsByShowtimeId = (req, res) => {
         });
 };
 
-// [DELETE] ../ticket/id
-// Delete a Ticket with the specified id in the request
+// [GET] ../ticket/revenue?idShowtime=
+// Count revenue of a showtime by showtimeId
+exports.countRevenueByShowtimeId = (req, res) => {
+        const id = req.query.idShowtime;
+        Ticket.findAll({
+                where: {
+                    [Op.and]: [{ show_time_id: id }]
+                }
+            })
+            .then(data => {
+                if (data.length > 0) {
+                    dataRevenue = data.map(r => {
+                        return r.price
+                    })
+                    const revenue = dataRevenue.reduce((a, b) => { return a + b })
+                    return res.status(200).send({
+                        revenue: revenue
+                    });
+                } else {
+                    return res.status(404).send({
+                        message: `Cannot count revenue with idShowtime=${id}.`
+                    });
+                }
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message: err.message || "Some error occurred while retrieving tutorials."
+                });
+            });
+    }
+    // [DELETE] ../ticket/id
+    // Delete a Ticket with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
 

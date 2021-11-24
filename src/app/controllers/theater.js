@@ -6,13 +6,18 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Theater
 exports.create = async(req, res) => {
 
-    const { time_start, time_end, film_cityName, price_type_cityName, room_film_cityName } = req.body;
-    const newTheater = { time_start, time_end, film_cityName, price_type_cityName, room_film_cityName };
+    const { name, address, city } = req.body;
+    const newTheater = { name, address, city };
     const listTheaterBefore = await Theater.findAll({
         where: {
-            [Op.and]: [{ film_cityName: film_cityName }]
+            [Op.and]: [{ name: name }]
         }
     });
+    if (listTheaterBefore.length > 0) {
+        return res.status(400).send({
+            message: "Theater with name already exists!"
+        });
+    }
     //res.json(newTheater)
     // Save Theater in the database
     Theater.create(newTheater)
@@ -31,7 +36,7 @@ exports.create = async(req, res) => {
 exports.searchWithCityName = (req, res) => {
     const cityName = req.query.cityName;
     Theater.findAll({
-            attributes: ['id'],
+            // attributes: ['id'],
             where: {
                 [Op.and]: [{ city: cityName }]
             }
@@ -73,7 +78,9 @@ exports.findAllCity = (req, res) => {
 // Update a Theater by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
-    Theater.update(req.body, {
+    const { name, address, city } = req.body;
+    const newTheater = { name, address, city };
+    Theater.update(newTheater, {
             where: { id: id }
         })
         .then(num => {
@@ -83,7 +90,7 @@ exports.update = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `Cannot update Theater with id=${id}. Maybe Theater was not found or req.body is empty!`
+                    message: `Cannot update Theater with id=${id}. Maybe nothing changed or Theater was not found or req.body is empty!`
                 });
             }
         })

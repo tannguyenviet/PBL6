@@ -48,14 +48,76 @@ exports.create = async(req, res) => {
 //         });
 // };
 
+
+// [GET] ../showtime/search?idFilm=""&idTheater=""&date=""
+// Retrieve all showtime belong to a film having a idTheater and a specific date for Admin
+exports.findAllWithIdFilmAndIdTheaterAndDateForAdmin = async(req, res) => {
+    const idFilm = req.query.idFilm;
+    const idTheater = req.query.idTheater;
+    let date1 = null;
+    let date2 = null;
+    if (req.query.date) {
+        date1 = new Date(req.query.date);
+        date2 = new Date(req.query.date);
+        date2.setDate(date2.getDate() + 1);
+    }
+    //
+    const listShowTimes = await Showtime.findAll({
+        where: (idFilm && date1 ? {
+            [Op.and]: [{ film_id: idFilm }, {
+                time_start: {
+                    [Op.between]: [date1, date2],
+                }
+            }]
+        } : (date1) ? {
+            [Op.and]: [{
+                time_start: {
+                    [Op.between]: [date1, date2],
+                }
+            }]
+        } : (idFilm) ? {
+            [Op.and]: [{ film_id: idFilm }]
+        } : {})
+    });
+    if (!idTheater) {
+        return res.send(listShowTimes)
+    }
+    // get roomfilmsIDs of a theater
+    const listTheaterRoomIDs = await RoomFilm.findAll({
+        attributes: ['id'],
+        where: {
+            [Op.and]: [{ theater_id: idTheater }]
+        }
+    })
+    const listRoomIDs = listTheaterRoomIDs.map(r => r.id);
+    // get roomfilmsIDs of listFilms
+    const dataRoomIds = listShowTimes.map(r => r.room_film_id);
+    //
+    const similarRoomIds = listRoomIDs.filter(
+        (x) => dataRoomIds.includes(x)
+    );
+
+    if (similarRoomIds.length > 0) {
+        return res.send(listShowTimes.filter(r => similarRoomIds.includes(r.room_film_id)))
+    } else
+        return res.status(404).send({
+            message: `Cannot find Showtime with idTheater=${idTheater}, idFilm=${idFilm}, date=${date1?date1.getDate():null}.`
+        });
+};
+
 // [GET] ../showtime/search?idFilm=""&idTheater=""&date=""
 // Retrieve all showtime belong to a film having a idTheater and a specific date
 exports.findAllWithIdFilmAndIdTheaterAndDate = async(req, res) => {
     const idFilm = req.query.idFilm;
     const idTheater = req.query.idTheater;
-    const date1 = new Date(req.query.date);
-    const date2 = new Date(req.query.date);
-    date2.setDate(date2.getDate() + 1);
+    let date1 = null;
+    let date2 = null;
+    if (req.query.date) {
+        date1 = new Date(req.query.date);
+        date2 = new Date(req.query.date);
+        date2.setDate(date2.getDate() + 1);
+    }
+
     //
     const listTheaterRoomIDs = await RoomFilm.findAll({
         attributes: ['id'],
@@ -65,26 +127,34 @@ exports.findAllWithIdFilmAndIdTheaterAndDate = async(req, res) => {
     })
     const listRoomIDs = listTheaterRoomIDs.map(r => r.id);
     //
-    const listFilms = await Showtime.findAll({
-        where: {
+    const listShowTimes = await Showtime.findAll({
+        where: (idFilm && date1 ? {
             [Op.and]: [{ film_id: idFilm }, {
                 time_start: {
                     [Op.between]: [date1, date2],
                 }
             }]
-        }
-    })
-    const dataRoomIds = listFilms.map(r => r.room_film_id);
+        } : (date1) ? {
+            [Op.and]: [{
+                time_start: {
+                    [Op.between]: [date1, date2],
+                }
+            }]
+        } : (idFilm) ? {
+            [Op.and]: [{ film_id: idFilm }]
+        } : {})
+    });
+    const dataRoomIds = listShowTimes.map(r => r.room_film_id);
     //
     const similarRoomIds = listRoomIDs.filter(
         (x) => dataRoomIds.includes(x)
     );
 
     if (similarRoomIds.length > 0) {
-        return res.send(listFilms.filter(r => similarRoomIds.includes(r.room_film_id)))
+        return res.send(listShowTimes.filter(r => similarRoomIds.includes(r.room_film_id)))
     } else
         return res.status(404).send({
-            message: `Cannot find Showtime with idTheater=${idTheater}, idFilm=${idFilm}, date=${date1.getDate()}.`
+            message: `Cannot find Showtime with idTheater=${idTheater}, idFilm=${idFilm}, date=${date1?date1.getDate():null}.`
         });
     // Showtime.findAll({
     //         where: {

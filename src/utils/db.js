@@ -46,8 +46,20 @@ db.comments = commentModel(sequelize, Sequelize);
 
 //Create relationships
 //// accounts - memberships
-db.account.hasOne(db.membership);
-db.membership.belongsTo(db.account, { allowNull: true });
+db.account.hasOne(db.membership, {
+    foreignKey: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        name: "account_id"
+    }
+});
+db.membership.belongsTo(db.account, {
+    foreignKey: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        name: "account_id"
+    }
+});
 
 //// accounts - tickets - show_times
 db.account.hasMany(db.ticket, {

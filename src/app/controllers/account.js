@@ -186,13 +186,13 @@ exports.login = (req, res) => {
         });
 };
 
-// [GET] ../account/id
+// [GET] ../account/list
 // Retrieve all accounts from the database.
 exports.findAll = (req, res) => {
-    const title = req.query.title;
-    var condition = title ? {
-            title: {
-                [Op.like]: ` % $ { title } % `,
+    const idRole = req.query.idRole;
+    var condition = idRole ? {
+            role_id: {
+                [Op.like]: `%${idRole}%`,
             },
         } :
         null;
@@ -245,8 +245,7 @@ exports.update = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `
-                            Cannot update account with id = $ { id }.Maybe account was not found or req.body is empty!`,
+                    message: `Cannot update account with id = ${id}.Maybe nothing changed or account was not found or req.body is empty!`,
                 });
             }
         })
@@ -272,8 +271,7 @@ exports.delete = (req, res) => {
                 });
             } else {
                 res.send({
-                    message: `
-                            Cannot delete account with id = $ { id }.Maybe account was not found!`,
+                    message: `Cannot delete account with id = ${id}.Maybe account was not found!`,
                 });
             }
         })

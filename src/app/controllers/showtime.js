@@ -3,7 +3,7 @@ const Showtime = db.show_time;
 const RoomFilm = db.room_film;
 const Op = db.Sequelize.Op;
 
-// [POST] ../showtime/register
+// [POST] ../showtime/create
 // Create and Save a new Showtime
 exports.create = async(req, res) => {
 

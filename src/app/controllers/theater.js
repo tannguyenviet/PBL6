@@ -2,7 +2,7 @@ const db = require("../../utils/db");
 const Theater = db.theater;
 const Op = db.Sequelize.Op;
 
-// [POST] ../Theater/register
+// [POST] ../Theater/create
 // Create and Save a new Theater
 exports.create = async(req, res) => {
 

@@ -5,6 +5,9 @@ const siteRouter = require('./site.route')
 const showtime = require('./showtime.route')
 const ticket = require('./ticket.route')
 const theater = require('./theater.route')
+const membership = require('./membership.route')
+const pricetype = require('./pricetype.route')
+const roomfilm = require('./roomfilm.route')
 
 function route(app) {
 
@@ -15,6 +18,10 @@ function route(app) {
     app.use('/account', accountRoute);
     app.use('/showtime', showtime);
     app.use('/ticket', ticket);
+    app.use('/membership', membership);
+    app.use('/pricetype', pricetype);
+    app.use('/roomfilm', roomfilm);
+
     //get page Home
     app.use('/', siteRouter)
 }

@@ -10,7 +10,7 @@ router.get("/verify-email", account.verifyEmail);
 router.post("/login", account.login);
 
 // Retrieve all account
-router.get("/", account.findAll);
+router.get("/list", account.findAll);
 
 // Retrieve a single account with id
 router.get("/:id", account.findOne);

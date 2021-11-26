@@ -38,64 +38,47 @@ exports.findAll = async(req, res) => {
     const status = req.query.status;
     const idTheater = req.query.idTheater;
     const moment = new Date();
+    var conditionUsing = {
+        [Op.and]: [{
+            time_start: {
+                [Op.lte]: moment
+            }
+        }, {
+            time_end: {
+                [Op.gte]: moment
+            }
+        }]
+    };
+    const listAllRooms = await RoomFilm.findAll({});
+    const listAllIDRooms = listAllRooms.map(r => r.id);
+    //
+    const listShowTimesUsing = await Showtime.findAll({ where: conditionUsing });
+    let listIDRoomsUsing = listShowTimesUsing.map(r => r.room_film_id);
+    let listIDRoomsAvailabile = listAllIDRooms.filter(x => !listIDRoomsUsing.includes(x));
+    //
+    var conditionIdRoom = status == 'using' ? {
+            id: listIDRoomsUsing
+        } : status == 'available' ? {
+            id: listIDRoomsAvailabile
+        } : null
+        //
     var conditionTheater = idTheater ? {
         theater_id: idTheater
     } : null;
-    var conditionStatus = status == 'using' ? {
-            [Op.and]: [{
-                time_start: {
-                    [Op.lte]: moment
-                }
-            }, {
-                time_end: {
-                    [Op.gte]: moment
-                }
-            }]
-        } : status == 'available' ? {
-            [Op.or]: [{
-                time_start: {
-                    [Op.gte]: moment
-                }
-            }, {
-                time_end: {
-                    [Op.lte]: moment
-                }
-            }]
-        } :
-        null;
     //
-    const listShowTimes = await Showtime.findAll({ where: conditionStatus });
-    let listRoomsOfConditionStatus = listShowTimes.map(r => r.room_film_id);
-    //
-    const listAllShowtime = await Showtime.findAll({});
-    const listRoomsInShowtime = listAllShowtime.map(r => r.room_film_id);
-    //
-    const listRoomsOfATheater = await RoomFilm.findAll({});
-    //
-    if (status != 'using') {
-        const roomHasNoShowtime = listRoomsOfATheater.filter(x => !listRoomsInShowtime.includes(x.id)).map(r => r.id)
-        listRoomsOfConditionStatus = listRoomsOfConditionStatus.concat(roomHasNoShowtime)
-    }
-    if (listRoomsOfConditionStatus.length > 0) {
-        console.log(listRoomsOfConditionStatus)
-        RoomFilm.findAll({
-                where: {
-                    [Op.and]: [{
-                        id: listRoomsOfConditionStatus
-                    }, conditionTheater]
-                }
-            })
-            .then(data => {
-                return res.send(data);
-            })
-            .catch(err => {
-                return res.status(500).send({
-                    message: "Error retrieving all RoomFilms"
-                });
+    RoomFilm.findAll({
+            where: {
+                [Op.and]: [conditionIdRoom, conditionTheater]
+            }
+        })
+        .then(data => {
+            return res.send(data);
+        })
+        .catch(err => {
+            return res.status(500).send({
+                message: "Error retrieving all RoomFilms"
             });
-    } else {
-        return res.send([])
-    }
+        });
 };
 
 // [PUT] ../RoomFilm/id

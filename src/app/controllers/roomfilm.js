@@ -31,13 +31,16 @@ const Op = db.Sequelize.Op;
 //             });
 //         });
 // };
-
+function convertUTCDateToLocalDate(date) {
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return date;
+}
 // [GET] ../RoomFilm/list 
 // Retrieve all RoomFilms (with state or idTheater)
 exports.findAll = async(req, res) => {
     const status = req.query.status;
     const idTheater = req.query.idTheater;
-    const moment = new Date();
+    const moment = convertUTCDateToLocalDate(new Date());
     var conditionUsing = {
         [Op.and]: [{
             time_start: {

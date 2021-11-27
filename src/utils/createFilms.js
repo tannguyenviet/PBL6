@@ -4,9 +4,9 @@ const fetch = require('node-fetch');
 
 
 
-async function getListFilmIds(string) {
+async function getListFilmIds(string, page) {
 
-    let filmsLink = `https://api.themoviedb.org/3/movie/${string}?api_key=${apiKey}`
+    let filmsLink = `https://api.themoviedb.org/3/movie/${string}?api_key=${apiKey}&page=${page}`
     return fetch(filmsLink)
         .then(response => response.json())
         .then(data => data.results.map(r => r.id));
@@ -81,18 +81,29 @@ async function getListDetailFilms(listIds) {
     return results
 }
 async function listFilmsIds() {
-    const listNow = await getListFilmIds('now_playing')
-    const listUp = await getListFilmIds('upcoming')
-    const listMerge = listNow.concat(listUp.filter((item) => listNow.indexOf(item) < 0)).sort()
+    let listIdsNơw = []
+    let listIdsUp = []
+    for (let i = 1; i < 5; i++) {
+        listIdsNơw = listIdsNơw.concat(await getListFilmIds('now_playing', i));
+        listIdsUp = listIdsUp.concat(await getListFilmIds('upcoming', i));
+    }
+    const listMerge = listIdsNơw.concat(listIdsUp.filter((item) => listIdsNơw.indexOf(item) < 0)).sort();
+    // const listNow = await getListFilmIds('now_playing')
+    // const listUp = await getListFilmIds('upcoming')
+    // const listMerge = listNow.concat(listUp.filter((item) => listNow.indexOf(item) < 0)).sort()
     return listMerge
 }
 
-
-
-
 // (async() => {
-//     const listIds = await getListFilmIds('now_playing');
-//     console.log(await getListDetailFilms(listIds))
+//     let listIdsNơw = []
+//     let listIdsUp = []
+//     for (let i = 1; i < 10; i++) {
+//         listIdsNơw = listIdsNơw.concat(await getListFilmIds('now_playing', i));
+//         listIdsUp = listIdsUp.concat(await getListFilmIds('upcoming', i));
+//     }
+//     const listMerge = listIdsNơw.concat(listIdsUp.filter((item) => listIdsNơw.indexOf(item) < 0)).sort()
+//     console.log(listMerge)
+//         //console.log(await getListDetailFilms(listIds))
 
 // })();
 

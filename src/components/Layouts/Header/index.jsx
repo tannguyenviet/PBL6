@@ -89,18 +89,7 @@ function Header(props) {
             <li className="menu__item user__info">
               <div className="menu__link">{userInfo.name}</div>
               <ul className="menu__sub">
-                {userInfo.id === 1 ? (
-                  <li className="menu__sub-item">
-                    <NavLink
-                      exact
-                      className="menu__link"
-                      activeClassName="menu__link--active"
-                      to="/admin"
-                    >
-                      Dashboard
-                    </NavLink>
-                  </li>
-                ) : (
+                {userInfo.role_id === 3 && (
                   <li className="menu__sub-item">
                     <NavLink
                       exact
@@ -109,6 +98,30 @@ function Header(props) {
                       to="/profile"
                     >
                       Profile
+                    </NavLink>
+                  </li>
+                )}
+                {userInfo.role_id === 2 && (
+                  <li className="menu__sub-item">
+                    <NavLink
+                      exact
+                      className="menu__link"
+                      activeClassName="menu__link--active"
+                      to="/manage/showtime"
+                    >
+                      Showtime
+                    </NavLink>
+                  </li>
+                )}
+                {userInfo.role_id === 1 && (
+                  <li className="menu__sub-item">
+                    <NavLink
+                      exact
+                      className="menu__link"
+                      activeClassName="menu__link--active"
+                      to="/admin"
+                    >
+                      Dashboard
                     </NavLink>
                   </li>
                 )}

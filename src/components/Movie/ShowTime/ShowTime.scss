@@ -47,16 +47,17 @@
   }
   &__group {
     @include flex(center, space-evenly);
-    li {
+    button {
       padding: 1rem 2rem;
       cursor: pointer;
       text-align: center;
+      color: $secondary-text;
       background-color: $secondary-bg;
-      transition: all 0.3s linear;
 
       mask-image: url(../../../assets/images/others/ticket-mask.png);
       mask-repeat: no-repeat;
       mask-position: center center;
+      transition: all 0.3s linear;
 
       &:hover {
         color: $hover-text;

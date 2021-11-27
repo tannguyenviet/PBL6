@@ -5,6 +5,27 @@
   background-color: $secondary-bg;
 }
 
+input[type="date"] {
+  padding: 8px 5px;
+  border: 1px solid $secondary-text;
+  border-radius: 5px;
+
+  outline: none;
+  color: $secondary-text;
+  background-color: $secondary-bg;
+  font-size: 1.4rem;
+}
+
+::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  background-color: $secondary-text;
+  border-radius: 3px;
+  transition: all 0.2s linear;
+  &:hover {
+    background-color: #fff;
+  }
+}
+
 .search-ticket {
   &__section {
     margin-top: -15rem;
@@ -107,49 +128,30 @@
       flex-basis: calc(25% - #{$form-gap});
       @include flex(center);
 
-      input[type="date"] {
-        background-color: $secondary-bg;
-        padding: 8px 5px;
-        border: 1px solid $secondary-text;
-        outline: none;
-        border-radius: 5px;
-        color: $secondary-text;
-      }
-
-      ::-webkit-calendar-picker-indicator {
-        cursor: pointer;
-        background-color: $secondary-text;
-        border-radius: 3px;
-        transition: all 0.2s linear;
-        &:hover {
-          background-color: #fff;
-        }
-      }
-
-      &.search {
-        @include flex(center, space-between);
-        padding: 1.5rem 0;
-        border-bottom: 1px solid #fff;
-        input {
-          color: #fff;
-          font-size: 1.6rem;
-          border: 0;
-          outline: none;
-          background-color: transparent;
-        }
-        span {
-          cursor: pointer;
-          &:hover {
-            color: $hover-text;
-          }
-        }
-        ::placeholder {
-          color: $secondary-text;
-          opacity: 1;
-          font-family: "Poppins", sans-serif;
-          font-weight: 300;
-        }
-      }
+      // &.search {
+      //   @include flex(center, space-between);
+      //   padding: 1.5rem 0;
+      //   border-bottom: 1px solid #fff;
+      //   input {
+      //     color: #fff;
+      //     font-size: 1.6rem;
+      //     border: 0;
+      //     outline: none;
+      //     background-color: transparent;
+      //   }
+      //   span {
+      //     cursor: pointer;
+      //     &:hover {
+      //       color: $hover-text;
+      //     }
+      //   }
+      //   ::placeholder {
+      //     color: $secondary-text;
+      //     opacity: 1;
+      //     font-family: "Poppins", sans-serif;
+      //     font-weight: 300;
+      //   }
+      // }
 
       .thumb {
         margin-right: 8px;
@@ -162,12 +164,12 @@
       }
 
       .select-bar {
-        flex: 1;
         position: relative;
         font-size: 14px;
         font-weight: 500;
         width: 150px;
 
+        flex: 1;
         cursor: pointer;
         border-radius: 4px;
         //overflow: hidden;
@@ -184,19 +186,6 @@
           border-radius: 2px;
           transform: translateY(-30%);
         }
-
-        // select {
-        //   width: 100%;
-        //   padding: 10px;
-        //   background-color: $secondary-bg;
-        //   color: $secondary-text;
-        //   cursor: pointer;
-
-        //   border: 0;
-        //   font-weight: 500;
-        //   outline: none;
-        //   appearance: none;
-        // }
       }
     }
   }

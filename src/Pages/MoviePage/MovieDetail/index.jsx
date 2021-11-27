@@ -15,10 +15,14 @@ function MovieDetail(props) {
 
   //GET STATUS: ON-OFF OF MODAL
   const context = useContext(Context);
-  const { openModal, setOpenModal } = context;
+  const { openModal, setOpenModal, ticketInfo, setTicketInfo } = context;
+  const ticketSession =
+    ticketInfo || JSON.parse(sessionStorage.getItem("ticket_info"));
+  const { date, theater, movie } = ticketSession;
 
   //States
   const [movieInfo, setMovieInfo] = useState();
+  const [showTime, setShowTime] = useState();
 
   //GET MOVIE DETAIL API BY ID
   useEffect(() => {
@@ -28,7 +32,13 @@ function MovieDetail(props) {
         const res = await API.get(url);
         if (res.status === 200) {
           setMovieInfo(res.data);
-          console.log(res);
+          setTicketInfo({
+            ...ticketInfo,
+            movie: {
+              value: res.data.id,
+              label: res.data.name,
+            },
+          });
         }
       } catch (error) {
         console.log(error);
@@ -38,6 +48,25 @@ function MovieDetail(props) {
     getMovieById(movieId);
     // eslint-disable-next-line
   }, [movieId]);
+
+  //Get showtime whenever date || theater change
+  useEffect(() => {
+    const getShowTime = async (idFilm, idTheater) => {
+      try {
+        const url = `/showtime/search?idFilm=${idFilm}&idTheater=${idTheater}&date=${date}`;
+        const res = await API.get(url);
+        if (res.status === 200) {
+          setShowTime(res.data);
+        } else return;
+      } catch (error) {
+        setShowTime([]);
+      }
+    };
+
+    if (movie && date && theater) {
+      getShowTime(movie.value, theater.value);
+    } else return;
+  }, [theater, date, movie]);
 
   //Functions
   const handleTrailerModal = (e) => {
@@ -108,7 +137,7 @@ function MovieDetail(props) {
       </div>
       <div className="showtime__section">
         <div className="container showtime__container">
-          <ShowTime />
+          <ShowTime showtime={showTime} />
         </div>
       </div>
       {openModal && (

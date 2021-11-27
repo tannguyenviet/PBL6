@@ -1,0 +1,68 @@
+@import "../../../../../sass/variables";
+@import "../../../../../sass/mixins";
+.modal {
+  &__showtime {
+    max-width: 65rem;
+    margin: 10rem auto;
+  }
+  &-header {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  &-body {
+    padding: 2rem;
+  }
+  &-footer {
+    padding: 2rem 1rem;
+  }
+  &-content {
+    background: $primary-bg;
+    padding: 2rem;
+  }
+}
+
+.form {
+  &-group {
+    margin-bottom: 2rem;
+  }
+  &-label {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  &-control {
+    padding: 7px 1rem;
+    font-size: 1.4rem;
+    background: $secondary-bg;
+    color: $secondary-text;
+
+    &:focus {
+      color: $secondary-bg;
+    }
+  }
+  &-options {
+    @include flex(center, center);
+    gap: 2rem;
+  }
+}
+
+.invalid-feedback {
+  margin-top: 8px;
+  font-size: 1.3rem;
+}
+
+.select-bar {
+  position: relative;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 1.5rem;
+    pointer-events: none;
+
+    border: 5px solid transparent;
+    border-top-color: #fff;
+    border-radius: 2px;
+    transform: translateY(-30%);
+  }
+}

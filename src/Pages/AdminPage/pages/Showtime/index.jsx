@@ -1,7 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+// import { Link } from "react-router-dom";
+import ShowtimeAdd from "./ShowtimeAdd";
 
 function Showtime(props) {
+  const [toggle, setToggle] = useState(false);
+  const userInfo = JSON.parse(localStorage.getItem("user_info"));
+
+  //Function
+  const handleOpenModal = () => {
+    setToggle(!toggle);
+  };
+
   return (
     <section className="dashboard__showtime">
       <table>
@@ -31,9 +41,10 @@ function Showtime(props) {
           ))}
         </tbody>
       </table>
-      <Link to="/admin/showtime/add" className="btn btn-add">
+      <button className="btn btn-add" onClick={() => handleOpenModal()}>
         New Showtime
-      </Link>
+      </button>
+      {toggle && <ShowtimeAdd toggle={toggle} onOpen={handleOpenModal} />}
     </section>
   );
 }

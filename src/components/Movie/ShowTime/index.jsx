@@ -1,14 +1,11 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+
 import "./ShowTime.scss";
+// import API from "../../../API";
 
-function ShowTime() {
-  const history = useHistory();
-  const handleShowTimeClicked = (e) => {
-    console.log(e.target.innerText);
-    history.push("/seat");
-  };
-
+function ShowTime(props) {
+  //Functions
+  const listShowTime = props.showtime;
   return (
     <div className="showtime__info">
       <div className="showtime__movie">
@@ -26,12 +23,14 @@ function ShowTime() {
       </div>
       <div className="showtime__time">
         <div className="showtime__day">Monday</div>
-        <ul className="showtime__group">
-          <li onClick={handleShowTimeClicked}>17:00</li>
-          <li onClick={handleShowTimeClicked}>18:30</li>
-          <li onClick={handleShowTimeClicked}>19:30</li>
-          <li onClick={handleShowTimeClicked}>20:00</li>
-        </ul>
+        <div className="showtime__group">
+          {listShowTime &&
+            listShowTime.map((st) => (
+              <button form="search-ticket__form" type="submit" key={st.id}>
+                {st.time_start.substr(11, 5)}
+              </button>
+            ))}
+        </div>
       </div>
     </div>
   );

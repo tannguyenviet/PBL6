@@ -1,43 +1,52 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useHistory, useLocation } from "react-router-dom";
 import Select from "react-select";
 
 import "./TicketForm.scss";
-import ToastMessage from "../../Layouts/ToastMessage";
 import Context from "../../../Context/Context";
+import ToastMessage from "../../Layouts/ToastMessage";
 import { style, theme } from "./TicketFormSetup";
-import { useHistory } from "react-router-dom";
+import API from "../../../API";
 
-const listCity = [
-  { value: "danang", label: "Da Nang" },
-  { value: "hcm", label: "Ho Chi Minh" },
-  { value: "hanoi", label: "Ha Noi" },
-];
+// const listCity = [
+//   { value: "danang", label: "Da Nang" },
+//   { value: "hcm", label: "Ho Chi Minh" },
+//   { value: "hanoi", label: "Ha Noi" },
+// ];
 
-const listTheater = [
-  { value: "1", label: "Rap 1" },
-  { value: "2", label: "Rap 2" },
-  { value: "3", label: "Rap 3" },
-];
+// const listTheater = [
+//   { value: "1", label: "Rap 1" },
+//   { value: "2", label: "Rap 2" },
+//   { value: "3", label: "Rap 3" },
+// ];
 
 function TicketForm(props) {
   //Props
   const { nowPlayingList } = props;
-
   const history = useHistory();
+  const location = useLocation();
 
   //States
   //Bind ticket info to Input of 'React select'
   const [ticketSelected, setTicketSelected] = useState(() => {
     const ticketInfo = JSON.parse(sessionStorage.getItem("ticket_info"));
     if (ticketInfo) {
-      const theaterSelected = listTheater.find(
-        (t) => t.value === ticketInfo.theater
-      );
-      const citySelected = listCity.find((c) => c.value === ticketInfo.city);
+      const { city, theater } = ticketInfo;
+      const theaterSelected = theater;
+      const citySelected = city;
       return { theater: theaterSelected, city: citySelected };
     }
   });
+  const [listCity, setListCity] = useState([]);
+  const [cityName, setCityName] = useState(() => {
+    const ticketInfo = JSON.parse(sessionStorage.getItem("ticket_info"));
+    if (ticketInfo) {
+      return ticketInfo.city.value;
+    }
+    return "";
+  });
+  const [listTheater, setListTheater] = useState([]);
 
   //Active toast
   const [toastMessage, setToastMessage] = useState();
@@ -45,6 +54,41 @@ function TicketForm(props) {
   //context
   const context = useContext(Context);
   const { ticketInfo, setTicketInfo } = context;
+  console.log(ticketInfo);
+
+  //Get Cities
+  useEffect(() => {
+    const getListCity = async () => {
+      const url = "/theater/city/list";
+      const res = await API.get(url);
+      if (res.status === 200) {
+        const listCity = res.data.map((c) => ({
+          value: c.city,
+          label: c.city,
+        }));
+        setListCity(listCity);
+      } else return;
+    };
+
+    getListCity();
+  }, []);
+
+  //Get Theater By City
+  useEffect(() => {
+    const getTheatersByCity = async (name) => {
+      const url = `/theater/search?cityName=${name}`;
+      const res = await API.get(url);
+      if (res.status === 200) {
+        const listTheater = res.data.map((t) => ({
+          value: t.id,
+          label: t.name,
+        }));
+        setListTheater(listTheater);
+      } else return;
+    };
+
+    cityName && getTheatersByCity(cityName);
+  }, [cityName]);
 
   //Get movie list for movie select options
   const listNowPlaying =
@@ -55,6 +99,15 @@ function TicketForm(props) {
 
   //Functions
   const handleDateChange = (e) => {
+    //If reload in detail page -> data will be refresh to origin => save to session
+    if (location.pathname.includes("movie")) {
+      const newTicketInfo = {
+        ...ticketInfo,
+        [e.target.name]: e.target.value,
+      };
+      sessionStorage.setItem("ticket_info", JSON.stringify(newTicketInfo));
+    }
+
     setTicketInfo({
       ...ticketInfo,
       [e.target.name]: e.target.value,
@@ -62,10 +115,24 @@ function TicketForm(props) {
   };
 
   const handleDropListChange = (value, { name }) => {
+    if (name === "city") {
+      setCityName(value.value);
+    }
+
+    //If reload in detail page -> data will be refresh to origin => save to session
+    if (location.pathname.includes("movie")) {
+      const newTicketInfo = {
+        ...ticketInfo,
+        [name]: value,
+      };
+      sessionStorage.setItem("ticket_info", JSON.stringify(newTicketInfo));
+    }
+
     setTicketInfo({
       ...ticketInfo,
-      [name]: value.value,
+      [name]: value,
     });
+
     setTicketSelected({
       ...ticketSelected,
       [name]: { value: value.value, label: value.label },
@@ -101,7 +168,7 @@ function TicketForm(props) {
       flag = false;
     }
 
-    if (!movie) {
+    if (!movie && location.pathname === "/") {
       setToastMessage({
         type: "error",
         mess: "Movie is not selected",
@@ -117,12 +184,15 @@ function TicketForm(props) {
           mess: "Please login to get your ticket",
         });
       } else {
-        sessionStorage.setItem("ticket_info", JSON.stringify(ticketInfo));
-        history.push(`/movie/detail/${ticketInfo.movie}`);
+        sessionStorage.setItem("ticket_info", JSON.stringify(ticketInfo)); //Form valid -> save as sessionStore
+        location.pathname === "/"
+          ? history.push(`/movie/detail/${ticketInfo.movie.value}`) // At home -> to detail page
+          : history.push("/seat"); // at detail -> to seat page
       }
     }
   };
 
+  //Render
   return (
     <form
       className="search-ticket__form"
@@ -200,7 +270,7 @@ TicketForm.propTypes = {
   search: PropTypes.bool,
 };
 
-export default TicketForm;
+export default React.memo(TicketForm);
 
 //Form search movies
 // <div className="form-group search">

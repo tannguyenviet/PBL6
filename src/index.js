@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ReactDOM from "react-dom";
 
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/reset.css";
 import App from "./App";
 import MyProvider from "./Context/Provider";
@@ -13,6 +14,7 @@ import MovieDetailPage from "./Pages/MoviePage/MovieDetail";
 import TicketPage from "./Pages/TicketPage";
 import NotFoundPage from "./Pages/NotFoundPage";
 import AdminPage from "./Pages/AdminPage";
+import ManagerPage from "./Pages/ManagerPage";
 import SeatPage from "./Pages/SeatPage";
 import PaymentPage from "./Pages/PaymentPage";
 import ProfilePage from "./Pages/ProfilePage";
@@ -43,6 +45,7 @@ ReactDOM.render(
               <Route path="/payment" component={PaymentPage} />
               <Route path="/profile" component={ProfilePage} />
               <Route path="/admin" component={AdminPage} />
+              <Route path="/manage/showtime" component={ManagerPage} />
               <Route default component={NotFoundPage} />
             </Switch>
           </App>

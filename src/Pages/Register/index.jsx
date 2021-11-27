@@ -141,6 +141,7 @@ function Register() {
         const res = await API.post(url, data, config);
         if (res.status === 200) {
           setToastMessage({ type: "success" });
+          console.log(res.data);
         } else {
           setToastMessage({ type: "error" });
         }

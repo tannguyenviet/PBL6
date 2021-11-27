@@ -9,8 +9,8 @@ import MovieCard from "../../components/Movie/MovieCard";
 import CarouselSection from "../../components/Layouts/CarouselSection";
 
 function HomePage(props) {
-  const [movieList, setMovieList] = useState([]); //carousel
-  const [nowPlayingList, setNowPlayingList] = useState([]); //Ticket form
+  //States
+  const [nowPlayingList, setNowPlayingList] = useState([]); //Ticket form + carrousel
   const [trailerSrc, setTrailerSrc] = useState();
 
   const context = useContext(Context);
@@ -18,24 +18,7 @@ function HomePage(props) {
 
   sessionStorage.removeItem("ticket_info"); //Remove session storeage of ticket info when back to homepage
 
-  //GET MOVIE LIST API SHOW IN CAROUSEL
-  useEffect(() => {
-    const getMovieList = async () => {
-      try {
-        const url = "/film/list";
-        const res = await API.get(url);
-        if (res.status === 200) {
-          setMovieList(res.data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getMovieList();
-  }, []);
-
-  //GET NOW PLAYING LIST API SHOW IN TICKET FORM
+  //GET NOW PLAYING LIST
   useEffect(() => {
     const getNowPlayingMovie = async () => {
       try {
@@ -80,8 +63,8 @@ function HomePage(props) {
         </div>
       </section>
       <CarouselSection>
-        {movieList &&
-          movieList.map((movie) => (
+        {nowPlayingList &&
+          nowPlayingList.map((movie) => (
             <MovieCard
               key={movie.id}
               movieInfo={movie}

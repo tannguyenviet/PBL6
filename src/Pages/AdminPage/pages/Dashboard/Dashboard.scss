@@ -1,0 +1,9 @@
+@import "../../../../sass/variables";
+@import "../../../../sass/mixins";
+
+.dashboard {
+  &__home {
+    @include flex(center, flex-start, wrap);
+    gap: 5rem;
+  }
+}

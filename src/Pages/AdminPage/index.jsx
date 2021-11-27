@@ -10,7 +10,8 @@ function AdminPage(props) {
   const match = useRouteMatch();
   const userInfo = JSON.parse(localStorage.getItem("user_info"));
 
-  if (!userInfo || userInfo.id !== 1) {
+  //Fix into role_id !== 1
+  if (!userInfo || userInfo.username !== "admin") {
     history.replace("/login");
   }
 

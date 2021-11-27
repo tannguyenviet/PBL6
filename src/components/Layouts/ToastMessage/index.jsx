@@ -51,7 +51,7 @@ function ToastMessage(props) {
           <p className="toast__mess-desc">
             {mess.type === "error"
               ? "Try Again"
-              : "Now you can sign in to PBL6"}
+              : "Please check email to active your account"}
           </p>
         </div>
       </div>

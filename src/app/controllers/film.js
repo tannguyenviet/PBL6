@@ -43,9 +43,20 @@ exports.create = (req, res) => {
 // [GET] ../film/list
 // Retrieve all film from the database.
 exports.findAll = (req, res) => {
+    let currentPage = req.query.page;
+    if (!Number(currentPage)) currentPage = 1;
     Film.findAll()
         .then((data) => {
-            res.json(data);
+            const quantity = 10;
+            const totalResults = data.length
+            const totalPages = Math.floor(data.length / quantity + 1)
+            let results = []
+            for (let i = (currentPage - 1) * quantity; i < currentPage * quantity; i++) {
+                if (data[i]) results = results.concat(data[i])
+                else break;
+            }
+            const jsonPacket = { page: currentPage, total_pages: totalPages, total_results: totalResults, results: results }
+            res.json(jsonPacket);
         })
         .catch((err) => {
             res.status(500).send({

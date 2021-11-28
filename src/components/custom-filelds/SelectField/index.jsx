@@ -23,12 +23,25 @@ SelectField.defaultProps = {
 };
 
 function SelectField(props) {
-  const { field, form, options, label, placeholder, disabled } = props;
+  const {
+    field,
+    form,
+    options,
+    label,
+    placeholder,
+    disabled,
+    value: propValue,
+  } = props;
   const { name, value } = field;
-  const selectedOption = options.find((option) => option.value === value);
+  const selectedOption = options.find((option) => {
+    const valueSelected = value || propValue;
+    return option.value === valueSelected;
+  });
   const { errors, touched } = form;
   const showError = errors[name] && touched[name];
+  console.log("value default", selectedOption);
 
+  //Override onChange
   const handleSelectedOptionChange = (selectedOption) => {
     const selectedValue = selectedOption
       ? selectedOption.value

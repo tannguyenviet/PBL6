@@ -3,7 +3,6 @@
 
 .dashbox {
   @include flex-row(2, 5rem);
-  border: 1px solid #fff;
 
   &__header {
     @include flex(center, space-between);

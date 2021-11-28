@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import Banner from "../../components/Layouts/Banner";
-import "./MoviePage.scss";
 
 import API from "../../API";
 import Context from "../../Context/Context";
 import TrailerModal from "../../components/Movie/TrailerModal";
 import MovieCard from "../../components/Movie/MovieCard";
+import Pagination from "../../components/Pagination";
+import "./MoviePage.scss";
 
 const subtitle =
   "Your favorite movies, now playing, comming soon movies, movie genres and much more";
@@ -81,6 +82,7 @@ function MovieList(props) {
               ))}
           </ul>
         </div>
+        <Pagination />
       </section>
       {openModal && <TrailerModal src={trailerSrc} />}
     </>

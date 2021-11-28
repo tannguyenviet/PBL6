@@ -1,5 +1,6 @@
 import React from "react";
 import "./Dashbox.scss";
+import { Table } from "reactstrap";
 
 function Dashbox(props) {
   return (
@@ -9,7 +10,7 @@ function Dashbox(props) {
         <div className="dashbox__btn">View all</div>
       </div>
       <div className="dashbox__main">
-        <table>
+        <Table>
           <thead>
             <tr>
               <th>Id</th>
@@ -21,14 +22,14 @@ function Dashbox(props) {
           <tbody>
             {[1, 2, 3, 4, 5].map((item) => (
               <tr key={item}>
-                <td>{item}</td>
+                <th>{item}</th>
                 <td>19:00</td>
                 <td>Movie1</td>
                 <td>40$</td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       </div>
     </div>
   );

@@ -118,14 +118,14 @@ body.hidden {
   }
 }
 
-table {
-  border-collapse: collapse;
+.table {
   border-radius: 6px;
   width: 100%;
   text-align: left;
   margin: 2rem 0;
 
   overflow: hidden;
+  letter-spacing: 1px;
   box-shadow: $shadow-primary;
   color: $secondary-text;
 
@@ -133,7 +133,7 @@ table {
     box-shadow: $shadow-primary;
   }
   th {
-    padding: 1.2rem 2rem 2rem;
+    padding: 2.5rem 2rem;
     font-weight: 600;
   }
 
@@ -191,4 +191,9 @@ button {
   font-size: 1.4rem;
   color: $secondary-text;
   background: $gradient-btn;
+
+  &:focus,
+  &:hover {
+    color: $hover-text;
+  }
 }

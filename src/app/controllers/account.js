@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 //
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const bcrypt = require('bcrypt');
 
 // [POST] ../account/register
 // Create and Save a new account
@@ -55,6 +56,12 @@ exports.register = async(req, res) => {
     };
     newAccount.emailToken = crypto.randomBytes(64).toString("hex");
     newAccount.isVerified = false;
+    // Before - Save account in the database
+    Account.beforeCreate(async(newAccount, options) => {
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(newAccount.password, salt);
+        newAccount.password = hashedPassword;
+    });
     // Save account in the database
     Account.create(newAccount)
         .then((data) => {
@@ -106,7 +113,7 @@ exports.verifyEmail = async(req, res) => {
         });
         if (!account) {
             return res.status(400).send({
-                message: "Token is inValid. Maybe this Account was already created.Please contact us for assistance",
+                message: "Token is inValid. Please contact us for assistance",
             });
         }
         account.emailToken = null;
@@ -137,53 +144,54 @@ exports.verifyEmail = async(req, res) => {
 };
 
 // [POST] ../account/login
-exports.login = (req, res) => {
-    const { username, password } = req.body;
-    Account.findOne({
+exports.login = async(req, res) => {
+    try {
+        const { username, password } = req.body;
+        const account = await Account.findOne({
             where: {
                 [Op.and]: [{ username: username }, { isVerified: true }],
             },
         })
-        .then((account) => {
-            if (!account)
-                return res
-                    .status(400)
-                    .json({ message: "Account is not exists or not yet verified" });
+        if (!account)
+            return res
+                .status(400)
+                .json({ message: "Account is not exists or not yet verified" });
+        //
+        const checkPass = await bcrypt.compare(password, account.password);
+        //
+        if (!checkPass)
+            return res.status(400).json({ message: "Password does not match" });
+        const jwtToken = jwt.sign({ id: account.id, username: account.username },
+            process.env.JWT_SECRET
+        );
 
-            if (account.password !== password)
-                return res.status(400).json({ message: "Password does not match" });
-            const jwtToken = jwt.sign({ id: account.id, username: account.username },
-                process.env.JWT_SECRET
-            );
-            const {
-                id,
-                username,
-                name,
-                phone,
-                email,
-                address,
-                birthday,
-                gender,
-                role_id,
-            } = account;
-            const info = {
-                id,
-                username,
-                name,
-                phone,
-                email,
-                address,
-                birthday,
-                gender,
-                role_id,
-            };
-            return res.json({ info: info, token: jwtToken });
-        })
-        .catch((err) => {
-            return res.status(500).send({
-                message: err.message || "Some error occurred while Login.",
-            });
+        const {
+            id,
+            name,
+            phone,
+            email,
+            address,
+            birthday,
+            gender,
+            role_id,
+        } = account;
+        const info = {
+            id,
+            username,
+            name,
+            phone,
+            email,
+            address,
+            birthday,
+            gender,
+            role_id,
+        };
+        return res.json({ info: info, token: jwtToken });
+    } catch (error) {
+        return res.status(500).send({
+            message: err.message || "Some error occurred while Login.",
         });
+    }
 };
 
 // [GET] ../account/list

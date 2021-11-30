@@ -9,7 +9,7 @@ module.exports = (sequelize, Datatypes) => {
             type: Datatypes.STRING,
         },
         password: {
-            type: Datatypes.STRING,
+            type: Datatypes.STRING(512),
         },
         name: {
             type: Datatypes.STRING
@@ -30,7 +30,7 @@ module.exports = (sequelize, Datatypes) => {
             type: Datatypes.BOOLEAN,
         },
         emailToken: {
-            type: Datatypes.STRING(255),
+            type: Datatypes.STRING(512),
         },
         isVerified: {
             type: Datatypes.BOOLEAN,

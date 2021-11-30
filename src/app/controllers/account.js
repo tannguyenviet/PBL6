@@ -58,7 +58,7 @@ exports.register = async(req, res) => {
     newAccount.isVerified = false;
     // Before - Save account in the database
     Account.beforeCreate(async(newAccount, options) => {
-        const salt = await bcrypt.genSalt(10)
+        var salt = bcrypt.genSaltSync();
         const hashedPassword = await bcrypt.hash(newAccount.password, salt);
         newAccount.password = hashedPassword;
     });
@@ -72,7 +72,7 @@ exports.register = async(req, res) => {
                     pass: process.env.EMAIL_PASSWORD, // ethereal password
                 },
             });
-
+            //const domain = "tuantanminhsanh.hopto.org:8080"
             const msg = {
                 from: '"The Exapress App" <theExpressApp@example.com>', // sender address
                 to: `${email}`, // list of receivers
@@ -124,13 +124,9 @@ exports.verifyEmail = async(req, res) => {
                     rank_number: 0,
                     point_total: 0,
                     point_exchange: 0,
-                    accountId: data.id,
+                    account_id: data.id,
                 };
-                Membership.create(newMember).catch((err) => {
-                    return res.status(500).send({
-                        message: err.message || "Some error occurred while Create Member.",
-                    });
-                });
+                Membership.create(newMember);
             }
             return res.status(200).send({
                 message: "Your account is now verified.",
@@ -158,6 +154,7 @@ exports.login = async(req, res) => {
                 .json({ message: "Account is not exists or not yet verified" });
         //
         const checkPass = await bcrypt.compare(password, account.password);
+        console.log(account.password.length);
         //
         if (!checkPass)
             return res.status(400).json({ message: "Password does not match" });

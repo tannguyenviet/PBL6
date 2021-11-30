@@ -23,8 +23,8 @@ function getDetailForEachFilm(id) {
                     idFilmsOnWeb: data.id,
                     name: data.original_title,
                     time_release: data.release_date,
-                    country: data.production_countries.map(r => r.name).join(', '),
-                    director: data.production_companies.map(r => r.name).join(', '),
+                    country: data.production_countries.slice(0, 10).map(r => r.name).join(', '),
+                    director: data.production_companies.slice(0, 10).map(r => r.name).join(', '),
                     duration: data.runtime,
                     labor: data.adult == true ? "C18" : "C16",
                     stars: null,
@@ -44,7 +44,7 @@ function getStarsForEachFilm(id) {
     let linkStars = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`
     return fetch(linkStars)
         .then(response => response.json())
-        .then(data => data.cast.map(r => r.name).join(', '))
+        .then(data => data.cast.slice(0, 10).map(r => r.name).join(', '))
 }
 
 function getTrailerForEachFilm(id) {
@@ -97,13 +97,13 @@ async function listFilmsIds() {
 // (async() => {
 //     let listIdsNơw = []
 //     let listIdsUp = []
-//     for (let i = 1; i < 10; i++) {
+//     for (let i = 1; i < 5; i++) {
 //         listIdsNơw = listIdsNơw.concat(await getListFilmIds('now_playing', i));
 //         listIdsUp = listIdsUp.concat(await getListFilmIds('upcoming', i));
 //     }
 //     const listMerge = listIdsNơw.concat(listIdsUp.filter((item) => listIdsNơw.indexOf(item) < 0)).sort()
 //     console.log(listMerge)
-//         //console.log(await getListDetailFilms(listIds))
+//     console.log(await getListDetailFilms(listMerge))
 
 // })();
 

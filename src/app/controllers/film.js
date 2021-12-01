@@ -109,6 +109,25 @@ exports.findUpComing = (req, res) => {
         });
 };
 
+// [GET] ../film/category?q=...
+// Retrieve all film 14 days from today
+exports.category = (req, res) => {
+    const cateName = req.query.q;
+    var condition = cateName ? {
+        hashtag: {
+            [Op.like]: `%${cateName}%`
+        }
+    } : null;
+    Film.findAll({ where: condition })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while get films by category."
+            });
+        });
+};
 // [GET] ../film/id
 // Find a single Film with an id
 exports.findOne = (req, res) => {

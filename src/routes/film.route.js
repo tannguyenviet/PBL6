@@ -9,6 +9,8 @@ router.get("/list", film.findAll);
 router.get("/now-playing", film.findNowPlaying);
 //Get UpComing films
 router.get("/up-coming", film.findUpComing);
+//Get films by categories
+router.get("/category", film.category);
 // Create a new film
 router.get("/create", film.create);
 

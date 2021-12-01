@@ -1,13 +1,14 @@
 const db = require("../../utils/db");
 const Theater = db.theater;
+const Account = db.account;
 const Op = db.Sequelize.Op;
 
 // [POST] ../Theater/create
 // Create and Save a new Theater
 exports.create = async(req, res) => {
 
-    const { name, address, city } = req.body;
-    const newTheater = { name, address, city };
+    const { name, address, city, account_id } = req.body;
+    const newTheater = { name, address, city, account_id };
     const listTheaterBefore = await Theater.findAll({
         where: {
             [Op.and]: [{ name: name }]
@@ -74,12 +75,41 @@ exports.findAllCity = (req, res) => {
         });
 };
 
+// [GET] ../theater/manager-available/list
+// Get list manager available for a new Theater
+exports.managerAvailable = async(req, res) => {
+    const managerhasDuty = await Theater.findAll({
+        attributes: ['account_id'],
+        where: {
+            account_id: {
+                [Op.not]: null
+            }
+        }
+    })
+    const managerhasDutyIds = managerhasDuty.map(r => r.account_id)
+    const managerAvailable = Account.findAll({
+        attributes: ['id', 'username', 'name', 'role_id'],
+        where: {
+            role_id: 2,
+            id: {
+                [Op.not]: managerhasDutyIds
+            }
+        }
+    }).then(data => {
+        res.send(data)
+    }).catch(err => {
+        return res.status(500).send({
+            message: err.message || "Error retrieving available manager"
+        });
+    });
+
+};
 // [PUT] ../Theater/id
 // Update a Theater by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
-    const { name, address, city } = req.body;
-    const newTheater = { name, address, city };
+    const { name, address, city, account_id } = req.body;
+    const newTheater = { name, address, city, account_id };
     Theater.update(newTheater, {
             where: { id: id }
         })

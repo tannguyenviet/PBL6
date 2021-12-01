@@ -45,6 +45,21 @@ db.tutorials = tutorialModel(sequelize, Sequelize);
 db.comments = commentModel(sequelize, Sequelize);
 
 //Create relationships
+//// accounts(manager) - theater
+db.account.hasOne(db.theater, {
+    foreignKey: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        name: "account_id"
+    }
+});
+db.theater.belongsTo(db.account, {
+    foreignKey: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        name: "account_id"
+    }
+});
 //// accounts - memberships
 db.account.hasOne(db.membership, {
     foreignKey: {

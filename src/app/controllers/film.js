@@ -7,40 +7,48 @@ const { listFilmsIds, getListDetailFilms } = require("../../utils/createFilms");
 // [GET] ../film/create
 // Import nowPlaying Film from Create_films.js and save in database
 exports.create = (req, res) => {
-    (async() => {
-        // get film IDs from web
-        const listIds = await listFilmsIds();
-        // get film IDs from database
-        const dataFilms = await Film.findAll().catch((err) => {
-            console.log("Error: ", err);
-        });
-        const dataFilmsIds = dataFilms.map((r) => r.idFilmsOnWeb);
-        // Retrieve distinct idFilms between 2 list: dataFilmsIds and listIds
-        const differenceIds = listIds.filter(
-            (x) => !dataFilmsIds.includes(x)
-        );
-        // get new films from differenceIds
-        const differenceFilms = await getListDetailFilms(differenceIds);
-        //save to database
-        if (differenceFilms.length > 0) {
-            Film.bulkCreate(differenceFilms)
-                .then((data) => {
-                    res.json(data);
-                })
-                .catch((err) => {
-                    res.status(500).send({
-                        message: err.message || "Some error occurred while creating the Film.",
-                    });
-                });
-        } else {
-            res.status(200).send({
-                message: "Nothing new films to add into DB.",
+    try {
+        (async() => {
+            // get film IDs from web
+            const listIds = await listFilmsIds();
+            // get film IDs from database
+            const dataFilms = await Film.findAll().catch((err) => {
+                console.log("Error: ", err);
             });
-        }
-    })();
+            const dataFilmsIds = dataFilms.map((r) => r.idFilmsOnWeb);
+            // Retrieve distinct idFilms between 2 list: dataFilmsIds and listIds
+            const differenceIds = listIds.filter(
+                (x) => !dataFilmsIds.includes(x)
+            );
+            // g      et new films from differenceIds
+            const differenceFilms = await getListDetailFilms(differenceIds);
+            //save t   o database
+            if (differenceFilms.length > 0) {
+                Film.bulkCreate(differenceFilms)
+                    .then((data) => {
+                        res.json(data);
+                    })
+                    .catch((err) => {
+                        res.status(500).send({
+                            message: err.message || "Some error occurred while creating the Film.",
+                        });
+                    });
+            } else {
+                res.status(200).send({
+                    message: "Nothing new films to add into DB.",
+                });
+            }
+        })();
+    } catch (error) {
+        res.status(500).send({
+            message: error.message || "Some error occurred while create film.",
+        });
+    }
+
+
 };
 
-// [GET] ../film/list
+// [GET] ../film /list
 // Retrieve all film from the database.
 exports.findAll = (req, res) => {
     let currentPage = req.query.page;
@@ -87,7 +95,7 @@ exports.findNowPlaying = (req, res) => {
 };
 
 // [GET] ../film/up-coming
-// Retrieve all film 14 days from today
+// R    etrieve all film 14 days from today
 exports.findUpComing = (req, res) => {
     const twoWeeksFromNow = new Date(
         new Date().setDate(new Date().getDate() + 27)
@@ -109,8 +117,8 @@ exports.findUpComing = (req, res) => {
         });
 };
 
-// [GET] ../film/category?q=...
-// Retrieve all film 14 days from today
+// [GET] ../film        /category?q=...
+// Retrieve         all film 14 days from today
 exports.category = (req, res) => {
     const cateName = req.query.q;
     var condition = cateName ? {
@@ -128,8 +136,8 @@ exports.category = (req, res) => {
             });
         });
 };
-// [GET] ../film/id
-// Find a single Film with an id
+// [GET] ../film      /id
+// Find a single Fil    m with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
@@ -150,8 +158,8 @@ exports.findOne = (req, res) => {
         });
 };
 
-// [PUT] ../film/id
-// Update a Film by the id in the request
+// [PUT] ../ film/id
+// Updat    e a Film by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
     Film.update(req.body, {

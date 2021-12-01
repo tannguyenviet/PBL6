@@ -16,21 +16,10 @@ exports.register = async(req, res) => {
             message: "username or password can not be empty!",
         });
     }
-    const {
-        username,
-        password,
-        name,
-        phone,
-        email,
-        address,
-        birthday,
-        gender,
-        role_id,
-    } = req.body;
     // check alreadyExistsUserr
     const alreadyExistsUser = await Account.findAll({
         where: {
-            [Op.or]: [{ username: username }, { email: email }],
+            [Op.or]: [{ username: req.body.username }, { email: req.body.email }],
         },
     }).catch((err) => {
         return res.status(500).send({
@@ -42,7 +31,17 @@ exports.register = async(req, res) => {
             .status(409)
             .json({ message: "User with username or email already exists!" });
     }
-
+    const {
+        username,
+        password,
+        name,
+        phone,
+        email,
+        address,
+        birthday,
+        gender,
+        role_id,
+    } = req.body;
     const newAccount = {
         username,
         password,
@@ -145,6 +144,8 @@ exports.login = async(req, res) => {
     try {
         const { username, password } = req.body;
         const account = await Account.findOne({
+            raw: true, // just only return dataValue
+            // attributes: ['id', 'name', 'phone', 'email', 'address', 'birthday', 'gender', 'role_id'],
             where: {
                 [Op.and]: [{ username: username }, { isVerified: true }],
             },
@@ -154,6 +155,7 @@ exports.login = async(req, res) => {
                 .status(400)
                 .json({ message: "Account is not exists or not yet verified" });
         //
+
         const checkPass = await bcrypt.compare(password, account.password);
         console.log(account.password.length);
         //
@@ -162,32 +164,11 @@ exports.login = async(req, res) => {
         const jwtToken = jwt.sign({ id: account.id, username: account.username },
             process.env.JWT_SECRET
         );
-
-        const {
-            id,
-            name,
-            phone,
-            email,
-            address,
-            birthday,
-            gender,
-            role_id,
-        } = account;
-        const info = {
-            id,
-            username,
-            name,
-            phone,
-            email,
-            address,
-            birthday,
-            gender,
-            role_id,
-        };
-        return res.json({ info: info, token: jwtToken });
+        delete account["password"];
+        return res.json({ info: account, token: jwtToken });
     } catch (error) {
         return res.status(500).send({
-            message: err.message || "Some error occurred while Login.",
+            message: error.message || "Some error occurred while Login.",
         });
     }
 };

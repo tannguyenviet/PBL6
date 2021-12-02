@@ -10,11 +10,11 @@ module.exports = (sequelize, Datatypes) => {
         },
         column: {
             type: Datatypes.INTEGER,
-            defaultValue: 8
+            defaultValue: 14
         },
         row: {
             type: Datatypes.INTEGER,
-            defaultValue: 8
+            defaultValue: 7
         },
         // id theather
     }, {

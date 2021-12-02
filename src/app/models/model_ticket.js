@@ -5,26 +5,34 @@ module.exports = (sequelize, Datatypes) => {
                 primaryKey: true,
                 autoIncrement: true
             },
+            amount: {
+                type: Datatypes.INTEGER
+            },
             price: {
                 type: Datatypes.INTEGER,
             },
             time_booking: {
                 type: Datatypes.DATE,
                 defaultValue: sequelize.literal('NOW()'),
-
             },
-
             account_id: {
                 type: Datatypes.INTEGER,
             },
             show_time_id: {
                 type: Datatypes.INTEGER,
             },
-            row: {
-                type: Datatypes.INTEGER,
+            location: {
+                type: Datatypes.STRING,
             },
-            column: {
-                type: Datatypes.INTEGER,
+            ticketHash: {
+                type: Datatypes.STRING(255),
+            },
+            ticketQR: {
+                type: Datatypes.STRING(10000),
+            },
+            check_in: {
+                type: Datatypes.BOOLEAN,
+                defaultValue: false,
             }
 
         }, {

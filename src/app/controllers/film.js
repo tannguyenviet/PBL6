@@ -117,16 +117,25 @@ exports.findUpComing = (req, res) => {
         });
 };
 
-// [GET] ../film        /category?q=...
-// Retrieve         all film 14 days from today
+// [GET] ../film/category?q=...
+// Retrieve film by category (nowPlaying)
 exports.category = (req, res) => {
+    const twoWeeksAgo = new Date(new Date().setDate(new Date().getDate() - 27));
     const cateName = req.query.q;
     var condition = cateName ? {
         hashtag: {
             [Op.like]: `%${cateName}%`
         }
     } : null;
-    Film.findAll({ where: condition })
+    Film.findAll({
+            where: {
+                [Op.and]: [condition, {
+                    time_release: {
+                        [Op.between]: [twoWeeksAgo, new Date()],
+                    },
+                }]
+            }
+        })
         .then(data => {
             res.send(data);
         })
@@ -136,7 +145,7 @@ exports.category = (req, res) => {
             });
         });
 };
-// [GET] ../film      /id
+// [GET] ../film/id
 // Find a single Fil    m with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;

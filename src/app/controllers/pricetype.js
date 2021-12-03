@@ -84,7 +84,7 @@ exports.update = (req, res) => {
                     message: "PriceType was updated successfully."
                 });
             } else {
-                res.send({
+                res.status(404).send({
                     message: `Cannot update PriceType with id=${id}. Maybe nothing changed or PriceType was not found or req.body is empty!`
                 });
             }
@@ -110,7 +110,7 @@ exports.delete = (req, res) => {
                     message: "PriceType was deleted successfully!"
                 });
             } else {
-                res.send({
+                res.status(404).send({
                     message: `Cannot delete PriceType with id=${id}. Maybe PriceType was not found!`
                 });
             }

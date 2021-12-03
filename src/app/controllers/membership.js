@@ -61,7 +61,7 @@ exports.update = (req, res) => {
                     message: "Membership was updated successfully."
                 });
             } else {
-                res.send({
+                res.status(404).send({
                     message: `Cannot update Membership with id=${id}. Maybe nothing changed or Membership was not found or req.body is empty!`
                 });
             }
@@ -87,7 +87,7 @@ exports.delete = (req, res) => {
                     message: "Membership was deleted successfully!"
                 });
             } else {
-                res.send({
+                res.status(404).send({
                     message: `Cannot delete Membership with id=${id}. Maybe Membership was not found!`
                 });
             }

@@ -180,7 +180,7 @@ exports.update = (req, res) => {
                     message: "Film was updated successfully.",
                 });
             } else {
-                res.send({
+                res.status(404).send({
                     message: `Cannot update Film with id=${id}. Maybe Film was not found or req.body is empty!`,
                 });
             }
@@ -206,7 +206,7 @@ exports.delete = (req, res) => {
                     message: "Film was deleted successfully!",
                 });
             } else {
-                res.send({
+                res.status(404).send({
                     message: `Cannot delete Film with id=${id}. Maybe Film was not found!`,
                 });
             }

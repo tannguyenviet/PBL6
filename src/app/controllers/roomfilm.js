@@ -123,7 +123,7 @@ exports.update = (req, res) => {
                     message: "RoomFilm was updated successfully."
                 });
             } else {
-                res.send({
+                res.status(404).send({
                     message: `Cannot update RoomFilm with id=${id}. Maybe nothing changed or RoomFilm was not found or req.body is empty!`
                 });
             }
@@ -149,7 +149,7 @@ exports.delete = (req, res) => {
                     message: "RoomFilm was deleted successfully!"
                 });
             } else {
-                res.send({
+                res.status(404).send({
                     message: `Cannot delete RoomFilm with id=${id}. Maybe RoomFilm was not found!`
                 });
             }

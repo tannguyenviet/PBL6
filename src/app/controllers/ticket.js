@@ -66,7 +66,7 @@ exports.findLocationsByShowtimeId = (req, res) => {
                 return res.send(listLocationsBookedInShowtime);
             } else {
                 return res.status(404).send({
-                    message: `Cannot find any ticket - locations with idShowtime = $ { id }.`
+                    message: `Cannot find any ticket - locations with idShowtime = ${id}.`
                 });
             }
         })
@@ -151,8 +151,8 @@ exports.delete = (req, res) => {
                     message: "Ticket was deleted successfully!"
                 });
             } else {
-                res.send({
-                    message: `Cannot delete Ticket with id = $ { id }.Maybe Ticket was not found!`
+                res.status(404).send({
+                    message: `Cannot delete Ticket with id = ${id}.Maybe Ticket was not found!`
                 });
             }
         })

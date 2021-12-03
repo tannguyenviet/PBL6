@@ -28,7 +28,7 @@ exports.register = async(req, res) => {
     });
     if (alreadyExistsUser.length > 0) {
         return res
-            .status(409)
+            .status(400)
             .json({ message: "User with username or email already exists!" });
     }
     const {
@@ -112,7 +112,7 @@ exports.verifyEmail = async(req, res) => {
             where: { emailToken: req.query.token },
         });
         if (!account) {
-            return res.status(400).send({
+            return res.status(404).send({
                 message: "Token is inValid. Please contact us for assistance",
             });
         }
@@ -231,7 +231,7 @@ exports.update = (req, res) => {
                     message: "account was updated successfully.",
                 });
             } else {
-                res.send({
+                res.status(404).send({
                     message: `Cannot update account with id = ${id}.Maybe nothing changed or account was not found or req.body is empty!`,
                 });
             }
@@ -257,7 +257,7 @@ exports.delete = (req, res) => {
                     message: "account was deleted successfully!",
                 });
             } else {
-                res.send({
+                res.status(404).send({
                     message: `Cannot delete account with id = ${id}.Maybe account was not found!`,
                 });
             }

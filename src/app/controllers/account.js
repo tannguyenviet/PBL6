@@ -58,8 +58,8 @@ exports.register = async(req, res) => {
     // Before - Save account in the database
     Account.beforeCreate(async(newAccount, options) => {
         const saltRounds = 10;
-        const salt = await bcrypt.genSalt(saltRounds);
-        const hashedPassword = await bcrypt.hash(newAccount.password, salt);
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hashedPassword = bcrypt.hashSync(newAccount.password, salt);
         newAccount.password = hashedPassword;
     });
     // Save account in the database

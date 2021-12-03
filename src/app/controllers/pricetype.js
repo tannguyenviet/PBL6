@@ -40,7 +40,30 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             return res.status(500).send({
-                message: "Error retrieving all PriceTypes"
+                message: err.message || "Error retrieving all PriceTypes"
+            });
+        });
+};
+
+
+// [GET] ../PriceType/id
+// Retrieve a PriceTypes by id
+exports.findByID = (req, res) => {
+    const id = req.params.id;
+
+    PriceType.findByPk(id)
+        .then(data => {
+            if (data) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: `Cannot find PriceType with id=${id}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Error retrieving PriceType with id=" + id
             });
         });
 };

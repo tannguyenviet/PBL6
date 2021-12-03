@@ -14,6 +14,9 @@ router.get("/city/list", theater.findAllCity);
 // Get list manager available for a new Theater
 router.get("/manager-available/list", theater.managerAvailable);
 
+// Get a Theater by id Account (manager)
+router.get("/manager/:id", theater.findByIdManager);
+
 // Update a theater with id
 router.put("/:id", theater.update);
 

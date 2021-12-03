@@ -8,6 +8,9 @@ const router = require("express").Router();
 // Retrieve all pricetype of a city
 router.get("/list", pricetype.findAll);
 
+// Retrieve a pricetype by id
+router.get("/:id", pricetype.findByID);
+
 // Update a pricetype with id
 router.put("/:id", pricetype.update);
 

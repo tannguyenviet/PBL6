@@ -104,6 +104,30 @@ exports.managerAvailable = async(req, res) => {
     });
 
 };
+
+exports.findByIdManager = (req, res) => {
+    const id = req.params.id;
+    Theater.findOne({
+            where: {
+                account_id: id
+            }
+        })
+        .then(data => {
+            if (data) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: `Cannot find Theater with idAccount=${id}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Error retrieving Theater with idAccount=" + id
+            });
+        });
+};
+
 // [PUT] ../Theater/id
 // Update a Theater by the id in the request
 exports.update = (req, res) => {

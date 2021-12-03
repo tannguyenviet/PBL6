@@ -31,6 +31,29 @@ const Op = db.Sequelize.Op;
 //             });
 //         });
 // };
+
+// [GET] ../RoomFilm/id
+// Retrieve a RoomFilm by id
+exports.findByID = (req, res) => {
+    const id = req.params.id;
+    RoomFilm.findByPk(id)
+        .then(data => {
+            if (data) {
+                res.send(data);
+            } else {
+                res.status(404).send({
+                    message: `Cannot find RoomFilm with id=${id}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Error retrieving RoomFilm with id=" + id
+            });
+        });
+};
+
+
 function convertUTCDateToLocalDate(date) {
     date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     return date;

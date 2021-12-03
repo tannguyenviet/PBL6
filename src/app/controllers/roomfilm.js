@@ -58,7 +58,7 @@ function convertUTCDateToLocalDate(date) {
     date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     return date;
 }
-// [GET] ../RoomFilm/list 
+// [GET] ../RoomFilm/list?idTheater=&state=
 // Retrieve all RoomFilms (with state or idTheater)
 exports.findAll = async(req, res) => {
     const status = req.query.status;

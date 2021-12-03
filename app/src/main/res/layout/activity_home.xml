@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.intern.plb6.ui.home.viewmodel.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_primary"
+        tools:context=".ui.home.view.HomeActivity">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="@dimen/dimen_50"
+            android:layout_height="@dimen/dimen_50"
+            android:layout_marginStart="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_28"
+            android:src="@drawable/ic_user_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_16"
+            android:text="@string/welcome_sanh"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_16"
+            app:layout_constraintBottom_toBottomOf="@id/imgProfile"
+            app:layout_constraintStart_toEndOf="@id/imgProfile"
+            app:layout_constraintTop_toTopOf="@id/imgProfile" />
+
+        <ImageView
+            android:id="@+id/imgTicket"
+            android:layout_width="@dimen/dimen_32"
+            android:layout_height="@dimen/dimen_32"
+            android:layout_marginEnd="@dimen/dimen_24"
+            android:src="@drawable/ic_baseline_location_city_24"
+            app:layout_constraintBottom_toBottomOf="@id/imgProfile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imgProfile" />
+
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_32"
+            android:background="@drawable/bg_input"
+            android:drawableStart="@drawable/ic_baseline_search_24"
+            android:drawablePadding="@dimen/dimen_8"
+            android:hint="@string/search_movie_here"
+            android:paddingVertical="@dimen/dimen_10"
+            android:paddingStart="@dimen/dimen_16"
+            android:textColor="@color/white"
+            android:textColorHint="@color/color_hint"
+            android:textSize="@dimen/font_14"
+            app:layout_constraintTop_toBottomOf="@id/imgProfile"
+            tools:ignore="RtlSymmetry" />
+
+        <TextView
+            android:id="@+id/txtTitleCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_32"
+            android:text="@string/category"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_16"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtSearch" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rclShowTime"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_40"
+            android:layout_marginStart="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_12"
+            app:layout_constraintTop_toBottomOf="@id/txtTitleCategory" />
+
+        <TextView
+            android:id="@+id/txtTitleShowing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_24"
+            android:text="@string/now_showing"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_16"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rclShowTime" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rclFilm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTitleShowing" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

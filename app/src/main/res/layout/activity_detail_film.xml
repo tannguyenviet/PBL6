@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.intern.plb6.ui.detailfilm.DetailViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.detailfilm.DetailFilmActivity">
+
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/imgFilm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_test" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_gradient_detai_film"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_gradient_detai_film"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingStart="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_300">
+
+            <TextView
+                android:id="@+id/txtNameFilm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="No time to die"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_32"/>
+
+            <RatingBar
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="10"
+                app:layout_constraintTop_toBottomOf="@id/txtNameFilm"
+                android:rating="4"
+                app:layout_constraintStart_toStartOf="parent"
+                style="?android:attr/ratingBarStyleIndicator"
+                android:theme="@style/RatingBar"/>
+
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_input_light"
+                android:text="3-12-2021"
+                android:textSize="@dimen/font_16"
+                app:layout_constraintTop_toBottomOf="@id/rating"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="@dimen/dimen_12"
+                android:textColor="@color/white"
+                android:paddingHorizontal="@dimen/font_16"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rclCity"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_30"
+                android:layout_marginTop="@dimen/dimen_4"
+                app:layout_constraintTop_toBottomOf="@id/txtDate" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rclTheater"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_30"
+                android:layout_marginTop="@dimen/dimen_4"
+                app:layout_constraintTop_toBottomOf="@id/rclCity" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rclTime"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_30"
+                android:visibility="invisible"
+                android:layout_marginTop="@dimen/dimen_4"
+                app:layout_constraintTop_toBottomOf="@id/rclTheater" />
+
+            <TextView
+                android:id="@+id/txtNoShowTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="There are no showtimes in this theater"
+                android:textColor="#00FF0A"
+                android:visibility="invisible"
+                android:textSize="@dimen/font_14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rclTheater"
+                android:layout_marginTop="@dimen/dimen_8"/>
+
+            <TextView
+                android:id="@+id/txtLengthMovie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Movie length: 2 hour 14 min"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rclTime"
+                android:layout_marginTop="@dimen/dimen_8"/>
+
+            <TextView
+                android:id="@+id/txtDetailFilm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bond has left active service and is enjoying a tranquil life in Jamaica. His peace is short-lived when his old friend Felix Leiter from the CIA turns up asking for help. The mission to rescue a kidnapped scientist turns out to be far more treacherous than expected, leading Bond onto the trail of a mysterious villain armed with dangerous new technology."
+                android:layout_marginHorizontal="@dimen/dimen_24"
+                android:textColor="#9C9292"
+                android:textSize="@dimen/font_16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtLengthMovie"
+                android:layout_marginTop="@dimen/dimen_8"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reservation"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="@dimen/dimen_16"
+                android:paddingHorizontal="@dimen/dimen_50"
+                android:textSize="@dimen/font_16"
+                android:paddingVertical="@dimen/dimen_12"
+                android:background="@drawable/bg_button"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

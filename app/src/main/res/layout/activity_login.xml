@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.intern.plb6.ui.login.viewmodel.LoginViewModel" />
+
+        <variable
+            name="navigator"
+            type="com.intern.plb6.ui.login.view.LoginNavigator" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_primary"
+        tools:context=".ui.login.view.LoginActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/top_login"
+                android:text="@string/sign_in"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_22"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/mg_start_login"
+                android:layout_marginTop="@dimen/dimen_32"
+                android:text="@string/email"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_14" />
+
+            <EditText
+                android:id="@+id/txtUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/mg_start_login"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:autofillHints="@null"
+                android:background="@drawable/bg_input"
+                android:drawableStart="@drawable/ic_baseline_mail_outline_24"
+                android:drawablePadding="@dimen/dimen_8"
+                android:elevation="@dimen/dimen_8"
+                android:hint="@string/hint_email"
+                android:textColor="@color/white"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingVertical="@dimen/dimen_12"
+                android:paddingStart="@dimen/dimen_16"
+                android:textColorHint="@color/color_hint"
+                android:textSize="@dimen/font_16"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/mg_start_login"
+                android:layout_marginTop="@dimen/dimen_16"
+                android:text="@string/password"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_14" />
+
+            <EditText
+                android:id="@+id/txtPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/mg_start_login"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:autofillHints="@null"
+                android:background="@drawable/bg_input"
+                android:drawableStart="@drawable/ic_outline_lock_24"
+                android:drawablePadding="@dimen/dimen_8"
+                android:textColor="@color/white"
+                android:elevation="@dimen/dimen_8"
+                android:hint="@string/enter_password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingVertical="@dimen/dimen_12"
+                android:paddingStart="@dimen/dimen_16"
+                android:textColorHint="@color/color_hint"
+                android:textSize="@dimen/font_16"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginStart="@dimen/mg_start_login"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/mg_start_login"
+                android:text="@string/forgot_pass"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_14"
+                tools:ignore="RtlHardcoded" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/mg_start_login"
+                android:button="@drawable/custom_checkbox"
+                android:gravity="center_vertical"
+                android:text="@string/remember_me"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_14" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/mg_start_login"
+                android:layout_marginTop="@dimen/dimen_24"
+                android:background="@drawable/bg_button"
+                android:gravity="center"
+                android:paddingVertical="@dimen/dimen_8"
+                android:text="@string/login"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_14"
+                android:onClick="@{() -> navigator.login()}"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:layout_marginBottom="@dimen/dimen_16"
+            android:gravity="center"
+            android:text="@string/don_t_have_an_account_sign_up"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{() -> navigator.openRegisterActivity()}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

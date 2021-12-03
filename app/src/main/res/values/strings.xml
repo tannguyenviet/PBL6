@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">PLB6</string>
+    <string name="email">Email</string>
+    <string name="hint_email">Enter your Email</string>
+    <string name="enter_password">Enter your Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="forgot_pass">Forgot password?</string>
+    <string name="remember_me">Remember me</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="or">- OR -</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an Account? <b>Sign up</b></string>
+    <string name="register">Register</string>
+    <string name="have_an_account_sign_in">Have an Account ? <b>Sign in</b></string>
+    <string name="welcome_sanh">welcome <b>Sanh</b></string>
+    <string name="search_movie_here">Search movie here...</string>
+    <string name="category">Category</string>
+    <string name="now_showing">Now Showing</string>
+    <string name="waiting_for_loading">Please waiting for loading!</string>
+    <string name="name">Name</string>
+    <string name="enter_your_name">Enter your Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="phone">Phone</string>
+    <string name="enter_your_phone">Enter your Phone</string>
+    <string name="choose_movie_theater">Choose Movie Theater</string>
+    <string name="city">City</string>
+    <string name="movie_theater">Movie Theater</string>
+    <string name="time_start">Time start</string>
+    <string name="time_end">Time End</string>
+    <string name="available">Available</string>
+</resources>

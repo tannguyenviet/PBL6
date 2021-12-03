@@ -1,0 +1,1 @@
+class City : ArrayList<CityItem>()

@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import BounceLoader from "react-spinners/BounceLoader";
+import { ToastContainer } from "react-toastify";
 
-import "./sass/app.scss";
 import ButtonToTop from "./components/Layouts/ButtonToTop/ButtonToTop";
 import Header from "./components/Layouts/Header";
 import Footer from "./components/Layouts/Footer";
 import Context from "./Context/Context";
+import "./sass/app.scss";
 
 function App(props) {
   //Context
@@ -44,6 +45,7 @@ function App(props) {
       <ButtonToTop active={active} />
       <Header active={active} />
       <main>{props.children}</main>
+      <ToastContainer position="bottom-right" autoClose={4000} theme="dark" />
       <Footer />
     </>
   );

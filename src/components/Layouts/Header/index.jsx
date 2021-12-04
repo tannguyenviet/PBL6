@@ -10,6 +10,7 @@ function Header(props) {
 
   //Context
   const context = useContext(Context);
+  const { setLogined } = context;
 
   //States
   const { active } = props;
@@ -18,9 +19,10 @@ function Header(props) {
   //Functions
   const handleLogOut = (e) => {
     e.preventDefault();
+    setLogined(false);
+    localStorage.removeItem("isLogined");
     localStorage.removeItem("user_info");
     localStorage.removeItem("token");
-    context.setLogined(false);
     history.push("/");
   };
 

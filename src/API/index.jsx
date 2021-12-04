@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export const API_LINK = "http://192.168.30.103:8081";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const PORT = process.env.REACT_APP_PORT;
 
 export default axios.create({
-  baseURL: `http://192.168.30.103:8081`,
+  baseURL: `${BASE_URL}:${PORT}`,
 });

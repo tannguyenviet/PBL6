@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { useHistory, useLocation } from "react-router-dom";
 import Select from "react-select";
+import { toast } from "react-toastify";
 
+import PropTypes from "prop-types";
 import "./TicketForm.scss";
 import Context from "../../../Context/Context";
-import ToastMessage from "../../Layouts/ToastMessage";
 import { style, theme } from "./TicketFormSetup";
 import API from "../../../API";
 
@@ -13,12 +13,6 @@ import API from "../../../API";
 //   { value: "danang", label: "Da Nang" },
 //   { value: "hcm", label: "Ho Chi Minh" },
 //   { value: "hanoi", label: "Ha Noi" },
-// ];
-
-// const listTheater = [
-//   { value: "1", label: "Rap 1" },
-//   { value: "2", label: "Rap 2" },
-//   { value: "3", label: "Rap 3" },
 // ];
 
 function TicketForm(props) {
@@ -38,6 +32,7 @@ function TicketForm(props) {
       return { theater: theaterSelected, city: citySelected };
     }
   });
+
   const [listCity, setListCity] = useState([]);
   const [cityName, setCityName] = useState(() => {
     const ticketInfo = JSON.parse(sessionStorage.getItem("ticket_info"));
@@ -47,9 +42,6 @@ function TicketForm(props) {
     return "";
   });
   const [listTheater, setListTheater] = useState([]);
-
-  //Active toast
-  const [toastMessage, setToastMessage] = useState();
 
   //context
   const context = useContext(Context);
@@ -141,54 +133,45 @@ function TicketForm(props) {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const { date, city, movie, theater } = ticketInfo;
     let flag = true;
 
-    if (!theater) {
-      setToastMessage({
-        type: "error",
-        mess: "Theater is not selected",
-      });
+    const { date, city, movie, theater } = ticketInfo;
+    const userInfo = JSON.parse(localStorage.getItem("user_info"));
+    if (!userInfo) {
+      toast.error("Please login to get your ticket");
       flag = false;
+      return;
+    }
+
+    if (!theater) {
+      toast.error("Theater is not selected");
+      flag = false;
+      return;
     }
 
     if (!date) {
-      setToastMessage({
-        type: "error",
-        mess: "Date is not selected",
-      });
+      toast.error("Date is not selected");
       flag = false;
+      return;
     }
 
     if (!city) {
-      setToastMessage({
-        type: "error",
-        mess: "City is not selected",
-      });
+      toast.error("City is not selected");
       flag = false;
+      return;
     }
 
     if (!movie && location.pathname === "/") {
-      setToastMessage({
-        type: "error",
-        mess: "Movie is not selected",
-      });
+      toast.error("Movie is not selected");
       flag = false;
+      return;
     }
 
     if (flag) {
-      const userInfo = JSON.parse(localStorage.getItem("user_info"));
-      if (!userInfo) {
-        setToastMessage({
-          type: "error",
-          mess: "Please login to get your ticket",
-        });
-      } else {
-        sessionStorage.setItem("ticket_info", JSON.stringify(ticketInfo)); //Form valid -> save as sessionStore
-        location.pathname === "/"
-          ? history.push(`/movie/detail/${ticketInfo.movie.value}`) // At home -> to detail page
-          : history.push("/seat"); // at detail -> to seat page
-      }
+      sessionStorage.setItem("ticket_info", JSON.stringify(ticketInfo)); //Form valid -> save as sessionStore
+      location.pathname === "/"
+        ? history.push(`/movie/detail/${ticketInfo.movie.value}`) // At home -> to detail page
+        : history.push("/seat"); // at detail -> to seat page
     }
   };
 
@@ -199,9 +182,6 @@ function TicketForm(props) {
       id="search-ticket__form"
       onSubmit={handleFormSubmit}
     >
-      {toastMessage && (
-        <ToastMessage mess={toastMessage} setMess={setToastMessage} />
-      )}
       {props.search && (
         <div className="form-group">
           <div className="select-bar">
@@ -271,19 +251,3 @@ TicketForm.propTypes = {
 };
 
 export default React.memo(TicketForm);
-
-//Form search movies
-// <div className="form-group search">
-//   <input type="text" placeholder="Search for Movies" />
-//   <span>
-//     <i className="fas fa-search"></i>
-//   </span>
-// </div>
-
-//-------------------------------------
-
-/* <select name="city" id="">
-            <option value="">Rạp 1</option>
-            <option value="">Rạp 2</option>
-            <option value="">Rạp 3</option>
-          </select> */

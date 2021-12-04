@@ -39,7 +39,6 @@ function SelectField(props) {
   });
   const { errors, touched } = form;
   const showError = errors[name] && touched[name];
-  console.log("value default", selectedOption);
 
   //Override onChange
   const handleSelectedOptionChange = (selectedOption) => {

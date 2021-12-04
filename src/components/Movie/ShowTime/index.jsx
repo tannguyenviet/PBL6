@@ -1,11 +1,22 @@
-import React from "react";
-
+import React, { useContext } from "react";
+import Context from "../../../Context/Context";
 import "./ShowTime.scss";
-// import API from "../../../API";
 
 function ShowTime(props) {
-  //Functions
   const listShowTime = props.showtime;
+
+  const { ticketInfo, setTicketInfo } = useContext(Context);
+
+  //Functions
+  const handleToSeatPage = (showtime) => {
+    const newTicketInfo = {
+      ...ticketInfo,
+      showtime,
+    };
+    setTicketInfo(newTicketInfo);
+    sessionStorage.setItem("ticket_info", JSON.stringify(newTicketInfo));
+  };
+
   return (
     <div className="showtime__info">
       <div className="showtime__movie">
@@ -26,7 +37,12 @@ function ShowTime(props) {
         <div className="showtime__group">
           {listShowTime &&
             listShowTime.map((st) => (
-              <button form="search-ticket__form" type="submit" key={st.id}>
+              <button
+                form="search-ticket__form"
+                type="submit"
+                key={st.id}
+                onClick={() => handleToSeatPage(st)}
+              >
                 {st.time_start.substr(11, 5)}
               </button>
             ))}

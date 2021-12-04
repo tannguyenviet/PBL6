@@ -38,14 +38,6 @@ function LoginForm(props) {
     let flag = true;
     const { username, password } = loginInfo;
 
-    // if (!isEmail(email)) {
-    //   setFormErrors((prevErrors) => ({
-    //     ...prevErrors,
-    //     email: "Email is invalid",
-    //   }));
-    //   flag = false;
-    // }
-
     if (!username || username.trim().length === 0) {
       setFormErrors((prevErrors) => ({
         ...prevErrors,
@@ -75,6 +67,7 @@ function LoginForm(props) {
         if (res.status === 200) {
           localStorage.setItem("user_info", JSON.stringify(res.data.info));
           localStorage.setItem("token", JSON.stringify(res.data.token));
+          localStorage.setItem("isLogined", true);
           context.setLogined(true);
           context.setLoading(true);
           setTimeout(() => {

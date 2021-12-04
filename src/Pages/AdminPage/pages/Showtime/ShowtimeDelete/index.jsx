@@ -43,8 +43,8 @@ function ShowtimeDelete(props) {
 
 ShowtimeDelete.propTypes = {
   toggle: PropTypes.bool,
-  onOpen: PropTypes.bool,
-  showtimeId: PropTypes.string,
+  onOpen: PropTypes.func,
+  showtimeId: PropTypes.number,
   setUpdated: PropTypes.func,
 };
 
@@ -55,4 +55,4 @@ ShowtimeDelete.defaultProps = {
   setUpdated: null,
 };
 
-export default ShowtimeDelete;
+export default React.memo(ShowtimeDelete);

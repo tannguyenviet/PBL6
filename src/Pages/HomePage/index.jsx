@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import API from "../../API";
 import Context from "../../Context/Context";
@@ -8,13 +9,13 @@ import TicketForm from "../../components/Ticket/TicketForm";
 import MovieCard from "../../components/Movie/MovieCard";
 import CarouselSection from "../../components/Layouts/CarouselSection";
 
-function HomePage(props) {
+function HomePage() {
   //States
   const [nowPlayingList, setNowPlayingList] = useState([]); //Ticket form + carrousel
   const [trailerSrc, setTrailerSrc] = useState();
 
   const context = useContext(Context);
-  const { openModal } = context;
+  const { openModal, setTicketInfo, today } = context;
 
   sessionStorage.removeItem("ticket_info"); //Remove session storeage of ticket info when back to homepage
 
@@ -28,11 +29,14 @@ function HomePage(props) {
           setNowPlayingList(res.data);
         }
       } catch (error) {
-        console.log(error);
+        toast.error(error);
       }
     };
 
     getNowPlayingMovie();
+
+    setTicketInfo({ date: today }); //Reset ticket info in useContext when back to home page
+    // eslint-disable-next-line
   }, []);
 
   return (

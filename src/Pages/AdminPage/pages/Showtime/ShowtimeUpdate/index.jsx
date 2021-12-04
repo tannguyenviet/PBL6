@@ -1,117 +1,52 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { Button, Modal, ModalHeader, ModalBody, FormGroup } from "reactstrap";
 import { Formik, Form, Field } from "formik";
 import SelectField from "../../../../../components/custom-filelds/SelectField";
 import InputField from "../../../../../components/custom-filelds/InputFIeld";
 import API from "../../../../../API";
-import PropTypes from "prop-types";
 
-ShowtimeUpdate.propTypes = {};
+const timeToNumber = (time) => {
+  return parseInt(time.substr(11, 5).replace(":", ""));
+};
+
+const parseISOLocalTime = (time) => {
+  var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+  var localISOTime = new Date(new Date(time) - tzoffset).toISOString();
+  return localISOTime;
+};
 
 function ShowtimeUpdate(props) {
-  const { toggle, onOpen, showtimeInfo, setUpdated } = props;
+  const {
+    toggle,
+    onOpen,
+    showtimeInfo,
+    setUpdated,
+    listMovie,
+    listPriceType,
+    listRoomFilm,
+  } = props;
+  console.log("Showtime Info: ", showtimeInfo);
 
-  //States
-  const [listMovie, setListMovie] = useState([]);
-  const [listPriceType, setListPriceType] = useState([]);
-  const [listRoomFilm, setListRoomFilm] = useState([]);
-
-  //Get Movies
-  useEffect(() => {
-    const getNowPlayingMovie = async () => {
-      try {
-        const url = "/film/now-playing";
-        const res = await API.get(url);
-        if (res.status === 200) {
-          const listNowPlaying = res.data.map((movie) => {
-            return { value: movie.id, label: movie.name };
-          });
-          setListMovie(listNowPlaying);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getNowPlayingMovie();
-  }, []);
-
-  //Get Price Type
-  useEffect(() => {
-    const getPriceTypes = async () => {
-      try {
-        const url = "/pricetype/list";
-        const res = await API.get(url);
-        if (res.status === 200) {
-          const listPrice = res.data.map((type) => {
-            return {
-              value: type.id,
-              label: `${type.description} (${type.price})`,
-            };
-          });
-          setListPriceType(listPrice);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getPriceTypes();
-  }, []);
-
-  //Get Room Film (available Manager Theater 1)
-  useEffect(() => {
-    const getRoomFilm = async () => {
-      try {
-        const idTheater = 1;
-        const url = `/roomfilm/list?idTheater=${idTheater}&status=available`;
-        const res = await API.get(url);
-        if (res.status === 200) {
-          const listRoom = res.data.map((room) => {
-            return {
-              value: room.id,
-              label: `${room.name} (${room.row} x ${room.column})`,
-            };
-          });
-          setListRoomFilm(listRoom);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getRoomFilm();
-  }, []);
-
-  console.log("info", showtimeInfo);
-  const { id, film_id, price_type_id, room_film_id, time_start, time_end } =
-    showtimeInfo;
   //Function
-  const timeToNumber = (time) => {
-    return parseInt(time.substr(11, 5).replace(":", ""));
-  };
-
-  const parseISOLocalTime = (time) => {
-    var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
-    var localISOTime = new Date(new Date(time) - tzoffset).toISOString();
-    return localISOTime;
-  };
 
   const handleFormSubmit = async (values) => {
-    console.log("submit", values);
     let flag = true;
+
     const { film_id, price_type, room_film, time_end, time_start } = values;
     if (time_end.slice(0, 11) !== time_start.slice(0, 11)) {
-      alert("Invalid showtime");
+      toast.error("Invalid showtime");
       flag = false;
       return;
     }
+
     if (timeToNumber(time_start) >= timeToNumber(time_end)) {
-      alert("Time end must be later");
+      toast.error("Time end must be later");
       flag = false;
       return;
     }
+
     const updateShowtime = {
       film_id,
       price_type_id: price_type,
@@ -119,22 +54,29 @@ function ShowtimeUpdate(props) {
       time_start: parseISOLocalTime(time_start),
       time_end: parseISOLocalTime(time_end),
     };
-    try {
-      const url = `/showtime/${id}`;
-      const res = await API.put(url, updateShowtime);
-      console.log(res);
-      if (res.status === 200) {
-        setUpdated();
-        onOpen();
+
+    if (flag) {
+      try {
+        const url = `/showtime/${id}`;
+        const res = await API.put(url, updateShowtime);
+        console.log(res);
+        if (res.status === 200) {
+          setUpdated();
+          onOpen();
+          toast.success("Update successfully");
+        }
+      } catch (error) {
+        toast.error(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
   const handleCloseModal = () => {
     onOpen();
   };
+
+  const { id, film_id, price_type_id, room_film_id, time_start, time_end } =
+    showtimeInfo;
 
   const initialValues = {
     film_id,
@@ -163,8 +105,8 @@ function ShowtimeUpdate(props) {
             onSubmit={(values) => handleFormSubmit(values)}
           >
             {(formikProps) => {
-              const { values, errors, touched } = formikProps;
-              console.log({ values, errors, touched });
+              const { dirty } = formikProps;
+              // console.log({ values, errors, touched });
               return (
                 <Form>
                   <div className="form-side row">
@@ -212,7 +154,9 @@ function ShowtimeUpdate(props) {
                   </div>
                   <div className="form-options">
                     <FormGroup>
-                      <Button type="submit">Update</Button>
+                      <Button type="submit" disabled={!dirty}>
+                        Update
+                      </Button>
                     </FormGroup>
                     <FormGroup>
                       <Button onClick={handleCloseModal}>Cancel</Button>

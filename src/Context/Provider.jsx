@@ -7,7 +7,11 @@ const getCurrentDate = () => {
 };
 
 function MyProvider(props) {
-  const [logined, setLogined] = useState(false); //Change login btn -> username
+  const [logined, setLogined] = useState(() => {
+    const isLogined = localStorage.getItem("isLogined");
+    return isLogined || false;
+  }); //Change login btn -> username
+
   const [loading, setLoading] = useState(false); // Preloader
   const [openModal, setOpenModal] = useState(false); //Trailer modal
   const today = getCurrentDate();

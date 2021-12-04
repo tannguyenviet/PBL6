@@ -15,7 +15,7 @@
   }
   &-list {
     @include flex(center);
-    gap: 1.5rem;
+    gap: 1.5em 3rem;
   }
 
   &-guide {
@@ -43,8 +43,8 @@
   &-img {
     @include flex(center, center);
     cursor: pointer;
-    width: 4.2rem;
-    height: 4.2rem;
+    width: 4.5rem;
+    height: 4.5rem;
     background: url("../../assets/images/others/seat.png") no-repeat center /
       cover;
     font-size: 1.2rem;
@@ -90,10 +90,11 @@
 }
 
 .selecting {
-  filter: hue-rotate(240deg) saturate(3) contrast(90%);
+  filter: hue-rotate(300deg) saturate(3) contrast(90%);
 }
 .selected {
   filter: hue-rotate(130deg) saturate(1.5);
+  pointer-events: none;
 }
 .vip {
   filter: hue-rotate(60deg) saturate(2);

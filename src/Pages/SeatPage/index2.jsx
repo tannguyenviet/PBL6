@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import Banner from "../../components/Layouts/Banner";
 import TicketSummary from "../../components/Ticket/TicketSummary";
@@ -10,55 +9,30 @@ import "./SeatPage.scss";
 
 const subtitle = "Get your seats and enjoy the movie with friends";
 
-function SeatPage() {
-  const listRow = ["A", "B", "C", "D", "E", "F", "G", "H"];
-  const listCol = [1, 2, 3, 4, 5, 6, 7, 8];
+function SeatPage(props) {
+  const listRow = ["A", "B", "C", "D", "E", "F", "G"];
+  const listCol = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
-  const { ticketInfo, setTicketInfo } = useContext(Context);
+  const { ticketInfo } = useContext(Context);
+
   const history = useHistory();
 
   const [selectingSeats, setSelectingSeats] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [priceType, setPriceType] = useState({});
+  console.log("selected seats", selectedSeats);
 
-  //Get Selected Seat
+  const getSelectedSeats = async () => {
+    try {
+      const url = `http://localhost:8081/ticket/location/list?idShowtime=${ticketInfo.showtimeId}`;
+      const res = await API.get(url);
+      setSelectedSeats(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const getSelectedSeats = async () => {
-      try {
-        const url = `/ticket/location/list?idShowtime=${ticketInfo.showtime.id}`;
-        const res = await API.get(url);
-        if (res.status === 200) {
-          setSelectedSeats(res.data);
-        } else return;
-      } catch (error) {
-        toast.error(error.message);
-      }
-    };
-
     getSelectedSeats();
-  }, [ticketInfo.showtime.id]);
-
-  //Get Price Type
-  useEffect(() => {
-    const getPriceTypes = async () => {
-      try {
-        const url = `/pricetype/list`;
-        const res = await API.get(url);
-        if (res.status === 200) {
-          const listPriceType = res.data;
-          const price = listPriceType.find(
-            (p) => p.id === ticketInfo.showtime.price_type_id
-          );
-          setPriceType(price);
-        }
-      } catch (error) {
-        toast.error(error.mesage);
-      }
-    };
-
-    getPriceTypes();
-    // eslint-disable-next-line
-  }, []);
+  }, [ticketInfo.showtimeId]);
 
   const handleSelectSeat = (e) => {
     const selectingSeat = e.target.dataset.value;
@@ -74,20 +48,8 @@ function SeatPage() {
     });
   };
 
-  //Handle Forward to Payment Page
   const handleSeatPlanProceed = () => {
-    if (selectingSeats.length > 0) {
-      const newTicketInfo = {
-        ...ticketInfo,
-        locations: selectingSeats,
-        priceType,
-      };
-      setTicketInfo(newTicketInfo);
-      sessionStorage.setItem("ticket_info", JSON.stringify(newTicketInfo));
-      history.push("/payment");
-    } else {
-      toast.error("Please select your seats");
-    }
+    history.push("/payment");
   };
 
   return (
@@ -103,34 +65,32 @@ function SeatPage() {
             </div>
           </div>
           <div className="seat-area">
-            {listRow.reverse().map((row) => (
+            {listRow.reverse().map((row, indexRow) => (
               <div className="seat-row" key={row}>
                 <span>{row}</span>
                 <ul className="seat-list">
-                  {listCol.map((col) => {
-                    if (selectingSeats.includes((row + col).toString())) {
+                  {listCol.map((col, indexCol) => {
+                    if (selectingSeats.includes((row + indexCol).toString())) {
                       return (
                         <li
                           className="seat-img selecting "
-                          key={row + col}
-                          data-value={row + col}
+                          key={row + indexCol}
+                          data-value={row + indexCol}
                           onClick={handleSelectSeat}
                         >
-                          {row + col}
+                          {row + indexCol}
                         </li>
                       );
                     } else
                       return (
                         <li
-                          className={`seat-img ${
-                            selectedSeats.indexOf(row + col) !== -1 &&
-                            "selected"
-                          }`}
-                          key={row + col}
-                          data-value={row + col}
+                          className={`seat-img ${"selected"}`}
+                          key={row + indexCol}
+                          data-value={row + indexCol}
                           onClick={handleSelectSeat}
                         >
-                          {row + col}
+                          {console.log(indexRow + 1, indexCol + 1)}
+                          {row + indexCol}
                         </li>
                       );
                   })}

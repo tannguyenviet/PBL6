@@ -5,7 +5,6 @@ import API from "../../API";
 import Context from "../../Context/Context";
 import TrailerModal from "../../components/Movie/TrailerModal";
 import MovieCard from "../../components/Movie/MovieCard";
-import Pagination from "../../components/Pagination";
 import "./MoviePage.scss";
 
 const subtitle =
@@ -82,7 +81,6 @@ function MovieList(props) {
               ))}
           </ul>
         </div>
-        <Pagination />
       </section>
       {openModal && <TrailerModal src={trailerSrc} />}
     </>

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import API from "../../API";
-import ToastMessage from "../../components/Layouts/ToastMessage";
 import Logo from "../../components/Layouts/Logo";
 
 const isEmail = (email) => {
@@ -25,7 +25,6 @@ function Register() {
     gender: "1",
   });
   const [formErrors, setFormErrors] = useState({});
-  const [toastMessage, setToastMessage] = useState();
 
   //Functions
   const handleInputChange = (e) => {
@@ -139,19 +138,14 @@ function Register() {
 
       try {
         const res = await API.post(url, data, config);
-        if (res.status === 200) {
-          setToastMessage({ type: "success" });
-          console.log(res.data);
-        } else {
-          setToastMessage({ type: "error" });
-        }
         console.log(res);
+        if (res.status === 200) {
+          toast.success("Thanh cong");
+        } else {
+          toast.error(res.message);
+        }
       } catch (error) {
-        setToastMessage({
-          type: "error",
-          mess: "Username exsisted",
-        });
-        console.log("error: ", error);
+        toast.error(error);
       }
 
       setRegisterInfo({
@@ -173,9 +167,6 @@ function Register() {
     formErrors;
   return (
     <div className="form__section">
-      {toastMessage && (
-        <ToastMessage mess={toastMessage} setMess={setToastMessage} />
-      )}
       <div className="container form__container">
         <form className="form form__register" onSubmit={handleRegisterSubmit}>
           <h2 className="form__title">

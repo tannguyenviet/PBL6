@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/reset.css";
+import "react-toastify/dist/ReactToastify.css";
 import App from "./App";
 import MyProvider from "./Context/Provider";
 // import HomePage from "./Pages/HomePage";

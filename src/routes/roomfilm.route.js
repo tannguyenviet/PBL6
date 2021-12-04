@@ -4,10 +4,11 @@ const router = require("express").Router();
 
 // // Create a new roomfilm
 // router.post("/create", roomfilm.create);
+
 // Retrieve all roomfilm of a city
 router.get("/list", roomfilm.findAll);
-// Retrieve a pricetype by id
 
+// Retrieve a pricetype by id
 router.get("/:id", roomfilm.findByID);
 
 // Update a roomfilm with id

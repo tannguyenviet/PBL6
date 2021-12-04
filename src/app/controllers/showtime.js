@@ -42,7 +42,7 @@ exports.create = async(req, res) => {
 //             if (data) {
 //                 res.send(data);
 //             } else {
-//                 res.status(404).send({
+//                 res.status(200).send({
 //                     message: `Cannot find Showtime with id=${id}.`
 //                 });
 //             }
@@ -108,7 +108,7 @@ exports.findAllWithIdFilmAndIdTheaterAndDateForAdmin = async(req, res) => {
             listShowTimes.filter((r) => similarRoomIds.includes(r.room_film_id))
         );
     } else
-        return res.status(404).send({
+        return res.status(200).send({
             message: `Cannot find Showtime with idTheater=${idTheater}, idFilm=${idFilm}, date=${
         date1 ? date1.getDate() : null
       }.`,
@@ -122,7 +122,7 @@ exports.findById = (req, res) => {
             if (data) {
                 res.send(data);
             } else {
-                res.status(404).send({
+                res.status(200).send({
                     message: `Cannot find Showtime with id=${id}.`,
                 });
             }
@@ -185,7 +185,7 @@ exports.findAllWithIdFilmAndIdTheaterAndDate = async(req, res) => {
             listShowTimes.filter((r) => similarRoomIds.includes(r.room_film_id))
         );
     } else
-        return res.status(404).send({
+        return res.status(200).send({
             message: `Cannot find Showtime with idTheater=${idTheater}, idFilm=${idFilm}, date=${
         date1 ? date1.getDate() : null
       }.`,
@@ -201,7 +201,7 @@ exports.findAllWithIdFilmAndIdTheaterAndDate = async(req, res) => {
     //         if (data.length > 0) {
     //             return res.send(data);
     //         } else {
-    //             return res.status(404).send({
+    //             return res.status(200).send({
     //                 message: `Cannot find any Showtime with idFilm=${idFilm}.`
     //             });
     //         }
@@ -226,7 +226,7 @@ exports.update = (req, res) => {
                     message: "Showtime was updated successfully.",
                 });
             } else {
-                res.status(404).send({
+                res.status(200).send({
                     message: `Cannot update Showtime with id=${id}. Maybe Showtime was not found or req.body is empty!`,
                 });
             }
@@ -252,7 +252,7 @@ exports.delete = (req, res) => {
                     message: "Showtime was deleted successfully!",
                 });
             } else {
-                res.status(404).send({
+                res.status(200).send({
                     message: `Cannot delete Showtime with id=${id}. Maybe Showtime was not found!`,
                 });
             }

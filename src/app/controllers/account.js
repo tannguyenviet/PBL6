@@ -112,7 +112,7 @@ exports.verifyEmail = async(req, res) => {
             where: { emailToken: req.query.token },
         });
         if (!account) {
-            return res.status(404).send({
+            return res.status(200).send({
                 message: "Token is inValid. Please contact us for assistance",
             });
         }
@@ -204,10 +204,8 @@ exports.findOne = (req, res) => {
             if (data) {
                 res.send(data);
             } else {
-                res.status(404).send({
-                    message: `
-                            Cannot find account with id = $ { id }.
-                            `,
+                res.status(200).send({
+                    message: `Cannot find account with id =${id}`,
                 });
             }
         })
@@ -231,7 +229,7 @@ exports.update = (req, res) => {
                     message: "account was updated successfully.",
                 });
             } else {
-                res.status(404).send({
+                res.status(200).send({
                     message: `Cannot update account with id = ${id}.Maybe nothing changed or account was not found or req.body is empty!`,
                 });
             }
@@ -257,7 +255,7 @@ exports.delete = (req, res) => {
                     message: "account was deleted successfully!",
                 });
             } else {
-                res.status(404).send({
+                res.status(200).send({
                     message: `Cannot delete account with id = ${id}.Maybe account was not found!`,
                 });
             }

@@ -155,7 +155,7 @@ exports.findOne = (req, res) => {
             if (data) {
                 res.send(data);
             } else {
-                res.status(404).send({
+                res.status(200).send({
                     message: `Cannot find Film with id=${id}.`,
                 });
             }
@@ -180,7 +180,7 @@ exports.update = (req, res) => {
                     message: "Film was updated successfully.",
                 });
             } else {
-                res.status(404).send({
+                res.status(200).send({
                     message: `Cannot update Film with id=${id}. Maybe Film was not found or req.body is empty!`,
                 });
             }
@@ -206,7 +206,7 @@ exports.delete = (req, res) => {
                     message: "Film was deleted successfully!",
                 });
             } else {
-                res.status(404).send({
+                res.status(200).send({
                     message: `Cannot delete Film with id=${id}. Maybe Film was not found!`,
                 });
             }

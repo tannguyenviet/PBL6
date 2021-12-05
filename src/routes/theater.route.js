@@ -11,6 +11,9 @@ router.get("/search", theater.searchWithCityName);
 //Retrieve all city
 router.get("/city/list", theater.findAllCity);
 
+//Retrieve all city
+router.get("/list", theater.findAll);
+
 // Get list manager available for a new Theater
 router.get("/manager-available/list", theater.managerAvailable);
 

@@ -75,6 +75,20 @@ exports.findAllCity = (req, res) => {
         });
 };
 
+// [GET] ../theater/list
+// Retrieve all theater
+exports.findAll = (req, res) => {
+    Theater.findAll({})
+        .then(data => {
+            return res.send(data);
+        })
+        .catch(err => {
+            return res.status(500).send({
+                message: err || "Error retrieving all theater"
+            });
+        });
+};
+
 // [GET] ../theater/manager-available/list
 // Get list manager available for a new Theater
 exports.managerAvailable = async(req, res) => {

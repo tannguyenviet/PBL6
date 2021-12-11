@@ -26,6 +26,4 @@ router.put("/:id", theater.update);
 // Delete a theater with id
 router.delete("/:id", theater.delete);
 
-
-
 module.exports = router

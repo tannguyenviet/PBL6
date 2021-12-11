@@ -61,14 +61,9 @@ exports.findLocationsByShowtimeId = (req, res) => {
             }
         })
         .then(data => {
-            if (data.length > 0) {
-                const listLocationsBookedInShowtime = data.map(r => r.location).join(',').split(',');
-                return res.send(listLocationsBookedInShowtime);
-            } else {
-                return res.status(200).send({
-                    message: `Cannot find any ticket - locations with idShowtime = ${id}.`
-                });
-            }
+            const listLocationsBookedInShowtime = data.map(r => r.location).join(',').split(',');
+            return data.length > 0 ? res.send(listLocationsBookedInShowtime) : res.send([]);
+
         })
         .catch(err => {
             res.status(500).send({
@@ -101,8 +96,8 @@ exports.countRevenueByShowtimeId = (req, res) => {
                     revenue: revenue
                 });
             } else {
-                return res.status(200).send({
-                    message: `Cannot count revenue with idShowtime = ${id}.`
+                return res.status(404).send({
+                    message: `Cannot found any ticket with idShowtime = ${id}.`
                 });
             }
         })
@@ -125,7 +120,7 @@ exports.findByAccountId = (req, res) => {
                 delete data.ticketHash;
                 return res.status(200).send(data);
             } else {
-                return res.status(200).send({
+                return res.status(404).send({
                     message: `Cannot find any ticket with account_id = ${id}.`
                 });
             }
@@ -151,7 +146,7 @@ exports.delete = (req, res) => {
                     message: "Ticket was deleted successfully!"
                 });
             } else {
-                res.status(200).send({
+                res.status(404).send({
                     message: `Cannot delete Ticket with id = ${id}.Maybe Ticket was not found!`
                 });
             }

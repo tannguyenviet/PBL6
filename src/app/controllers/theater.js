@@ -130,7 +130,7 @@ exports.findByIdManager = (req, res) => {
             if (data) {
                 res.send(data);
             } else {
-                res.status(200).send({
+                res.status(404).send({
                     message: `Cannot find Theater with idAccount=${id}.`
                 });
             }
@@ -157,7 +157,7 @@ exports.update = (req, res) => {
                     message: "Theater was updated successfully."
                 });
             } else {
-                res.status(200).send({
+                res.status(404).send({
                     message: `Cannot update Theater with id=${id}. Maybe nothing changed or Theater was not found or req.body is empty!`
                 });
             }
@@ -183,7 +183,7 @@ exports.delete = (req, res) => {
                     message: "Theater was deleted successfully!"
                 });
             } else {
-                res.status(200).send({
+                res.status(404).send({
                     message: `Cannot delete Theater with id=${id}. Maybe Theater was not found!`
                 });
             }

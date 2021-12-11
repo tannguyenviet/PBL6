@@ -207,7 +207,13 @@ exports.findById = (req, res) => {
     const id = req.params.id;
     Showtime.findByPk(id)
         .then((data) => {
-            return res.send(data);
+            if (data) {
+                return res.send(data);
+            } else {
+                return res.status(404).send({
+                    message: `Cannot find showtime with id=${id}.`
+                });
+            }
         })
         .catch((err) => {
             return res.status(500).send({
@@ -229,7 +235,7 @@ exports.update = (req, res) => {
                     message: "Showtime was updated successfully.",
                 });
             } else {
-                res.status(200).send({
+                res.status(404).send({
                     message: `Cannot update Showtime with id=${id}. Maybe Showtime was not found or req.body is empty!`,
                 });
             }
@@ -255,7 +261,7 @@ exports.delete = (req, res) => {
                     message: "Showtime was deleted successfully!",
                 });
             } else {
-                res.status(200).send({
+                res.status(404).send({
                     message: `Cannot delete Showtime with id=${id}. Maybe Showtime was not found!`,
                 });
             }

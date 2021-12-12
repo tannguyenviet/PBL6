@@ -5,9 +5,9 @@ import { NavLink } from "react-router-dom";
 import Logo from "../../../../components/Layouts/Logo";
 
 function SideBar(props) {
-  const handleNavItemActive = (e) => {
-    e.target.closest(".sidebar__nav-item").classList.toggle("active");
-  };
+  // const handleNavItemActive = (e) => {
+  //   e.target.closest(".sidebar__nav-item").classList.toggle("active");
+  // };
 
   return (
     <div className="sidebar">

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 import API from "../../API";
 import Logo from "../../components/Layouts/Logo";
+import useLoading from "../../hooks/useLoading";
 
 const isEmail = (email) => {
   const regex =
@@ -25,6 +26,7 @@ function Register() {
     gender: "1",
   });
   const [formErrors, setFormErrors] = useState({});
+  const [showLoading, hideLoading] = useLoading();
 
   //Functions
   const handleInputChange = (e) => {
@@ -125,6 +127,7 @@ function Register() {
     }
 
     if (flag) {
+      showLoading();
       const url = "/account/register";
       const data = { ...registerInfo };
       delete data.confirm;
@@ -138,8 +141,11 @@ function Register() {
 
       try {
         const res = await API.post(url, data, config);
-        console.log(res);
-        toast.success("Please check your email to active account");
+        if (res) {
+          hideLoading();
+          console.log(res);
+          toast.success(res.message);
+        }
       } catch (error) {
         toast.error(error.message);
       }

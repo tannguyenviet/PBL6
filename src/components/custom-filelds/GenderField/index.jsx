@@ -5,7 +5,7 @@ import { ErrorMessage } from "formik";
 
 function GenderField(props) {
   const { field, form, label, placeholder, disabled } = props;
-  const { name } = field;
+  const { name, value } = field;
   const { errors, touched } = form;
   const showError = errors[name] && touched[name];
 
@@ -22,6 +22,7 @@ function GenderField(props) {
             type="radio"
             value="male"
             disabled={disabled}
+            checked={value === "male"}
           />
         </div>
 
@@ -33,6 +34,7 @@ function GenderField(props) {
             placeholder={placeholder}
             type="radio"
             value="female"
+            checked={value === "female"}
             disabled={disabled}
           />
         </div>

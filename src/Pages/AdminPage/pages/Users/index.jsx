@@ -1,15 +1,24 @@
 import React, { useState, useEffect, useCallback } from "react";
-import PropTypes from "prop-types";
 import { Table } from "reactstrap";
 
 import API from "../../../../API";
 import UserAdd from "./UserAdd";
+import UserUpdate from "./UserUpdate";
+import UserDelete from "./UserDelete";
 Users.propTypes = {};
+const listRole = [
+  { value: 1, label: "Admin" },
+  { value: 2, label: "Manager" },
+  { value: 3, label: "Member" },
+];
 
 function Users() {
   const [listAccount, setListAccount] = useState();
   const [toggleAdd, setToggleAdd] = useState(false);
+  const [toggleUpdate, setToggleUpdate] = useState(false);
+  const [toggleDelete, setToggleDelete] = useState(false);
   const [updated, setUpdated] = useState(false); //Trigger rerender when modal finish
+  const [selectedUser, setSelectedUser] = useState();
 
   useEffect(() => {
     const getListAccount = async () => {
@@ -17,20 +26,47 @@ function Users() {
       const res = await API.get(url);
       if (res) {
         setListAccount(res);
-        console.log("RES", res);
       }
     };
     getListAccount();
-  }, []);
+  }, [updated]);
 
   //Functions
-  const handleOpenModal = useCallback(() => {
+  const handleOpenModalAdd = useCallback(() => {
     setToggleAdd(!toggleAdd);
   }, [toggleAdd]);
+
+  const handleOpenModalUpdate = useCallback(
+    (user) => {
+      setSelectedUser(user);
+      setToggleUpdate(!toggleUpdate);
+    },
+    [toggleUpdate]
+  );
+
+  const handleOpenModalDelete = useCallback(
+    (user) => {
+      setToggleDelete(!toggleDelete);
+      setSelectedUser(user);
+    },
+    [toggleDelete]
+  );
 
   const handleUpdated = useCallback(() => {
     setUpdated(!updated);
   }, [updated]);
+
+  const getRoleName = (roleId) => {
+    if (roleId === 1) {
+      return "Admin";
+    }
+
+    if (roleId === 2) {
+      return "Manager";
+    }
+
+    return "Member";
+  };
 
   //Render
   return (
@@ -51,7 +87,7 @@ function Users() {
           </thead>
           <tbody>
             {listAccount &&
-              listAccount.map((movie) => {
+              listAccount.map((user) => {
                 const {
                   id,
                   username,
@@ -60,32 +96,56 @@ function Users() {
                   role_id,
                   gender,
                   isVerified,
-                } = movie;
+                } = user;
                 return (
                   <tr key={id}>
                     <th scope="row">{id}</th>
                     <td>{username}</td>
                     <td>{email}</td>
-                    <td>{role_id === 3 ? "Member" : "Manager"}</td>
+                    <td>{getRoleName(role_id)}</td>
                     <td>{gender ? "Male" : "Female"}</td>
                     <td>{phone}</td>
                     <td>{isVerified ? "Actived" : "Inactive"}</td>
                     <td>
-                      <i className="far fa-edit"></i>
-                      <i className="far fa-trash-alt"></i>
+                      <i
+                        className="far fa-edit"
+                        onClick={() => handleOpenModalUpdate(user)}
+                      ></i>
+                      <i
+                        className="far fa-trash-alt"
+                        onClick={() => handleOpenModalDelete(user)}
+                      ></i>
                     </td>
                   </tr>
                 );
               })}
           </tbody>
         </Table>
-        <button className="btn btn-add" onClick={() => handleOpenModal()}>
+        <button className="btn btn-add" onClick={() => handleOpenModalAdd()}>
           New user
         </button>
         {toggleAdd && (
           <UserAdd
             toggle={toggleAdd}
-            onOpen={handleOpenModal}
+            onOpen={handleOpenModalAdd}
+            setUpdated={handleUpdated}
+            listRole={listRole}
+          />
+        )}
+        {toggleUpdate && (
+          <UserUpdate
+            toggle={toggleUpdate}
+            onOpen={handleOpenModalUpdate}
+            setUpdated={handleUpdated}
+            listRole={listRole}
+            userInfo={selectedUser}
+          />
+        )}
+        {toggleDelete && (
+          <UserDelete
+            toggle={toggleDelete}
+            userId={selectedUser.id}
+            onOpen={handleOpenModalDelete}
             setUpdated={handleUpdated}
           />
         )}

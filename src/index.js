@@ -20,6 +20,7 @@ import SeatPage from "./Pages/SeatPage";
 import PaymentPage from "./Pages/PaymentPage";
 import ProfilePage from "./Pages/ProfilePage";
 import BounceLoader from "react-spinners/BounceLoader";
+import OverLayProvider from "./components/Layouts/OverLay/provider";
 
 const HomePage = React.lazy(() => import("./Pages/HomePage"));
 
@@ -34,22 +35,24 @@ ReactDOM.render(
     >
       <Router>
         <MyProvider>
-          <App>
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route path="/login" component={Login} />
-              <Route path="/register" component={Register} />
-              <Route path="/ticket" component={TicketPage} />
-              <Route path="/movie/list" component={MoviePage} />
-              <Route path="/movie/detail/:id" component={MovieDetailPage} />
-              <Route path="/seat" component={SeatPage} />
-              <Route path="/payment" component={PaymentPage} />
-              <Route path="/profile" component={ProfilePage} />
-              <Route path="/admin" component={AdminPage} />
-              <Route path="/manage/showtime" component={ManagerPage} />
-              <Route default component={NotFoundPage} />
-            </Switch>
-          </App>
+          <OverLayProvider>
+            <App>
+              <Switch>
+                <Route exact path="/" component={HomePage} />
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+                <Route path="/ticket" component={TicketPage} />
+                <Route path="/movie/list" component={MoviePage} />
+                <Route path="/movie/detail/:id" component={MovieDetailPage} />
+                <Route path="/seat" component={SeatPage} />
+                <Route path="/payment" component={PaymentPage} />
+                <Route path="/profile" component={ProfilePage} />
+                <Route path="/admin" component={AdminPage} />
+                <Route path="/manage/showtime" component={ManagerPage} />
+                <Route default component={NotFoundPage} />
+              </Switch>
+            </App>
+          </OverLayProvider>
         </MyProvider>
       </Router>
     </Suspense>

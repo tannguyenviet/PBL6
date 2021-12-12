@@ -10,9 +10,11 @@ function ShowtimeDelete(props) {
       const url = `/showtime/${id}`;
       console.log(url);
       const res = await API.delete(url);
-      console.log(res);
-      setUpdated();
-      onOpen();
+      if (res) {
+        console.log(res);
+        setUpdated();
+        onOpen();
+      }
     } catch (error) {
       console.log(error);
     }

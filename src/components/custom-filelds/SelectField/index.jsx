@@ -23,6 +23,7 @@ function SelectField(props) {
     const valueSelected = value || propValue;
     return option.value === valueSelected;
   });
+
   const { errors, touched } = form;
   const showError = errors[name] && touched[name];
 

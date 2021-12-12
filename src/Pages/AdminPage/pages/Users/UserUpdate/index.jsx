@@ -5,35 +5,35 @@ import { Formik, Form, Field } from "formik";
 import InputField from "../../../../../components/custom-filelds/InputFIeld";
 import GenderField from "../../../../../components/custom-filelds/GenderField";
 import SelectField from "../../../../../components/custom-filelds/SelectField";
-import API from "../../../../../API";
-import { toast } from "react-toastify";
-import useLoading from "../../../../../hooks/useLoading";
+// import API from "../../../../../API";
+// import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 
-function UserAdd(props) {
-  const { onOpen, toggle, setUpdated, listRole } = props;
-  const [showLoading, hideLoading] = useLoading();
-  // showLoading();
+function UserUpdate(props) {
+  const { onOpen, toggle, userInfo, listRole } = props;
+  console.log("USER INFO", userInfo);
 
   const initialValues = {
-    username: "",
-    password: "",
-    name: "",
-    phone: "",
-    email: "",
-    birthday: "",
-    address: "",
-    gender: "male",
-    role_id: "",
+    id: userInfo.id,
+    username: userInfo.username,
+    password: userInfo.password,
+    name: userInfo.name,
+    phone: userInfo.phone,
+    email: userInfo.email,
+    birthday: userInfo.birthday && userInfo.birthday.slice(0, 10),
+    address: userInfo.address,
+    gender: getGender(userInfo.gender),
+    role_id: userInfo.role_id,
   };
 
   const userSchema = Yup.object().shape({
     username: Yup.string().required("This field is required"),
     password: Yup.string().required("This field is required"),
     name: Yup.string().required("This field is required"),
-    phone: Yup.number("Phone must be numbers").required(
-      "This field is required"
-    ),
+    phone: Yup.number()
+      .typeError("Phone must be numbers")
+      .positive()
+      .required("This field is required"),
     email: Yup.string()
       .required("This field is required")
       .email("Email is invalid"),
@@ -45,31 +45,35 @@ function UserAdd(props) {
 
   //Functions
   const handleFormSubmit = async (values) => {
-    console.log("SUBMIT VALUES", values);
-    showLoading();
-    const url = "/account/register";
-    const newUser = {
-      ...values,
-      gender: values.gender === "male" ? true : false,
-    };
-    const res = await API.post(url, newUser);
-    if (res) {
-      hideLoading();
-      toast.success("Create successfully");
-      setUpdated();
-      onOpen();
-    }
+    console.log("SUBMIT", values);
+    const url = `/account/${values.id}`;
+    console.log(url);
+    // const updateUser = {
+    //   ...values,
+    //   gender: values.gender === "male" ? true : false,
+    // };
+    // const res = await API.put(url, updateUser);
+    // if(res) {
+    //   console.log(res);
+    //   toast.success("Update successfully");
+    //   setUpdated();
+    //   onOpen();
+    // }
   };
 
   const handleCloseModal = () => {
     onOpen();
   };
 
+  function getGender(gender) {
+    return gender ? "male" : "female";
+  }
+
   //Render
   return (
     <div>
       <Modal toggle={onOpen} isOpen={toggle} className="modal__container">
-        <ModalHeader>New User</ModalHeader>
+        <ModalHeader>Update User</ModalHeader>
         <ModalBody>
           <Formik
             initialValues={initialValues}
@@ -77,9 +81,6 @@ function UserAdd(props) {
             onSubmit={(values) => handleFormSubmit(values)}
           >
             {(formikProps) => {
-              // const { values, errors } = formikProps;
-              // console.log({ values, errors });
-
               return (
                 <Form>
                   <div className="form-side row">
@@ -88,12 +89,14 @@ function UserAdd(props) {
                       component={InputField}
                       label="Username"
                       placeholder="Username"
+                      disabled={true}
                     />
                     <Field
                       name="email"
                       component={InputField}
                       label="Email"
                       placeholder="Email"
+                      disabled={true}
                     />
                   </div>
                   <div className="form-side row">
@@ -107,8 +110,8 @@ function UserAdd(props) {
                       name="password"
                       component={InputField}
                       label="Password"
-                      type="password"
                       placeholder="Password"
+                      type="password"
                     />
                   </div>
                   <div className="form-side row">
@@ -147,6 +150,7 @@ function UserAdd(props) {
                       component={SelectField}
                       label="Role"
                       placeholder="Select Role"
+                      value={formikProps.values.role_id}
                       options={listRole}
                     />
                   </div>
@@ -168,16 +172,18 @@ function UserAdd(props) {
   );
 }
 
-UserAdd.propTypes = {
+UserUpdate.propTypes = {
   toggle: PropTypes.bool,
   onOpen: PropTypes.func,
   setUpdated: PropTypes.func,
+  userInfo: PropTypes.object,
 };
 
-UserAdd.defaultProps = {
+UserUpdate.defaultProps = {
   toggle: null,
   onOpen: null,
   setUpdated: null,
+  userInfo: null,
 };
 
-export default UserAdd;
+export default UserUpdate;

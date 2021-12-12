@@ -45,7 +45,7 @@ function App(props) {
       <ButtonToTop active={active} />
       <Header active={active} />
       <main>{props.children}</main>
-      <ToastContainer position="bottom-right" autoClose={4000} theme="dark" />
+      <ToastContainer position="bottom-right" autoClose={3000} theme="dark" />
       <Footer />
     </>
   );

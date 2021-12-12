@@ -1,0 +1,12 @@
+@import "../../../sass/variables";
+@import "../../../sass/mixins";
+
+.pagination {
+  @include flex(center, center);
+  margin: 2rem;
+}
+
+.disabled {
+  filter: brightness(80%);
+  pointer-events: none;
+}

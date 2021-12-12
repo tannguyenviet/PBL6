@@ -10,10 +10,9 @@ function ShowtimeDelete(props) {
       const url = `/showtime/${id}`;
       console.log(url);
       const res = await API.delete(url);
-      if (res.status === 200) {
-        setUpdated();
-        onOpen();
-      }
+      console.log(res);
+      setUpdated();
+      onOpen();
     } catch (error) {
       console.log(error);
     }
@@ -24,7 +23,7 @@ function ShowtimeDelete(props) {
 
   return (
     <div>
-      <Modal toggle={onOpen} isOpen={toggle} className="modal__showtime">
+      <Modal toggle={onOpen} isOpen={toggle} className="modal__container">
         <ModalHeader>Modal title</ModalHeader>
         <ModalBody>Do you want to delete showtime id {showtimeId}?</ModalBody>
         <ModalFooter>

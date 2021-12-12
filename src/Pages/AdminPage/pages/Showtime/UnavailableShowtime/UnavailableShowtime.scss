@@ -1,0 +1,29 @@
+@import "../../../../../sass/variables";
+@import "../../../../../sass/mixins";
+
+.showtime__unavailable {
+  h1 {
+    color: $error;
+    font-weight: 500;
+  }
+  &-list {
+    @include flex(center, flex-start, wrap);
+
+    li {
+      text-align: center;
+      color: $secondary-bg;
+      background-color: $error;
+
+      width: 15rem;
+      padding: 2rem;
+      margin: 2rem 1rem;
+      transition: all 0.3s linear;
+      border: 1px dashed $secondary-bg;
+
+      // mask-image: url("../../../../../assets/images/others/ticket-mask.png");
+      // mask-repeat: no-repeat;
+      // mask-position: center center;
+      // mask-size: cover;
+    }
+  }
+}

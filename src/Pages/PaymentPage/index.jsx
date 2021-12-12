@@ -48,7 +48,7 @@ function PaymentPage(props) {
     };
     console.log(data);
     const res = await API.post(url, data, config);
-    setQrCode(res.data.ticketQR);
+    setQrCode(res.ticketQR);
   };
   return (
     <>

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { Button, Modal, ModalHeader, ModalBody, FormGroup } from "reactstrap";
 import { Formik, Form, Field } from "formik";
 import SelectField from "../../../../../components/custom-filelds/SelectField";
 import InputField from "../../../../../components/custom-filelds/InputFIeld";
+import PreviewField from "../../../../../components/custom-filelds/PreviewField";
+import UnavailableShowtime from "../UnavailableShowtime";
 import API from "../../../../../API";
 
 const timeToNumber = (time) => {
@@ -26,8 +28,36 @@ function ShowtimeUpdate(props) {
     listMovie,
     listPriceType,
     listRoomFilm,
+    listCity,
+    listTheater,
+    theaterInfo,
   } = props;
-  console.log("Showtime Info: ", showtimeInfo);
+  const userInfo = JSON.parse(localStorage.getItem("user_info"));
+
+  const [theaterAdminInfo, setTheaterAdminInfo] = useState();
+  const [cityAdminInfo, setCityAdminInfo] = useState();
+
+  //Get Theater when in admin page
+  useEffect(() => {
+    const getTheaterInfo = async (id) => {
+      try {
+        const url = `/roomfilm/${id}`;
+        const res = await API.get(url);
+        setTheaterAdminInfo(res.id);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+    getTheaterInfo(showtimeInfo.room_film_id);
+  }, [userInfo.role_id, showtimeInfo.room_film_id]);
+
+  //Get City when in admin page
+  useEffect(() => {
+    if (theaterAdminInfo) {
+      const theater = listTheater.find((t) => (t.id = theaterAdminInfo));
+      setCityAdminInfo(theater.city);
+    }
+  }, [userInfo.role_id, listTheater, theaterAdminInfo]);
 
   //Function
 
@@ -55,16 +85,23 @@ function ShowtimeUpdate(props) {
       time_end: parseISOLocalTime(time_end),
     };
 
+    if (userInfo.role_id === 1) {
+      //If city or theater not change => getCity, theaterAdminInfo
+      //If city, theater change => get value of formik
+
+      updateShowtime.city = values.city || cityAdminInfo;
+      updateShowtime.theater = values.theater || theaterAdminInfo;
+    }
+
     if (flag) {
       try {
         const url = `/showtime/${id}`;
+        console.log(updateShowtime);
         const res = await API.put(url, updateShowtime);
         console.log(res);
-        if (res.status === 200) {
-          setUpdated();
-          onOpen();
-          toast.success("Update successfully");
-        }
+        setUpdated();
+        onOpen();
+        toast.success("Update successfully");
       } catch (error) {
         toast.error(error);
       }
@@ -84,7 +121,14 @@ function ShowtimeUpdate(props) {
     room_film: room_film_id,
     time_start: time_start.slice(0, -5),
     time_end: time_end.slice(0, -5),
+    city: theaterInfo ? theaterInfo.city : "",
+    theater: theaterInfo ? theaterInfo.name : "",
   };
+
+  if (userInfo.id === 2) {
+    initialValues.city = theaterInfo.city;
+    initialValues.theater = theaterInfo.name;
+  }
 
   const showtimeSchema = Yup.object().shape({
     film_id: Yup.number().required("This field is required"),
@@ -96,7 +140,7 @@ function ShowtimeUpdate(props) {
 
   return (
     <div>
-      <Modal toggle={onOpen} isOpen={toggle} className="modal__showtime">
+      <Modal toggle={onOpen} isOpen={toggle} className="modal__container">
         <ModalHeader>Update Showtime</ModalHeader>
         <ModalBody>
           <Formik
@@ -105,10 +149,49 @@ function ShowtimeUpdate(props) {
             onSubmit={(values) => handleFormSubmit(values)}
           >
             {(formikProps) => {
-              const { dirty } = formikProps;
-              // console.log({ values, errors, touched });
+              const { values, dirty } = formikProps;
+              console.log("Formik Update values:", values);
               return (
                 <Form>
+                  {userInfo.role_id === 1 ? (
+                    <div className="form-side row">
+                      <Field
+                        name="city"
+                        component={SelectField}
+                        label="City"
+                        placeholder="Select city"
+                        options={listCity}
+                        value={cityAdminInfo}
+                        disabled={true}
+                      />
+                      <Field
+                        name="theater"
+                        component={SelectField}
+                        label="Theater"
+                        placeholder="Select theater"
+                        city={values.city || cityAdminInfo}
+                        value={theaterAdminInfo}
+                        options={listTheater}
+                      />
+                    </div>
+                  ) : (
+                    <div className="form-side row">
+                      <Field
+                        name="city"
+                        component={InputField}
+                        label="City"
+                        value={values.city}
+                        disabled={true}
+                      />
+                      <Field
+                        name="theater"
+                        component={InputField}
+                        label="Theater"
+                        value={values.theater}
+                        disabled={true}
+                      />
+                    </div>
+                  )}
                   <div className="form-side row">
                     <Field
                       label="Time Start"
@@ -126,12 +209,13 @@ function ShowtimeUpdate(props) {
 
                   <div className="form-side row">
                     <Field
-                      name="film_id"
+                      name="room_film"
                       component={SelectField}
-                      label="Movie"
-                      placeholder="Select movie"
-                      value={film_id}
-                      options={listMovie}
+                      label="Room film"
+                      placeholder="Select room film"
+                      theaterId={values.theater || theaterAdminInfo}
+                      value={room_film_id}
+                      options={listRoomFilm}
                     />
                     <Field
                       name="price_type"
@@ -144,13 +228,29 @@ function ShowtimeUpdate(props) {
                   </div>
                   <div className="form-side row">
                     <Field
-                      name="room_film"
+                      name="film_id"
                       component={SelectField}
-                      label="Room film"
-                      placeholder="Select room film"
-                      value={room_film_id}
-                      options={listRoomFilm}
+                      label="Movie"
+                      placeholder="Select movie"
+                      value={film_id}
+                      options={listMovie}
                     />
+                    <Field
+                      name="preview"
+                      label="Preview"
+                      component={PreviewField}
+                      filmId={values.film_id}
+                      listFilm={listMovie}
+                    />
+                  </div>
+                  <div className="form-side row">
+                    {values.room_film &&
+                      (values.time_start || values.time_end) && (
+                        <UnavailableShowtime
+                          roomId={values.room_film}
+                          datetime={values.time_start || values.time_end}
+                        />
+                      )}
                   </div>
                   <div className="form-options">
                     <FormGroup>

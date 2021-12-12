@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import * as Yup from "yup";
 import { Button, Modal, ModalHeader, ModalBody, FormGroup } from "reactstrap";
 import { Formik, Form, Field } from "formik";
 import { toast } from "react-toastify";
 
+import Context from "../../../../../Context/Context";
 import SelectField from "../../../../../components/custom-filelds/SelectField";
 import InputField from "../../../../../components/custom-filelds/InputFIeld";
+import PreviewField from "../../../../../components/custom-filelds/PreviewField";
 import API from "../../../../../API";
+import UnavailableShowtime from "../UnavailableShowtime";
 import "./ShowtimeAdd.scss";
 
 const timeToNumber = (time) => {
@@ -28,8 +31,12 @@ function ShowtimeAdd(props) {
     listPriceType,
     listRoomFilm,
     listCity,
+    listTheater,
+    theaterInfo,
   } = props;
   const userInfo = JSON.parse(localStorage.getItem("user_info"));
+  const { today } = useContext(Context);
+  console.log(today);
 
   //Functions
   const handleCloseModal = () => {
@@ -62,11 +69,10 @@ function ShowtimeAdd(props) {
       };
       const url = "/showtime/create";
       const res = await API.post(url, newShowtime);
-      if (res.status === 200) {
-        setUpdated();
-        onOpen();
-        toast.success("Add successfully");
-      }
+      console.log(res);
+      setUpdated();
+      onOpen();
+      toast.success("Add successfully");
     }
   };
 
@@ -76,11 +82,13 @@ function ShowtimeAdd(props) {
     room_film: "",
     time_start: "",
     time_end: "",
+    theater: "",
+    city: "",
   };
 
-  if (userInfo.role_id === 1) {
-    initialValues.theater = "";
-    initialValues.city = "";
+  if (userInfo.role_id === 2) {
+    initialValues.theater = theaterInfo.name;
+    initialValues.city = theaterInfo.city;
   }
 
   const showtimeManagerSchema = Yup.object().shape({
@@ -89,6 +97,8 @@ function ShowtimeAdd(props) {
     room_film: Yup.string().required("This field is required"),
     time_start: Yup.string().required("This field is required"),
     time_end: Yup.string().required("This field is required"),
+    theater: Yup.string(),
+    city: Yup.string(),
   });
 
   const showtimeAdminSchema = Yup.object().shape({
@@ -103,7 +113,7 @@ function ShowtimeAdd(props) {
 
   return (
     <div>
-      <Modal toggle={onOpen} isOpen={toggle} className="modal__showtime">
+      <Modal toggle={onOpen} isOpen={toggle} className="modal__container">
         <ModalHeader>New Showtime</ModalHeader>
         <ModalBody>
           <Formik
@@ -120,7 +130,7 @@ function ShowtimeAdd(props) {
               console.log({ values, errors });
               return (
                 <Form>
-                  {userInfo.role_id === 1 && (
+                  {userInfo.role_id === 1 ? (
                     <div className="form-side row">
                       <Field
                         name="city"
@@ -128,12 +138,32 @@ function ShowtimeAdd(props) {
                         label="City"
                         placeholder="Select city"
                         options={listCity}
+                        disabled={true}
                       />
                       <Field
                         name="theater"
                         component={SelectField}
                         label="Theater"
+                        city={values.city}
                         placeholder="Select theater"
+                        options={listTheater}
+                      />
+                    </div>
+                  ) : (
+                    <div className="form-side row">
+                      <Field
+                        name="city"
+                        component={InputField}
+                        label="City"
+                        value={values.city}
+                        disabled={true}
+                      />
+                      <Field
+                        name="theater"
+                        component={InputField}
+                        label="Theater"
+                        value={values.theater}
+                        disabled={true}
                       />
                     </div>
                   )}
@@ -158,6 +188,7 @@ function ShowtimeAdd(props) {
                       component={SelectField}
                       label="Room film"
                       placeholder="Select room film"
+                      theaterId={values.theater}
                       options={listRoomFilm}
                     />
                     <Field
@@ -176,6 +207,22 @@ function ShowtimeAdd(props) {
                       placeholder="Select movie"
                       options={listMovie}
                     />
+                    <Field
+                      name="preview"
+                      label="Preview"
+                      component={PreviewField}
+                      filmId={values.film_id}
+                      listFilm={listMovie}
+                    />
+                  </div>
+                  <div className="form-side row">
+                    {values.room_film &&
+                      (values.time_start || values.time_end) && (
+                        <UnavailableShowtime
+                          roomId={values.room_film}
+                          datetime={values.time_start || values.time_end}
+                        />
+                      )}
                   </div>
                   <div className="form-options">
                     <FormGroup>

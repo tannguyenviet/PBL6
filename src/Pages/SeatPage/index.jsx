@@ -20,6 +20,7 @@ function SeatPage() {
   const [selectingSeats, setSelectingSeats] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [priceType, setPriceType] = useState({});
+  console.log("SELECTED SEAT", selectedSeats);
 
   //Get Selected Seat
   useEffect(() => {
@@ -27,9 +28,9 @@ function SeatPage() {
       try {
         const url = `/ticket/location/list?idShowtime=${ticketInfo.showtime.id}`;
         const res = await API.get(url);
-        if (res.status === 200) {
-          setSelectedSeats(res.data);
-        } else return;
+        if (res && Array.isArray(res)) {
+          setSelectedSeats(res);
+        }
       } catch (error) {
         toast.error(error.message);
       }
@@ -44,13 +45,11 @@ function SeatPage() {
       try {
         const url = `/pricetype/list`;
         const res = await API.get(url);
-        if (res.status === 200) {
-          const listPriceType = res.data;
-          const price = listPriceType.find(
-            (p) => p.id === ticketInfo.showtime.price_type_id
-          );
-          setPriceType(price);
-        }
+        const listPriceType = res;
+        const price = listPriceType.find(
+          (p) => p.id === ticketInfo.showtime.price_type_id
+        );
+        setPriceType(price);
       } catch (error) {
         toast.error(error.mesage);
       }
@@ -60,6 +59,7 @@ function SeatPage() {
     // eslint-disable-next-line
   }, []);
 
+  //Functions
   const handleSelectSeat = (e) => {
     const selectingSeat = e.target.dataset.value;
     if (selectingSeats.includes(selectingSeat)) {

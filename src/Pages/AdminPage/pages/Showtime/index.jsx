@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import { toast } from "react-toastify";
-
 import { Table } from "reactstrap";
+
 import Context from "../../../../Context/Context";
 import ShowtimeAdd from "./ShowtimeAdd";
 import ShowtimeDelete from "./ShowtimeDelete";
@@ -13,19 +13,49 @@ function Showtime() {
   const [toggleDelete, setToggleDelete] = useState(false);
   const [toggleUpdate, setToggleUpdate] = useState(false);
   const [updated, setUpdated] = useState(false); //Trigger rerender when modal finish
-
   const [selectedId, setSelectedId] = useState(); //For delete
   const [selectedShowtime, setSelectedShowtime] = useState({}); // For update
-  const [theaterInfo, setTheaterInfo] = useState(null);
-  const [listShowtime, setListShowtime] = useState([]);
 
+  const [listCity, setListCity] = useState();
+  const [listTheater, setListTheater] = useState();
+  const [theaterInfo, setTheaterInfo] = useState(null);
+  const [listShowtime, setListShowtime] = useState();
   const [listMovie, setListMovie] = useState([]);
   const [listPriceType, setListPriceType] = useState([]);
   const [listRoomFilm, setListRoomFilm] = useState([]);
 
   const userInfo = JSON.parse(localStorage.getItem("user_info"));
   const { today } = useContext(Context);
-  console.log("render");
+
+  //Get Cities
+  useEffect(() => {
+    const getListCity = async () => {
+      const url = "/theater/city/list";
+      const res = await API.get(url);
+      const listCity = res.map((c) => ({
+        value: c.city,
+        label: c.city,
+      }));
+      setListCity(listCity);
+    };
+
+    getListCity();
+  }, []);
+
+  //Get All Theaters
+  useEffect(() => {
+    const getAllTheaters = async () => {
+      const url = "/theater/list";
+      const res = await API.get(url);
+      const allTheaters = res.map((t) => ({
+        value: t.id,
+        label: t.name,
+        city: t.city,
+      }));
+      setListTheater(allTheaters);
+    };
+    getAllTheaters();
+  }, []);
 
   //Get Movies
   useEffect(() => {
@@ -33,12 +63,10 @@ function Showtime() {
       try {
         const url = "/film/now-playing";
         const res = await API.get(url);
-        if (res.status === 200) {
-          const listNowPlaying = res.data.map((movie) => {
-            return { value: movie.id, label: movie.name };
-          });
-          setListMovie(listNowPlaying);
-        }
+        const listNowPlaying = res.map((movie) => {
+          return { value: movie.id, label: movie.name, image: movie.image };
+        });
+        setListMovie(listNowPlaying);
       } catch (error) {
         toast.error(error.message);
       }
@@ -53,15 +81,13 @@ function Showtime() {
       try {
         const url = "/pricetype/list";
         const res = await API.get(url);
-        if (res.status === 200) {
-          const listPrice = res.data.map((type) => {
-            return {
-              value: type.id,
-              label: `${type.description} (${type.price})`,
-            };
-          });
-          setListPriceType(listPrice);
-        }
+        const listPrice = res.map((type) => {
+          return {
+            value: type.id,
+            label: `${type.description} (${type.price})`,
+          };
+        });
+        setListPriceType(listPrice);
       } catch (error) {
         toast.error(error.message);
       }
@@ -72,25 +98,40 @@ function Showtime() {
 
   //Get Room Film
   useEffect(() => {
-    const getRoomFilm = async () => {
+    const getRoomFilmForManager = async () => {
       try {
         const url = `/roomfilm/list?idTheater=${theaterInfo.id}`;
         const res = await API.get(url);
-        if (res.status === 200) {
-          const listRoom = res.data.map((room) => {
-            return {
-              value: room.id,
-              label: `${room.name} (${room.row} x ${room.column})`,
-            };
-          });
-          setListRoomFilm(listRoom);
-        }
+        const listRoom = res.map((room) => {
+          return {
+            value: room.id,
+            label: room.name,
+            theaterId: room.theater_id,
+          };
+        });
+        setListRoomFilm(listRoom);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+    const getRoomFilmForAdmin = async () => {
+      try {
+        const url = `/roomfilm/list`;
+        const res = await API.get(url);
+        const listRoom = res.map((room) => {
+          return {
+            value: room.id,
+            label: room.name,
+            theaterId: room.theater_id,
+          };
+        });
+        setListRoomFilm(listRoom);
       } catch (error) {
         toast.error(error.message);
       }
     };
 
-    theaterInfo && getRoomFilm();
+    theaterInfo ? getRoomFilmForManager() : getRoomFilmForAdmin();
   }, [theaterInfo]);
 
   //Get theater info
@@ -99,31 +140,36 @@ function Showtime() {
       try {
         const url = `theater/manager/${userInfo.id}`;
         const res = await API.get(url);
-        if (res.status === 200) {
-          setTheaterInfo(res.data);
-        }
+        setTheaterInfo(res);
       } catch (error) {
         toast.error(error.message);
       }
     };
 
-    getTheaterByManagerId();
-  }, [userInfo.id]);
+    userInfo.role_id === 2 && getTheaterByManagerId();
+  }, [userInfo.id, userInfo.role_id]);
 
   //Get all showtime
   useEffect(() => {
-    const getAllShowTime = async (id) => {
+    const getShowTimeForManager = async (id) => {
       try {
         const url = `/showtime/search?idTheater=${id}`;
         const res = await API.get(url);
-        if (res.status === 200) {
-          setListShowtime(res.data);
-        }
+        setListShowtime(res);
       } catch (error) {
         toast.error(error.message);
       }
     };
-    theaterInfo && getAllShowTime(theaterInfo.id);
+    const getShowTimeForAdmin = async () => {
+      try {
+        const url = `/showtime/searchForAdmin`;
+        const res = await API.get(url);
+        setListShowtime(res);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+    theaterInfo ? getShowTimeForManager(theaterInfo.id) : getShowTimeForAdmin();
   }, [updated, theaterInfo]);
 
   //Functions
@@ -153,10 +199,24 @@ function Showtime() {
 
   const handleDateChange = () => {};
 
-  // const getRoomNameById = (id) => {
-  //   const roomName = listRoomFilm.find((rf) => rf.value === id);
-  //   return roomName.label.slice(0, -7);
-  // };
+  const getPriceTypeById = (id) => {
+    if (listPriceType.length > 0) {
+      const price = listPriceType.find((p) => p.value === id);
+      if (price) {
+        return price.label;
+      }
+    }
+  };
+
+  const getRoomNameById = (id) => {
+    if (listRoomFilm.length > 0) {
+      const roomName = listRoomFilm.find((rf) => {
+        return rf.value === id;
+      });
+      console.log(roomName);
+      return roomName && roomName.label;
+    }
+  };
 
   //Render
   return (
@@ -193,14 +253,15 @@ function Showtime() {
                   price_type_id,
                   room_film_id,
                 } = item;
+
                 return (
                   <tr key={id}>
                     <th scope="row">{id}</th>
                     <td>{film_id}</td>
                     <td>{time_start.slice(0, -8)}</td>
                     <td>{time_end.slice(0, -8)}</td>
-                    <td>{price_type_id}</td>
-                    <td>{room_film_id}</td>
+                    <td>{getPriceTypeById(price_type_id)}</td>
+                    <td>{getRoomNameById(room_film_id)}</td>
                     <td>
                       <i
                         className="far fa-edit"
@@ -224,8 +285,11 @@ function Showtime() {
             toggle={toggle}
             onOpen={handleOpenModal}
             listMovie={listMovie}
+            listCity={listCity}
+            listTheater={listTheater}
             listPriceType={listPriceType}
             listRoomFilm={listRoomFilm}
+            theaterInfo={theaterInfo}
             setUpdated={handleUpdated}
           />
         )}
@@ -242,9 +306,12 @@ function Showtime() {
             toggle={toggleUpdate}
             onOpen={handleOpenModalUpdate}
             showtimeInfo={selectedShowtime}
+            listCity={listCity}
+            listTheater={listTheater}
             listMovie={listMovie}
             listPriceType={listPriceType}
             listRoomFilm={listRoomFilm}
+            theaterInfo={theaterInfo}
             setUpdated={handleUpdated}
           />
         )}

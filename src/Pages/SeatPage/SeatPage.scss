@@ -99,10 +99,6 @@
 .vip {
   filter: hue-rotate(60deg) saturate(2);
 }
-.disabled {
-  filter: brightness(30%);
-  pointer-events: none;
-}
 
 .btn-proceed {
   margin: 0 auto;

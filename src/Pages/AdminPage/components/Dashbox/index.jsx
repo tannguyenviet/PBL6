@@ -1,38 +1,55 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
+
 import "./Dashbox.scss";
-import { Table } from "reactstrap";
 
 function Dashbox(props) {
+  const { name, info } = props;
+  const history = useHistory();
+
+  //Functions
+  const handleDashboxClicked = () => {
+    history.push(`/admin/${name}`);
+  };
+
+  const renderIcon = (name) => {
+    switch (name) {
+      case "movies":
+        return <i className="fas fa-film" />;
+      case "ticket":
+        return <i className="fas fa-ticket-alt" />;
+      case "theater":
+        return <i className="fas fa-place-of-worship" />;
+      case "showtime":
+        return <i className="far fa-calendar-alt" />;
+      case "revenue":
+        return <i className="fas fa-user-friends" />;
+      default:
+        return <i className="fas fa-user-friends" />;
+    }
+  };
+
+  //Render
   return (
-    <div className="dashbox">
-      <div className="dashbox__header">
-        <div className="dashbox__name">Top Movie</div>
-        <div className="dashbox__btn">View all</div>
-      </div>
+    <div className="dashbox" onClick={handleDashboxClicked}>
+      <div className="dashbox__icon">{renderIcon(name)}</div>
       <div className="dashbox__main">
-        <Table>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Movie</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[1, 2, 3, 4, 5].map((item) => (
-              <tr key={item}>
-                <th>{item}</th>
-                <td>19:00</td>
-                <td>Movie1</td>
-                <td>40$</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <h3 className="dashbox__name">Total {name}</h3>
+        {info && <span>{info.total_results}</span>}
       </div>
     </div>
   );
 }
 
-export default Dashbox;
+Dashbox.propTypes = {
+  name: PropTypes.string,
+  info: PropTypes.object,
+};
+
+Dashbox.defaultProps = {
+  name: null,
+  info: null,
+};
+
+export default React.memo(Dashbox);

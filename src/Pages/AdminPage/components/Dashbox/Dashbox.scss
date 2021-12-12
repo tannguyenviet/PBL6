@@ -2,25 +2,46 @@
 @import "../../../../sass/mixins";
 
 .dashbox {
-  @include flex-row(2, 5rem);
+  position: relative;
+  @include flex-row(4, 5rem);
+  @include flex(stretch, space-between, nowrap, row-reverse);
 
-  &__header {
-    @include flex(center, space-between);
-    font-size: 1.2rem;
+  padding: 4rem 2rem;
+  border-radius: 6px;
+  overflow: hidden;
+  background: $secondary-bg;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.85;
+  }
+
+  &__icon {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: $primary-bg;
+    @include flex(center, center);
+
+    i {
+      font-size: 1.6rem;
+      color: $hover-text;
+    }
   }
 
   &__main {
-    table {
-      font-size: 1.2rem;
-    }
+    width: 80%;
 
-    td {
-      padding: 1.2rem 2rem;
-    }
-
-    th {
-      padding: 1rem 2rem;
+    span {
+      font-size: 2rem;
       font-weight: 600;
+      color: $secondary-text;
+      letter-spacing: 1px;
     }
+  }
+
+  &__name {
+    margin-bottom: 2rem;
+    text-transform: capitalize;
   }
 }

@@ -27,9 +27,7 @@ function MovieList(props) {
       try {
         const url = `/film/${type}`;
         const res = await API.get(url);
-        if (res.status === 200) {
-          setMovieList(res.data);
-        }
+        setMovieList(res);
       } catch (error) {
         console.log(error);
       }
@@ -37,6 +35,7 @@ function MovieList(props) {
     getMovieList(listMovieType);
   }, [listMovieType]);
 
+  //Functions
   const handleTabActive = (e) => {
     const tabUnderline = tabRef.current;
     const tabWidth = e.target.offsetWidth;

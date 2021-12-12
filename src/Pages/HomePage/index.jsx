@@ -25,9 +25,7 @@ function HomePage() {
       try {
         const url = "/film/now-playing";
         const res = await API.get(url);
-        if (res.status === 200) {
-          setNowPlayingList(res.data);
-        }
+        setNowPlayingList(res);
       } catch (error) {
         toast.error(error);
       }

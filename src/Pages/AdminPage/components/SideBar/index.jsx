@@ -86,7 +86,20 @@ function SideBar(props) {
             <span>Ticket</span>
           </NavLink>
         </li>
-        <li className="sidebar__nav-item" onClick={handleNavItemActive}>
+        <li className="sidebar__nav-item">
+          <NavLink
+            exact
+            activeClassName="sidebar__nav-link active"
+            className="sidebar__nav-link"
+            to="/admin/users"
+          >
+            <span>
+              <i className="fas fa-user-friends"></i>
+            </span>
+            <span>Users</span>
+          </NavLink>
+        </li>
+        {/* <li className="sidebar__nav-item" onClick={handleNavItemActive}>
           <div className="sidebar__nav-link">
             <span>
               <i className="fas fa-user-friends"></i>
@@ -116,7 +129,7 @@ function SideBar(props) {
               </NavLink>
             </li>
           </ul>
-        </li>
+        </li> */}
       </nav>
     </div>
   );

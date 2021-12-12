@@ -9,12 +9,6 @@ import Context from "../../../Context/Context";
 import { style, theme } from "./TicketFormSetup";
 import API from "../../../API";
 
-// const listCity = [
-//   { value: "danang", label: "Da Nang" },
-//   { value: "hcm", label: "Ho Chi Minh" },
-//   { value: "hanoi", label: "Ha Noi" },
-// ];
-
 function TicketForm(props) {
   //Props
   const { nowPlayingList } = props;
@@ -22,6 +16,9 @@ function TicketForm(props) {
   const location = useLocation();
 
   //States
+  const [listTheater, setListTheater] = useState([]);
+  const [listCity, setListCity] = useState([]);
+
   //Bind ticket info to Input of 'React select'
   const [ticketSelected, setTicketSelected] = useState(() => {
     const ticketInfo = JSON.parse(sessionStorage.getItem("ticket_info"));
@@ -33,7 +30,6 @@ function TicketForm(props) {
     }
   });
 
-  const [listCity, setListCity] = useState([]);
   const [cityName, setCityName] = useState(() => {
     const ticketInfo = JSON.parse(sessionStorage.getItem("ticket_info"));
     if (ticketInfo) {
@@ -41,7 +37,6 @@ function TicketForm(props) {
     }
     return "";
   });
-  const [listTheater, setListTheater] = useState([]);
 
   //context
   const context = useContext(Context);
@@ -53,13 +48,11 @@ function TicketForm(props) {
     const getListCity = async () => {
       const url = "/theater/city/list";
       const res = await API.get(url);
-      if (res.status === 200) {
-        const listCity = res.data.map((c) => ({
-          value: c.city,
-          label: c.city,
-        }));
-        setListCity(listCity);
-      } else return;
+      const listCity = res.map((c) => ({
+        value: c.city,
+        label: c.city,
+      }));
+      setListCity(listCity);
     };
 
     getListCity();
@@ -70,13 +63,11 @@ function TicketForm(props) {
     const getTheatersByCity = async (name) => {
       const url = `/theater/search?cityName=${name}`;
       const res = await API.get(url);
-      if (res.status === 200) {
-        const listTheater = res.data.map((t) => ({
-          value: t.id,
-          label: t.name,
-        }));
-        setListTheater(listTheater);
-      } else return;
+      const listTheater = res.map((t) => ({
+        value: t.id,
+        label: t.name,
+      }));
+      setListTheater(listTheater);
     };
 
     cityName && getTheatersByCity(cityName);

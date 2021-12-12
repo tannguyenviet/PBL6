@@ -1,9 +1,9 @@
 @import "../../../../../sass/variables";
 @import "../../../../../sass/mixins";
 .modal {
-  &__showtime {
+  &__container {
     max-width: 65rem;
-    margin: 10rem auto;
+    margin: 5rem auto;
   }
   &-header {
     font-size: 2rem;
@@ -22,6 +22,9 @@
 }
 
 .form {
+  &-side {
+    align-items: flex-start;
+  }
   &-group {
     margin-bottom: 2rem;
   }
@@ -41,7 +44,19 @@
   }
   &-options {
     @include flex(center, center);
+    margin-top: 2rem;
     gap: 2rem;
+  }
+
+  &__radio {
+    padding: 1rem 0;
+    @include flex(center, flex-start);
+    gap: 2rem;
+
+    &-item {
+      @include flex(center);
+      gap: 1rem;
+    }
   }
 }
 
@@ -64,5 +79,13 @@
     border-top-color: #fff;
     border-radius: 2px;
     transform: translateY(-30%);
+  }
+}
+
+.preview__area {
+  width: 65%;
+  height: 18rem;
+  img {
+    border-radius: 6px;
   }
 }

@@ -5,6 +5,7 @@ import Context from "../../Context/Context";
 import API from "../../API";
 import "./Login.scss";
 import Logo from "../../components/Layouts/Logo";
+import { toast } from "react-toastify";
 
 // const isEmail = (email) => {
 //   const regex =
@@ -64,24 +65,21 @@ function LoginForm(props) {
       };
       try {
         const res = await API.post(url, data, config);
-        if (res.status === 200) {
-          localStorage.setItem("user_info", JSON.stringify(res.data.info));
-          localStorage.setItem("token", JSON.stringify(res.data.token));
-          localStorage.setItem("isLogined", true);
-          context.setLogined(true);
-          context.setLoading(true);
-          setTimeout(() => {
-            context.setLoading(false);
-            props.history.push("/");
-          }, 3000);
-        }
-        console.log(res);
+        localStorage.setItem("user_info", JSON.stringify(res.info));
+        localStorage.setItem("token", JSON.stringify(res.token));
+        localStorage.setItem("isLogined", true);
+        context.setLogined(true);
+        context.setLoading(true);
+        setTimeout(() => {
+          context.setLoading(false);
+          props.history.push("/");
+        }, 3000);
       } catch (error) {
         setFormErrors({
           username: "Username or Password is not correct",
           password: "Username or Password is not correct",
         });
-        console.log("ERROR:", error);
+        toast.error(error.message);
       }
     }
   };

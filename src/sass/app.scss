@@ -35,6 +35,13 @@ body.hidden {
   overflow: hidden;
 }
 
+.form-control:disabled,
+.form-control[readonly] {
+  background: #0a1e5e;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .container {
   max-width: 117rem;
   margin: 0 auto;
@@ -147,6 +154,11 @@ body.hidden {
     font-size: 1.4rem;
     font-weight: 500;
 
+    white-space: nowrap;
+    max-width: 25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     &:last-child {
       @include flex(center);
       gap: 2rem;
@@ -165,6 +177,10 @@ body.hidden {
 input {
   font-family: "Poppins", sans-serif;
   font-weight: 500;
+}
+
+input[type="radio"] {
+  margin: 0;
 }
 
 button {

@@ -30,16 +30,14 @@ function MovieDetail(props) {
       try {
         const url = `/film/${id}`;
         const res = await API.get(url);
-        if (res.status === 200) {
-          setMovieInfo(res.data);
-          setTicketInfo({
-            ...ticketInfo,
-            movie: {
-              value: res.data.id,
-              label: res.data.name,
-            },
-          });
-        }
+        setMovieInfo(res);
+        setTicketInfo({
+          ...ticketInfo,
+          movie: {
+            value: res.id,
+            label: res.name,
+          },
+        });
       } catch (error) {
         console.log(error);
         history.push("/notfound");
@@ -55,9 +53,7 @@ function MovieDetail(props) {
       try {
         const url = `/showtime/search?idFilm=${idFilm}&idTheater=${idTheater}&date=${date}`;
         const res = await API.get(url);
-        if (res.status === 200) {
-          setShowTime(res.data);
-        } else return;
+        setShowTime(res);
       } catch (error) {
         setShowTime([]);
       }

@@ -14,6 +14,8 @@ function MovieCard(props) {
   const { movieInfo, setTrailerSrc } = props;
   const { id, name, image, rating, trailer } = movieInfo;
 
+  //Functions
+
   //Open - Close Modal
   const handleTrailerModal = (e, trailer, name) => {
     e.stopPropagation();

@@ -139,13 +139,9 @@ function Register() {
       try {
         const res = await API.post(url, data, config);
         console.log(res);
-        if (res.status === 200) {
-          toast.success("Thanh cong");
-        } else {
-          toast.error(res.message);
-        }
+        toast.success("Please check your email to active account");
       } catch (error) {
-        toast.error(error);
+        toast.error(error.message);
       }
 
       setRegisterInfo({

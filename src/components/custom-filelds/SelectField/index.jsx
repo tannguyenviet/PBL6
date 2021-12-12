@@ -5,24 +5,8 @@ import { ErrorMessage } from "formik";
 import Select from "react-select";
 import { style, theme } from "../../Ticket/TicketForm/TicketFormSetup";
 
-SelectField.propTypes = {
-  field: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
-
-  label: PropTypes.string,
-  placeholder: PropTypes.string,
-  disabled: PropTypes.bool,
-  options: PropTypes.array,
-};
-
-SelectField.defaultProps = {
-  label: "",
-  placeholder: "",
-  disabled: false,
-  options: [],
-};
-
 function SelectField(props) {
+  const userInfo = JSON.parse(localStorage.getItem("user_info"));
   const {
     field,
     form,
@@ -30,6 +14,8 @@ function SelectField(props) {
     label,
     placeholder,
     disabled,
+    city,
+    theaterId,
     value: propValue,
   } = props;
   const { name, value } = field;
@@ -39,6 +25,28 @@ function SelectField(props) {
   });
   const { errors, touched } = form;
   const showError = errors[name] && touched[name];
+
+  let newOptions;
+  if (userInfo.role_id === 1) {
+    switch (name) {
+      case "theater": {
+        if (city) {
+          newOptions = options.filter((o) => o.city === city);
+        } else newOptions = [];
+        break;
+      }
+      case "room_film": {
+        if (theaterId) {
+          newOptions = options.filter((o) => o.theaterId === theaterId);
+        } else newOptions = [];
+        break;
+      }
+      default:
+        newOptions = options;
+    }
+  }
+
+  // console.log(`OPTIONS ${name}:`, options);
 
   //Override onChange
   const handleSelectedOptionChange = (selectedOption) => {
@@ -65,7 +73,7 @@ function SelectField(props) {
           value={selectedOption}
           placeholder={placeholder}
           disabled={disabled}
-          options={options}
+          options={newOptions || options}
           onChange={handleSelectedOptionChange}
           styles={style}
           theme={theme}
@@ -75,5 +83,22 @@ function SelectField(props) {
     </FormGroup>
   );
 }
+
+SelectField.propTypes = {
+  field: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
+
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
+  options: PropTypes.array,
+};
+
+SelectField.defaultProps = {
+  label: "",
+  placeholder: "",
+  disabled: false,
+  options: [],
+};
 
 export default SelectField;

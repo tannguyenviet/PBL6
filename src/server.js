@@ -37,7 +37,7 @@ const options = {
             description: "A simple Express Library API",
         },
         servers: [{
-            url: "http://localhost:8080",
+            url: `http://localhost:${PORT}`,
         }, ],
     },
     apis: ["./src/routes/*.js"],

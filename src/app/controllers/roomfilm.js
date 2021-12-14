@@ -48,7 +48,7 @@ exports.findByID = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Error retrieving RoomFilm with id=" + id
+                message: err.message
             });
         });
 };
@@ -102,35 +102,34 @@ exports.findAll = async(req, res) => {
         })
         .catch(err => {
             return res.status(500).send({
-                message: "Error retrieving all RoomFilms"
+                message: err.message
             });
         });
 };
 
 // [PUT] ../RoomFilm/id
 // Update a RoomFilm by the id in the request
-exports.update = (req, res) => {
+exports.update = async(req, res) => {
 
     const id = req.params.id;
+    const roomfilm = await RoomFilm.findByPk(id)
+    if (!roomfilm) {
+        return res.status(404).send({ message: "This roomfilm not found" })
+    }
     const { name, column, row } = req.body
     const newRoomFilm = { name, column, row };
     RoomFilm.update(newRoomFilm, {
             where: { id: id }
         })
         .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "RoomFilm was updated successfully."
-                });
-            } else {
-                res.status(404).send({
-                    message: `Cannot update RoomFilm with id=${id}. Maybe nothing changed or RoomFilm was not found or req.body is empty!`
-                });
-            }
+            res.send({
+                message: "RoomFilm was updated successfully."
+            });
+
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error updating RoomFilm with id=" + id
+                message: err.message
             });
         });
 };
@@ -139,7 +138,6 @@ exports.update = (req, res) => {
 // Delete a RoomFilm with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
-
     RoomFilm.destroy({
             where: { id: id }
         })
@@ -156,7 +154,7 @@ exports.delete = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete RoomFilm with id=" + id
+                message: err.message
             });
         });
 };

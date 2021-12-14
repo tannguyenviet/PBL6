@@ -40,7 +40,7 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             return res.status(500).send({
-                message: err.message || "Error retrieving all PriceTypes"
+                message: err.message
             });
         });
 };
@@ -63,35 +63,36 @@ exports.findByID = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Error retrieving PriceType with id=" + id
+                message: err.message
             });
         });
 };
 
 // [PUT] ../PriceType/id
 // Update a PriceType by the id in the request
-exports.update = (req, res) => {
+exports.update = async(req, res) => {
 
     const id = req.params.id;
+
+    const pricetype = await PriceType.findByPk(id)
+    if (!pricetype) {
+        return res.status(404).send({ message: "This pricetype not found" })
+    }
+
     const { description, price } = req.body
     const newPriceType = { description, price };
     PriceType.update(newPriceType, {
             where: { id: id }
         })
         .then(num => {
-            if (num == 1) {
-                return res.send({
-                    message: "PriceType was updated successfully."
-                });
-            } else {
-                return res.status(404).send({
-                    message: `Cannot update PriceType with id=${id}. Maybe nothing changed or PriceType was not found or req.body is empty!`
-                });
-            }
+            return res.send({
+                message: "PriceType was updated successfully."
+            });
+
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error updating PriceType with id=" + id
+                message: err.message
             });
         });
 };
@@ -117,7 +118,7 @@ exports.delete = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete PriceType with id=" + id
+                message: err.message
             });
         });
 };

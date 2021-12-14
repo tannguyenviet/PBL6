@@ -23,7 +23,7 @@ exports.register = async(req, res) => {
         },
     }).catch((err) => {
         return res.status(500).send({
-            message: err.message || "Some error occurred while findAll account.",
+            message: err.message
         });
     });
     if (alreadyExistsUser.length > 0) {
@@ -94,13 +94,13 @@ exports.register = async(req, res) => {
                 .catch((err) => {
                     console.log("Error while sending email: %s", err);
                     return res.status(500).send({
-                        message: err.message || "Some error occurred while sending email.",
+                        message: err.message
                     });
                 });
         })
         .catch((err) => {
             return res.status(500).send({
-                message: err.message || "Some error occurred while Create raw account.",
+                message: err.message
             });
         });
 };
@@ -134,7 +134,7 @@ exports.verifyEmail = async(req, res) => {
         });
     } catch (error) {
         return res.status(500).send({
-            message: error.message || "Some error occurred while activating your account.",
+            message: error.message
         });
     }
 };
@@ -168,7 +168,7 @@ exports.login = async(req, res) => {
         return res.json({ info: account, token: jwtToken });
     } catch (error) {
         return res.status(500).send({
-            message: error.message || "Some error occurred while Login.",
+            message: error.message
         });
     }
 };
@@ -190,7 +190,7 @@ exports.findAll = (req, res) => {
         })
         .catch((err) => {
             res.status(500).send({
-                message: err.message || "Some error occurred while retrieving accounts.",
+                message: err.message
             });
         });
 };
@@ -211,32 +211,33 @@ exports.findOne = (req, res) => {
         })
         .catch((err) => {
             res.status(500).send({
-                message: "Error retrieving account with id=" + id,
+                message: err.message
             });
         });
 };
 
 // [PUT] ../account/id
 // Update a account by the id in the request
-exports.update = (req, res) => {
+exports.updateAccountInfo = async(req, res) => {
     const id = req.params.id;
-    Account.update(req.body, {
+    const account = await Account.findByPk(id)
+    if (!account) {
+        return res.status(404).send({ message: "This User not found" })
+    }
+    const { name, phone, address, birthday, gender } = req.body;
+    const info = { name, phone, address, birthday, gender }
+    Account.update(info, {
             where: { id: id },
         })
         .then((num) => {
-            if (num == 1) {
-                res.send({
-                    message: "account was updated successfully.",
-                });
-            } else {
-                res.status(404).send({
-                    message: `Cannot update account with id = ${id}.Maybe nothing changed or account was not found or req.body is empty!`,
-                });
-            }
+            res.send({
+                message: "account was updated successfully.",
+            });
+
         })
         .catch((err) => {
             res.status(500).send({
-                message: "Error updating account with id=" + id,
+                message: err.message
             });
         });
 };
@@ -245,7 +246,6 @@ exports.update = (req, res) => {
 // Delete a account with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
-
     Account.destroy({
             where: { id: id },
         })
@@ -262,7 +262,7 @@ exports.delete = (req, res) => {
         })
         .catch((err) => {
             res.status(500).send({
-                message: "Could not delete account with id=" + id,
+                message: err.message
             });
         });
 };

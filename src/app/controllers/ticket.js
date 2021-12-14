@@ -46,7 +46,7 @@ exports.create = async(req, res) => {
         })
         .catch(err => {
             return res.status(500).send({
-                message: err.message || "Some error occurred while creating the Ticket."
+                message: err.message
             });
         });
 };
@@ -67,7 +67,7 @@ exports.findLocationsByShowtimeId = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Some error occurred while retrieving tutorials."
+                message: err.message
             });
         });
 };
@@ -103,7 +103,7 @@ exports.countRevenueByShowtimeId = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Some error occurred while retrieving tutorials."
+                message: err.message
             });
         });
 };
@@ -127,7 +127,7 @@ exports.findByAccountId = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Some error occurred while find ticket with account_id."
+                message: err.message
             });
         });
 };
@@ -153,7 +153,7 @@ exports.delete = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete Ticket with id=" + id
+                message: err.message
             });
         });
 };

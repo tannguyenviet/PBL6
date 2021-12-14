@@ -1,6 +1,6 @@
 const db = require("../../utils/db");
 const Showtime = db.show_time;
-const RoomFilm = db.room_film;
+const showtime = db.room_film;
 const Op = db.Sequelize.Op;
 
 // [POST] ../showtime/create
@@ -28,7 +28,7 @@ exports.create = async(req, res) => {
         })
         .catch((err) => {
             return res.status(500).send({
-                message: err.message || "Some error occurred while creating the Showtime.",
+                message: err.message
             });
         });
 };
@@ -69,7 +69,7 @@ exports.findAllWithIdFilmAndIdTheaterAndDate = async(req, res) => {
         }
 
         //
-        const listTheaterRoomIDs = await RoomFilm.findAll({
+        const listTheaterRoomIDs = await showtime.findAll({
             attributes: ["id"],
             where: {
                 [Op.and]: [{ theater_id: idTheater }],
@@ -111,7 +111,7 @@ exports.findAllWithIdFilmAndIdTheaterAndDate = async(req, res) => {
 
 };
 
-// [GET] ../showtime/search?idFilm=""&idTheater=""&date=""
+// [GET] ../showtime/searchForAdmin?idFilm=""&idTheater=""&date=""
 // Retrieve all showtime belong to a film having a idTheater and a specific date for Admin
 exports.findAllWithIdFilmAndIdTheaterAndDateForAdmin = async(req, res) => {
     try {
@@ -148,15 +148,15 @@ exports.findAllWithIdFilmAndIdTheaterAndDateForAdmin = async(req, res) => {
         if (!idTheater) {
             return res.send(listShowTimes);
         }
-        // get roomfilmsIDs of a theater
-        const listTheaterRoomIDs = await RoomFilm.findAll({
+        // get showtimesIDs of a theater
+        const listTheaterRoomIDs = await showtime.findAll({
             attributes: ["id"],
             where: {
                 [Op.and]: [{ theater_id: idTheater }],
             },
         });
         const listRoomIDs = listTheaterRoomIDs.map((r) => r.id);
-        // get roomfilmsIDs of listFilms
+        // get showtimesIDs of listFilms
         const dataRoomIds = listShowTimes.map((r) => r.room_film_id);
         //
         const similarRoomIds = listRoomIDs.filter((x) => dataRoomIds.includes(x));
@@ -167,7 +167,7 @@ exports.findAllWithIdFilmAndIdTheaterAndDateForAdmin = async(req, res) => {
         );
     } catch (err) {
         return res.status(500).send({
-            message: err.message || "Error retrieving Showtime with id=" + idRoom,
+            message: err.message
         });
     }
 };
@@ -198,7 +198,7 @@ exports.findAll = (req, res) => {
         })
         .catch((err) => {
             return res.status(500).send({
-                message: err.message || "Error retrieving Showtime with id=" + idRoom,
+                message: err.message
             });
         });
 }
@@ -217,32 +217,31 @@ exports.findById = (req, res) => {
         })
         .catch((err) => {
             return res.status(500).send({
-                message: err.message || "Error retrieving Showtime with id=" + id,
+                message: err.message
             });
         });
 };
 
 // [PUT] ../showtime/id
 // Update a Showtime by the id in the request
-exports.update = (req, res) => {
+exports.update = async(req, res) => {
     const id = req.params.id;
+    const showtime = await Showtime.findByPk(id)
+    if (!showtime) {
+        return res.status(404).send({ message: "This showtime not found" })
+    }
     Showtime.update(req.body, {
             where: { id: id },
         })
         .then((num) => {
-            if (num == 1) {
-                res.send({
-                    message: "Showtime was updated successfully.",
-                });
-            } else {
-                res.status(404).send({
-                    message: `Cannot update Showtime with id=${id}. Maybe Showtime was not found or req.body is empty!`,
-                });
-            }
+            res.send({
+                message: "Showtime was updated successfully.",
+            });
+
         })
         .catch((err) => {
             res.status(500).send({
-                message: err.message || "Error updating Showtime with id=" + id,
+                message: err.message
             });
         });
 };
@@ -268,7 +267,7 @@ exports.delete = (req, res) => {
         })
         .catch((err) => {
             res.status(500).send({
-                message: "Could not delete Showtime with id=" + id,
+                message: err.message
             });
         });
 };

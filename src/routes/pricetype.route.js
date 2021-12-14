@@ -12,14 +12,14 @@ const router = require("express").Router();
  *         - price
  *       properties:
  *         id:
- *           type: string
+ *           type: int
  *           description: The auto-generated id of the pricetype
  *         description:
  *           type: string
- *           description: The pricetype title
+ *           description: The pricetype - description
  *         price:
- *           type: string
- *           description: The pricetype author
+ *           type: int
+ *           description: The basic price
  *       example:
  *         id: 1
  *         description: Vé 2D - Ngày thường

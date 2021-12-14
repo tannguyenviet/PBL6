@@ -30,7 +30,7 @@ exports.create = (req, res) => {
                     })
                     .catch((err) => {
                         res.status(500).send({
-                            message: err.message || "Some error occurred while creating the Film.",
+                            message: err.message
                         });
                     });
             } else {
@@ -41,11 +41,9 @@ exports.create = (req, res) => {
         })();
     } catch (error) {
         res.status(500).send({
-            message: error.message || "Some error occurred while create film.",
+            message: error.message
         });
     }
-
-
 };
 
 // [GET] ../film /list
@@ -68,7 +66,7 @@ exports.findAll = (req, res) => {
         })
         .catch((err) => {
             res.status(500).send({
-                message: err.message || "Some error occurred while retrieving film.",
+                message: err.message
             });
         });
 };
@@ -89,7 +87,7 @@ exports.findNowPlaying = (req, res) => {
         })
         .catch((err) => {
             res.status(500).send({
-                message: err.message || "Some error occurred while retrieving film.",
+                message: err.message
             });
         });
 };
@@ -112,7 +110,7 @@ exports.findUpComing = (req, res) => {
         })
         .catch((err) => {
             res.status(500).send({
-                message: err.message || "Some error occurred while retrieving film.",
+                message: err.message
             });
         });
 };
@@ -141,7 +139,7 @@ exports.category = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Some error occurred while get films by category."
+                message: err.message
             });
         });
 };
@@ -162,32 +160,31 @@ exports.findOne = (req, res) => {
         })
         .catch((err) => {
             res.status(500).send({
-                message: "Error retrieving Film with id=" + id,
+                message: err.message
             });
         });
 };
 
 // [PUT] ../ film/id
 // Updat    e a Film by the id in the request
-exports.update = (req, res) => {
+exports.update = async(req, res) => {
     const id = req.params.id;
+    const film = await Film.findByPk(id)
+    if (!film) {
+        return res.status(404).send({ message: "This film not found" })
+    }
     Film.update(req.body, {
             where: { id: id },
         })
         .then((num) => {
-            if (num == 1) {
-                res.send({
-                    message: "Film was updated successfully.",
-                });
-            } else {
-                res.status(404).send({
-                    message: `Cannot update Film with id=${id}. Maybe Film was not found or req.body is empty!`,
-                });
-            }
+            res.send({
+                message: "Film was updated successfully.",
+            });
+
         })
         .catch((err) => {
             res.status(500).send({
-                message: "Error updating Film with id=" + id,
+                message: err.message
             });
         });
 };
@@ -213,7 +210,7 @@ exports.delete = (req, res) => {
         })
         .catch((err) => {
             res.status(500).send({
-                message: "Could not delete Film with id=" + id,
+                message: err.message
             });
         });
 };

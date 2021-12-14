@@ -27,7 +27,7 @@ exports.create = async(req, res) => {
         })
         .catch(err => {
             return res.status(500).send({
-                message: err.message || "Some error occurred while creating the Theater."
+                message: err.message
             });
         });
 };
@@ -53,7 +53,7 @@ exports.searchWithCityName = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving theaters with cityName=" + cityName
+                message: err.message
             });
         });
 };
@@ -70,7 +70,7 @@ exports.findAllCity = (req, res) => {
         })
         .catch(err => {
             return res.status(500).send({
-                message: "Error retrieving all City"
+                message: err.message
             });
         });
 };
@@ -84,7 +84,7 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             return res.status(500).send({
-                message: err || "Error retrieving all theater"
+                message: err.message
             });
         });
 };
@@ -113,7 +113,7 @@ exports.managerAvailable = async(req, res) => {
         res.send(data)
     }).catch(err => {
         return res.status(500).send({
-            message: err.message || "Error retrieving available manager"
+            message: err.message
         });
     });
 
@@ -137,34 +137,33 @@ exports.findByIdManager = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Error retrieving Theater with idAccount=" + id
+                message: err.message
             });
         });
 };
 
 // [PUT] ../Theater/id
 // Update a Theater by the id in the request
-exports.update = (req, res) => {
+exports.update = async(req, res) => {
     const id = req.params.id;
+    const theater = await Theater.findByPk(id)
+    if (!theater) {
+        return res.status(404).send({ message: "This theater not found" })
+    }
     const { name, address, city, account_id } = req.body;
     const newTheater = { name, address, city, account_id };
     Theater.update(newTheater, {
             where: { id: id }
         })
         .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "Theater was updated successfully."
-                });
-            } else {
-                res.status(404).send({
-                    message: `Cannot update Theater with id=${id}. Maybe nothing changed or Theater was not found or req.body is empty!`
-                });
-            }
+            res.send({
+                message: "Theater was updated successfully."
+            });
+
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error updating Theater with id=" + id
+                message: err.message
             });
         });
 };
@@ -190,7 +189,7 @@ exports.delete = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete Theater with id=" + id
+                message: err.message
             });
         });
 };

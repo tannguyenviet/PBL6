@@ -40,35 +40,35 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             return res.status(500).send({
-                message: "Error retrieving all Membership"
+                message: err.message
             });
         });
 };
 
 // [PUT] ../Membership/id
 // Update a Membership by the id in the request
-exports.update = (req, res) => {
+exports.update = async(req, res) => {
 
     const id = req.params.id;
+
+    const membership = await Membership.findByPk(id)
+    if (!membership) {
+        return res.status(404).send({ message: "This membership not found" })
+    }
+
     const { rank_number, point_total, point_exchange } = req.body
     const newMembership = { rank_number, point_total, point_exchange };
     Membership.update(newMembership, {
             where: { id: id }
         })
         .then(num => {
-            if (num == 1) {
-                res.send({
-                    message: "Membership was updated successfully."
-                });
-            } else {
-                res.status(404).send({
-                    message: `Cannot update Membership with id=${id}. Maybe nothing changed or Membership was not found or req.body is empty!`
-                });
-            }
+            res.send({
+                message: "Membership was updated successfully."
+            });
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error updating Membership with id=" + id
+                message: err.message
             });
         });
 };
@@ -94,7 +94,7 @@ exports.delete = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete Membership with id=" + id
+                message: err.message
             });
         });
 };

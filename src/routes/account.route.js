@@ -176,10 +176,16 @@ router.post("/login", account.login);
 
 /**
  * @swagger
- * /account/list:
+ * /account/list?idRole=:
  *   get:
  *     summary: Returns the list of all the account
  *     tags: [account]
+ *     parameters:
+ *      - in: query
+ *        name: idRole
+ *        schema:
+ *          type: integer
+ *        description: The number of idRole
  *     responses:
  *       200:
  *         description: The list of the account
@@ -188,7 +194,7 @@ router.post("/login", account.login);
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Tutorial'
+ *                 $ref: '#/components/schemas/account'
  */
 // Retrieve all account
 router.get("/list", account.findAll);

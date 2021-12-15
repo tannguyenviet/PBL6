@@ -72,7 +72,7 @@ const router = require("express").Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Tutorial'
+ *                 $ref: '#/components/schemas/pricetype'
  */
 // Retrieve all pricetype of a city
 router.get("/list", pricetype.findAll);

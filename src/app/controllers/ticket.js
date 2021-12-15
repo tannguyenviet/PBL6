@@ -55,9 +55,10 @@ exports.create = async(req, res) => {
 // Retrieve all ticket-locations of a showtime by showtimeId
 exports.findLocationsByShowtimeId = (req, res) => {
     const id = req.query.idShowtime;
+    const condition = id ? { show_time_id: id } : null;
     Ticket.findAll({
             where: {
-                [Op.and]: [{ show_time_id: id }]
+                [Op.and]: [condition]
             }
         })
         .then(data => {

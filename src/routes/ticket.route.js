@@ -1,62 +1,62 @@
 const ticket = require("../app/controllers/ticket");
 const passport = require("passport");
 const router = require("express").Router();
-
-/**
- * @swagger
- * components:
- *   schemas:
- *    ticket:
- *       type: object
- *       required:
- *          - amount
- *          - price
- *          - time_booking
- *          - account_id 
- *          - show_time_id 
- *          - location
- *          - ticketHash
- *          - ticketQR
- *          - check_in
- *       properties:
- *         id:
- *          type: int
- *          description: The auto-generated id of theticket
- *         amount:
- *          type: string
- *          description: The ticket title
- *         price:
- *          type: string
- *          description: The ticket title
- *         time_booking:
- *          type: string
- *          description: The ticket title
- *         account_id:
- *          type: string
- *          description: The ticket title
- *         show_time_id:
- *          type: string
- *          description: The ticket title
- *         location:
- *          type: string
- *          description: The ticket title
- *         ticketHash:
- *          type: date
- *          description: The ticket title
- *         ticketQR:
- *          type: boolean
- *          description: The ticket author
- *         check_in:
- *          type: int
- *          description: The ticket author
- *       example:
- *          amount: 2
- *          price: 100000
- *          time_booking: 2021-11-19T19:00:00.000Z
- *          account_id: 10
- *          show_time_id: 2
- *          location: A2,B2,C2,D2
- */
+const payment = require("../app/controllers/order")
+    /**
+     * @swagger
+     * components:
+     *   schemas:
+     *    ticket:
+     *       type: object
+     *       required:
+     *          - amount
+     *          - price
+     *          - time_booking
+     *          - account_id 
+     *          - show_time_id 
+     *          - location
+     *          - ticketHash
+     *          - ticketQR
+     *          - check_in
+     *       properties:
+     *         id:
+     *          type: int
+     *          description: The auto-generated id of theticket
+     *         amount:
+     *          type: string
+     *          description: The ticket title
+     *         price:
+     *          type: string
+     *          description: The ticket title
+     *         time_booking:
+     *          type: string
+     *          description: The ticket title
+     *         account_id:
+     *          type: string
+     *          description: The ticket title
+     *         show_time_id:
+     *          type: string
+     *          description: The ticket title
+     *         location:
+     *          type: string
+     *          description: The ticket title
+     *         ticketHash:
+     *          type: date
+     *          description: The ticket title
+     *         ticketQR:
+     *          type: boolean
+     *          description: The ticket author
+     *         check_in:
+     *          type: int
+     *          description: The ticket author
+     *       example:
+     *          amount: 2
+     *          price: 100000
+     *          time_booking: 2021-11-19T19:00:00.000Z
+     *          account_id: 10
+     *          show_time_id: 2
+     *          location: A2,B2,C2,D2
+     */
 
 /**
  * @swagger

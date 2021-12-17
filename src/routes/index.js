@@ -8,10 +8,12 @@ const theater = require('./theater.route')
 const membership = require('./membership.route')
 const pricetype = require('./pricetype.route')
 const roomfilm = require('./roomfilm.route')
+const order = require('./order.route')
 
 function route(app) {
 
     // simple route
+    app.use('/order', order);
     app.use('/theater', theater);
     app.use('/tutorials', tutorialRoute);
     app.use('/film', filmRoute);

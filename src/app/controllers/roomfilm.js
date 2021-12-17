@@ -2,6 +2,7 @@ const db = require("../../utils/db");
 const RoomFilm = db.room_film;
 const Showtime = db.show_time;
 const Op = db.Sequelize.Op;
+const convertUTCDateToLocalDate = require('../../utils/convertUTCDateToLocalDate')
 
 // [POST] ../RoomFilm/create
 // Create and Save a new RoomFilm
@@ -54,10 +55,7 @@ exports.findByID = (req, res) => {
 };
 
 
-function convertUTCDateToLocalDate(date) {
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date;
-}
+
 // [GET] ../RoomFilm/list?idTheater=&state=
 // Retrieve all RoomFilms (with state or idTheater)
 exports.findAll = async(req, res) => {

@@ -1,5 +1,8 @@
 const db = require("../../utils/db");
 const Ticket = db.ticket;
+const Film = db.film;
+const Showtime = db.show_time;
+const RoomFilm = db.room_film;
 const Op = db.Sequelize.Op;
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
@@ -108,29 +111,44 @@ exports.countRevenueByShowtimeId = (req, res) => {
             });
         });
 };
-exports.findByAccountId = (req, res) => {
+
+const convertUTCDateToLocalDate = require('../../utils/convertUTCDateToLocalDate')
+exports.findByAccountId = async(req, res) => {
     const id = req.params.id;
-    Ticket.findAll({
-            attributes: ['id', 'amount', 'price', 'time_booking', 'show_time_id', 'location', 'ticketQR'],
-            where: {
-                [Op.and]: [{ account_id: id }]
-            }
-        })
-        .then(data => {
-            if (data.length > 0) {
-                delete data.ticketHash;
-                return res.status(200).send(data);
-            } else {
-                return res.status(404).send({
-                    message: `Cannot find any ticket with account_id = ${id}.`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message
+    const tickets = await Ticket.findAll({
+        raw: true,
+        attributes: ['id', 'amount', 'price', 'time_booking', 'show_time_id', 'location', 'ticketQR'],
+        where: {
+            [Op.and]: [{ account_id: id }]
+        }
+    });
+    if (tickets.length > 0) {
+        const unresolvedPromises = tickets.map(r => {
+            return Showtime.findByPk(r.show_time_id).then(data => {
+                return data
             });
+
+        })
+        const ShowTimeResults = await Promise.all(unresolvedPromises)
+        for (const ticket of tickets) {
+            const showtime = ShowTimeResults.find(showtime => showtime.id == ticket.show_time_id)
+            if (showtime) {
+                const dateStrStart = showtime.time_start.toISOString();
+                const dateStrEnd = showtime.time_end.toISOString();
+                ticket.date = dateStrStart.split("T")[0]
+                ticket.time_start = dateStrStart.split("T")[1]
+                ticket.time_end = dateStrEnd.split("T")[1]
+                const film = await Film.findByPk(showtime.film_id)
+                ticket.film_name = film.name;
+            }
+        }
+        delete tickets.ticketHash;
+        return res.status(200).send(tickets);
+    } else {
+        return res.status(404).send({
+            message: `Cannot find any ticket with account_id = ${id}.`
         });
+    }
 };
 
 // [DELETE] ../ticket/id

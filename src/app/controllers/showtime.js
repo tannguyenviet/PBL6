@@ -1,6 +1,6 @@
 const db = require("../../utils/db");
 const Showtime = db.show_time;
-const showtime = db.room_film;
+const RoomFilm = db.room_film;
 const Op = db.Sequelize.Op;
 
 // [POST] ../showtime/create
@@ -69,7 +69,7 @@ exports.findAllWithIdFilmAndIdTheaterAndDate = async(req, res) => {
         }
 
         //
-        const listTheaterRoomIDs = await showtime.findAll({
+        const listTheaterRoomIDs = await RoomFilm.findAll({
             attributes: ["id"],
             where: {
                 [Op.and]: [{ theater_id: idTheater }],
@@ -148,15 +148,15 @@ exports.findAllWithIdFilmAndIdTheaterAndDateForAdmin = async(req, res) => {
         if (!idTheater) {
             return res.send(listShowTimes);
         }
-        // get showtimesIDs of a theater
-        const listTheaterRoomIDs = await showtime.findAll({
+        // get RoomFilmsIDs of a theater
+        const listTheaterRoomIDs = await RoomFilm.findAll({
             attributes: ["id"],
             where: {
                 [Op.and]: [{ theater_id: idTheater }],
             },
         });
         const listRoomIDs = listTheaterRoomIDs.map((r) => r.id);
-        // get showtimesIDs of listFilms
+        // get RoomFilmsIDs of listFilms
         const dataRoomIds = listShowTimes.map((r) => r.room_film_id);
         //
         const similarRoomIds = listRoomIDs.filter((x) => dataRoomIds.includes(x));

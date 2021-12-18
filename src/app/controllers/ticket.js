@@ -113,9 +113,10 @@ exports.countRevenueByShowtimeId = (req, res) => {
 };
 
 const convertUTCDateToLocalDate = require('../../utils/convertUTCDateToLocalDate')
+const Theater = db.theater
 exports.findByAccountId = async(req, res) => {
     const id = req.params.id;
-    const tickets = await Ticket.findAll({
+    var tickets = await Ticket.findAll({
         raw: true,
         attributes: ['id', 'amount', 'price', 'time_booking', 'show_time_id', 'location', 'ticketQR'],
         where: {
@@ -133,6 +134,13 @@ exports.findByAccountId = async(req, res) => {
         for (const ticket of tickets) {
             const showtime = ShowTimeResults.find(showtime => showtime.id == ticket.show_time_id)
             if (showtime) {
+                //
+                const roomfilm = await RoomFilm.findByPk(showtime.room_film_id)
+                const theater_id = roomfilm.theater_id;
+                const theater = await Theater.findByPk(theater_id)
+                ticket.theater = theater.name;
+                ticket.city = theater.city;
+                //
                 const dateStrStart = showtime.time_start.toISOString();
                 const dateStrEnd = showtime.time_end.toISOString();
                 ticket.date = dateStrStart.split("T")[0]
@@ -143,6 +151,9 @@ exports.findByAccountId = async(req, res) => {
             }
         }
         delete tickets.ticketHash;
+        tickets = tickets.sort(function(less, greater) {
+            return new Date(greater.date) - new Date(less.date);
+        });
         return res.status(200).send(tickets);
     } else {
         return res.status(404).send({

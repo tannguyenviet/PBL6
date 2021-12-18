@@ -25,7 +25,9 @@ exports.createPaymentUrl = (req, res, next) => {
     var tmnCode = config.vnp_TmnCode;
     var secretKey = config.vnp_HashSecret;
     var vnpUrl = config.vnp_Url;
-    var returnUrl = config.vnp_ReturnUrl;
+    //
+    var returnUrl = "http://" + req.headers.host + config.vnp_ReturnUrl;
+    //
     var date = new Date();
     var createDate = dateFormat(date, 'yyyymmddHHmmss');
     var orderId = dateFormat(date, 'HHmmss');

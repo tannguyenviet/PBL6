@@ -73,6 +73,8 @@ exports.register = async(req, res) => {
                 },
             });
             //const domain = "tuantanminhsanh.hopto.org:8080"
+            //const domain = "42.115.230.103:8080"
+            console.log(req.headers.host)
             const msg = {
                 from: '"The Exapress App" <theExpressApp@example.com>', // sender address
                 to: `${email}`, // list of receivers

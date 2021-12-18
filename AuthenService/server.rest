@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:6000/authenapp
+POST http://localhost:6000/tutorials
 Content-Type: application/json
 
 {

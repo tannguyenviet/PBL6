@@ -1,0 +1,41 @@
+
+###
+POST http://localhost:4000/login
+Content-Type: application/json
+
+{
+    "username":"member_1",
+    "password":"111"
+}
+###
+POST http://127.0.0.1:4000/login
+Content-Type: application/json
+
+{
+    "username":"member_1",
+    "passsword":"111"
+}
+
+###
+GET http://localhost:8080/tutorials 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGFuZGVwdHJhaSIsImlhdCI6MTYzODQ5OTMwMSwiZXhwIjoxNjM4NDk5MzE2fQ.TPuyYW57rTud3oTZxjr0eP8REsUBbg709meF0IiOEho
+
+###
+GET http://localhost:6868/tutorials 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJxdWFuaHV5bmhAZ21haWwuY29tIiwiZ2FtZV9pZCI6MSwiaWF0IjoxNjM4NTA3NTU3LCJleHAiOjE2MzkxMTU1NTd9.X5Bf32xdooTm8JKKTrxa6kE-khfgLL2lftGf3PbwGH8
+### /
+POST http://localhost:8080/account/login 
+Content-Type: application/json
+
+{
+    "username":"member_1",
+    "password":"111"
+}
+### /
+POST http://localhost:6868/account/login 
+Content-Type: application/json
+
+{
+    "username":"member_1",
+    "password":"111"
+}

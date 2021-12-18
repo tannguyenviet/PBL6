@@ -8,8 +8,20 @@
     background-attachment: fixed;
   }
 
+  &__form {
+    input {
+      background: $primary-bg;
+      color: $secondary-text;
+      border: 1px solid currentColor;
+      margin-bottom: 8px;
+      padding: 1rem 1.2rem;
+      font-size: 1.6rem;
+    }
+  }
+
   &__content {
     gap: 8rem;
+    @include flex(flex-end, space-between);
   }
 
   &__bar {
@@ -45,7 +57,11 @@
   &__info {
     width: 60%;
     input:read-only {
-      background-color: $secondary-text;
+      background-color: $primary-bg;
+      opacity: 0.7;
     }
+  }
+  &__password {
+    flex: 1;
   }
 }

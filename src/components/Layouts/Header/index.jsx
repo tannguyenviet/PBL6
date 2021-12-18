@@ -56,7 +56,7 @@ function Header(props) {
                   Now Playing
                 </NavLink>
               </li>
-              <li className="menu__sub-item">
+              {/* <li className="menu__sub-item">
                 <NavLink
                   exact
                   className="menu__link"
@@ -65,7 +65,7 @@ function Header(props) {
                 >
                   Buy Ticket
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
           </li>
           <li className="menu__item">

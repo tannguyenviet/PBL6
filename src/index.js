@@ -12,7 +12,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import MoviePage from "./Pages/MoviePage/";
 import MovieDetailPage from "./Pages/MoviePage/MovieDetail";
-import TicketPage from "./Pages/TicketPage";
+// import TicketPage from "./Pages/TicketPage";
 import NotFoundPage from "./Pages/NotFoundPage";
 import AdminPage from "./Pages/AdminPage";
 import ManagerPage from "./Pages/ManagerPage";
@@ -41,7 +41,7 @@ ReactDOM.render(
                 <Route exact path="/" component={HomePage} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <Route path="/ticket" component={TicketPage} />
+                {/* <Route path="/ticket" component={TicketPage} /> */}
                 <Route path="/movie/list" component={MoviePage} />
                 <Route path="/movie/detail/:id" component={MovieDetailPage} />
                 <Route path="/seat" component={SeatPage} />

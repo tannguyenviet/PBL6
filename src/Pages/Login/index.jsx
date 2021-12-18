@@ -73,7 +73,7 @@ function LoginForm(props) {
         setTimeout(() => {
           context.setLoading(false);
           props.history.push("/");
-        }, 3000);
+        }, 1000);
       } catch (error) {
         setFormErrors({
           username: "Username or Password is not correct",

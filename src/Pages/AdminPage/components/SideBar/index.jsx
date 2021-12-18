@@ -60,7 +60,7 @@ function SideBar(props) {
             <span>Showtime</span>
           </NavLink>
         </li>
-        <li className="sidebar__nav-item">
+        {/* <li className="sidebar__nav-item">
           <NavLink
             exact
             activeClassName="sidebar__nav-link active"
@@ -85,7 +85,7 @@ function SideBar(props) {
             </span>
             <span>Ticket</span>
           </NavLink>
-        </li>
+        </li> */}
         <li className="sidebar__nav-item">
           <NavLink
             exact

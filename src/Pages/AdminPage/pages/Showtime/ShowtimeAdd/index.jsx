@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import * as Yup from "yup";
 import { Button, Modal, ModalHeader, ModalBody, FormGroup } from "reactstrap";
 import { Formik, Form, Field } from "formik";
 import { toast } from "react-toastify";
 
-import Context from "../../../../../Context/Context";
+// import Context from "../../../../../Context/Context";
 import SelectField from "../../../../../components/custom-filelds/SelectField";
 import InputField from "../../../../../components/custom-filelds/InputFIeld";
 import PreviewField from "../../../../../components/custom-filelds/PreviewField";
@@ -35,8 +35,8 @@ function ShowtimeAdd(props) {
     theaterInfo,
   } = props;
   const userInfo = JSON.parse(localStorage.getItem("user_info"));
-  const { today } = useContext(Context);
-  console.log(today);
+  // const { today } = useContext(Context);
+  // console.log(today);
 
   //Functions
   const handleCloseModal = () => {
@@ -69,10 +69,11 @@ function ShowtimeAdd(props) {
       };
       const url = "/showtime/create";
       const res = await API.post(url, newShowtime);
-      console.log(res);
-      setUpdated();
-      onOpen();
-      toast.success("Add successfully");
+      if (res) {
+        setUpdated();
+        onOpen();
+        toast.success("Add successfully");
+      }
     }
   };
 
@@ -126,8 +127,8 @@ function ShowtimeAdd(props) {
             onSubmit={(values) => handleFormSubmit(values)}
           >
             {(formikProps) => {
-              const { values, errors } = formikProps;
-              console.log({ values, errors });
+              const { values } = formikProps;
+              // console.log({ values, errors });
               return (
                 <Form>
                   {userInfo.role_id === 1 ? (

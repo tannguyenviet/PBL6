@@ -6,19 +6,22 @@ import "./Pagination.scss";
 function PaginationArea(props) {
   const { paginationInfo, setPaginationInfo } = props;
   const { page, totalPage } = paginationInfo;
-  console.log("Pagination: ", paginationInfo);
+  // console.log("Pagination: ", paginationInfo);
 
   const listPage = [];
   for (let i = 1; i <= totalPage; ++i) {
     listPage.push(i);
   }
 
+  //Functions
   const handlePageChange = (newPage) => {
     setPaginationInfo({
       ...paginationInfo,
       page: newPage,
     });
   };
+
+  //Renders
   return (
     <Pagination className="pagination" size="lg">
       <PaginationItem
@@ -69,4 +72,4 @@ PaginationArea.defaultProps = {
   setPaginationInfo: null,
 };
 
-export default PaginationArea;
+export default React.memo(PaginationArea);

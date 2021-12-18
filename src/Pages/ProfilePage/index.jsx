@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
 import { useState } from "react";
-import "./ProfilePage.scss";
 import ProfileForm from "./ProfileForm";
+import History from "./BookingHistory";
+import "./ProfilePage.scss";
 
 function ProfilePage(props) {
   const tabRef = useRef();
@@ -41,7 +42,7 @@ function ProfilePage(props) {
           </div>
           <div className="profile__underline" ref={tabRef}></div>
         </div>
-        {tab === "history" ? <ProfileForm /> : <ProfileForm />}
+        {tab === "history" ? <History /> : <ProfileForm />}
       </div>
     </section>
   );

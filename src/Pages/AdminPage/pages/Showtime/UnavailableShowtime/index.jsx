@@ -13,7 +13,7 @@ function UnavailableShowtime(props) {
     const getUnavailableShowtime = async () => {
       const url = `showtime/list?idRoom=${roomId}&date=${date}`;
       const res = await API.get(url);
-      console.log("URL", url);
+      // console.log("URL", url);
       setListShowtime(res);
     };
     getUnavailableShowtime();
@@ -42,7 +42,7 @@ function UnavailableShowtime(props) {
 }
 
 UnavailableShowtime.propTypes = {
-  roomId: PropTypes.string,
+  roomId: PropTypes.number,
   date: PropTypes.string,
 };
 

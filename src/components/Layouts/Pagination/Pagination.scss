@@ -10,3 +10,22 @@
   filter: brightness(80%);
   pointer-events: none;
 }
+
+.page-link {
+  background: $secondary-bg;
+  color: $secondary-text;
+
+  &:hover {
+    background: $gradient-btn;
+    color: $secondary-text;
+  }
+}
+
+.page-item.active .page-link {
+  background: $gradient-btn;
+  border-color: currentColor;
+}
+
+.page-item.disabled .page-link {
+  background: $primary-bg;
+}

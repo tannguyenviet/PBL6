@@ -1,0 +1,62 @@
+@import "../../../sass/variables";
+@import "../../../sass/mixins";
+
+.history {
+  &__container {
+    @include flex(flex-start, space-between);
+  }
+
+  &__preview {
+    width: 35%;
+    padding: 4rem 2rem;
+    background: $secondary-bg;
+    border: 1px dashed $secondary-text;
+    @include flex(center, flex-start, nowrap, column);
+  }
+
+  &__content {
+    width: 100%;
+  }
+  &__detail {
+    margin-bottom: 1.5rem;
+    @include flex(center, space-between);
+  }
+
+  &__qr {
+    padding: 3rem;
+  }
+
+  &__notice {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: $success;
+  }
+
+  &__list {
+    padding-top: 4rem;
+    width: 50%;
+    @include flex(flex-start, flex-start, nowrap, column);
+  }
+  &__ticket {
+    width: 100%;
+    background: $secondary-bg;
+    padding: 1rem;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    color: $secondary-text;
+    transition: all 0.2s linear;
+    margin-bottom: 1rem;
+
+    &:hover {
+      border-color: $success;
+      cursor: pointer;
+    }
+
+    &-film {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    &-date {
+      font-size: 1.4rem;
+    }
+  }
+}

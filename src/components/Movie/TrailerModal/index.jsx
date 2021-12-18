@@ -13,7 +13,8 @@ function TrailerModal(props) {
 
   //Close modal when click into overlay
   const handleTrailerModal = (e) => {
-    if (e.target.className === "modal__container") {
+    console.log(e.target.className);
+    if (e.target.className === "modal__wrapper") {
       setOpenModal(false);
     } else {
       return;
@@ -23,7 +24,7 @@ function TrailerModal(props) {
   //Render
   return (
     <div className="modal__bg">
-      <div className="modal__container" onClick={handleTrailerModal}>
+      <div className="modal__wrapper" onClick={handleTrailerModal}>
         <iframe
           width="850"
           height="500"

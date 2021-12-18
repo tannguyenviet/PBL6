@@ -5,5 +5,9 @@
   &__home {
     @include flex(center, flex-start, wrap);
     gap: 5rem;
+    margin-bottom: 5rem;
+  }
+  &__chart {
+    @include flex(center, space-between);
   }
 }

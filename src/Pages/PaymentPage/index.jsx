@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Context from "../../Context/Context";
 
 import Banner from "../../components/Layouts/Banner";
@@ -8,8 +8,6 @@ import "./PaymentPage.scss";
 function PaymentPage(props) {
   const context = useContext(Context);
   const { ticketInfo } = context;
-
-  const [qrCode, setQrCode] = useState();
 
   const userInfo = JSON.parse(localStorage.getItem("user_info"));
   const token = JSON.parse(localStorage.getItem("token"));
@@ -32,7 +30,7 @@ function PaymentPage(props) {
   const timeBooking = parseISOLocalTime();
 
   const handleCreateTicket = async () => {
-    const url = "/ticket/create";
+    const url = "/order/create_payment_url";
     const data = {
       amount: locations.length,
       price: totalPrice,
@@ -48,8 +46,11 @@ function PaymentPage(props) {
     };
     console.log(data);
     const res = await API.post(url, data, config);
-    setQrCode(res.ticketQR);
+    if (res) {
+      window.location.href = res;
+    }
   };
+
   return (
     <>
       <Banner animate={false} page="payment" />
@@ -105,11 +106,6 @@ function PaymentPage(props) {
                 <span>-$10</span>
               </div>
             </div>
-            {qrCode && (
-              <div className="payment__qr">
-                <img src={qrCode} alt="NOT FOUND" />
-              </div>
-            )}
             <div className="payment__total">
               <span>Total price</span>
               <span>$140</span>
@@ -148,23 +144,14 @@ function PaymentPage(props) {
             </div>
             <div className="payment__methods">
               <div className="payment__title">Payment Methods</div>
-              <ul className="payment__methods-list">
-                <li className="payment__methods-item">
-                  <i className="far fa-credit-card"></i>
-                  <span>Credit Card</span>
-                </li>
-                <li className="payment__methods-item">
-                  <i className="fab fa-cc-visa"></i>
-                  <span>Visa Card</span>
-                </li>
-                <li
+              <div className="payment__methods-list">
+                <div
                   className="payment__methods-item"
                   onClick={handleCreateTicket}
                 >
-                  <i className="fab fa-cc-paypal"></i>
-                  <span>Paypal</span>
-                </li>
-              </ul>
+                  <img src="/images/icons/vnpay.svg" alt="NOT FOUND" />
+                </div>
+              </div>
             </div>
           </div>
         </div>

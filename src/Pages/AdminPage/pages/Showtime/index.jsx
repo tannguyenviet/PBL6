@@ -213,7 +213,6 @@ function Showtime() {
       const roomName = listRoomFilm.find((rf) => {
         return rf.value === id;
       });
-      console.log(roomName);
       return roomName && roomName.label;
     }
   };

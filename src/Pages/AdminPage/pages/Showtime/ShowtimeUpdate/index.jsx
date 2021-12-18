@@ -96,12 +96,13 @@ function ShowtimeUpdate(props) {
     if (flag) {
       try {
         const url = `/showtime/${id}`;
-        console.log(updateShowtime);
+        // console.log(updateShowtime);
         const res = await API.put(url, updateShowtime);
-        console.log(res);
-        setUpdated();
-        onOpen();
-        toast.success("Update successfully");
+        if (res) {
+          setUpdated();
+          onOpen();
+          toast.success("Update successfully");
+        }
       } catch (error) {
         toast.error(error);
       }
@@ -150,7 +151,7 @@ function ShowtimeUpdate(props) {
           >
             {(formikProps) => {
               const { values, dirty } = formikProps;
-              console.log("Formik Update values:", values);
+              // console.log("Formik Update values:", values);
               return (
                 <Form>
                   {userInfo.role_id === 1 ? (

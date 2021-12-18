@@ -1,5 +1,7 @@
 import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { toast } from "react-toastify";
+
 import API from "../../../../../API";
 import PropTypes from "prop-types";
 
@@ -8,10 +10,9 @@ function ShowtimeDelete(props) {
   const handleDeleteShowtime = async (id) => {
     try {
       const url = `/showtime/${id}`;
-      console.log(url);
       const res = await API.delete(url);
       if (res) {
-        console.log(res);
+        toast.success("Delete successfully");
         setUpdated();
         onOpen();
       }

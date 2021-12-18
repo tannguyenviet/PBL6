@@ -36,7 +36,7 @@ function Dashbox(props) {
       <div className="dashbox__icon">{renderIcon(name)}</div>
       <div className="dashbox__main">
         <h3 className="dashbox__name">Total {name}</h3>
-        {info && <span>{info.total_results}</span>}
+        {info && <span>{info}</span>}
       </div>
     </div>
   );
@@ -44,7 +44,7 @@ function Dashbox(props) {
 
 Dashbox.propTypes = {
   name: PropTypes.string,
-  info: PropTypes.object,
+  info: PropTypes.number,
 };
 
 Dashbox.defaultProps = {

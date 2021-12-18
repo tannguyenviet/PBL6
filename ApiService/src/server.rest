@@ -7,7 +7,7 @@ content-type: application/json
     "published":1
 }
 ###
-GET http://localhost:8080/tutorials
+GET http://localhost:6868/tutorials
 
 ###
 
@@ -26,7 +26,7 @@ content-type: application/json
 }
 ###
 
-PUT http://localhost:8080/tutorials/1
+PUT http://localhost:6000/tutorials/1
 content-type: application/json
 
 {
@@ -43,7 +43,11 @@ content-type: application/json
         "password": "111"
 }
 ###
-GET http://localhost:6868/tutorials/
+GET http://localhost:6000/movieapp/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJxdWFuaHV5bmhAZ21haWwuY29tIiwiZ2FtZV9pZCI6MSwiaWF0IjoxNjM4NDE5NjY5LCJleHAiOjE2MzkwMjc2Njl9.G0Mn6FYPjXGScHzjCXu47Jx7-FUg9kRRgtpuyD2X4qg
+
+###
+GET http://movieapp/tutorials/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJxdWFuaHV5bmhAZ21haWwuY29tIiwiZ2FtZV9pZCI6MSwiaWF0IjoxNjM4NDE5NjY5LCJleHAiOjE2MzkwMjc2Njl9.G0Mn6FYPjXGScHzjCXu47Jx7-FUg9kRRgtpuyD2X4qg
 
 

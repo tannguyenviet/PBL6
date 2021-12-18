@@ -7,7 +7,7 @@ const route = require('./routes/index');
 const middlewares = require('./app/middlewares/notFound_errorHandleMiddleware');
 const passport = require('passport');
 const app = express();
-const PORT = process.env.PORT || 6868;
+const PORT = process.env.PORT || 5000;
 //const PORT = process.env.PORT || 8081;
 const db = require('./utils/db');
 //

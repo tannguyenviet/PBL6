@@ -7,6 +7,15 @@ Content-Type: application/json
     "username":"member_1",
     "password":"111"
 }
+
+###
+POST http://localhost:6000/authenapp
+Content-Type: application/json
+
+{
+    "username":"member_1",
+    "password":"111"
+}
 ###
 POST http://127.0.0.1:4000/login
 Content-Type: application/json
@@ -17,7 +26,10 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/tutorials 
+GET http://localhost:8080/movieapp
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGFuZGVwdHJhaSIsImlhdCI6MTYzODQ5OTMwMSwiZXhwIjoxNjM4NDk5MzE2fQ.TPuyYW57rTud3oTZxjr0eP8REsUBbg709meF0IiOEho
+###
+GET http://localhost:6000/movieapp/tutorials
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGFuZGVwdHJhaSIsImlhdCI6MTYzODQ5OTMwMSwiZXhwIjoxNjM4NDk5MzE2fQ.TPuyYW57rTud3oTZxjr0eP8REsUBbg709meF0IiOEho
 
 ###

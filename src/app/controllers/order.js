@@ -138,8 +138,8 @@ exports.returnPaymentUrl = async(req, res, next) => {
             ticket.ticketQR = await QRCode.toDataURL(jwtToken);
         });
         // Save Tet in the database
-        Ticket.cre(ticket)
-            .n(data => data.dataValues)
+        Ticket.create(ticket)
+            .then(data => data.dataValues)
             .then(data => {
                 delete data.ticketHash;
                 return res.send('Please check your ticket in your History Tab');

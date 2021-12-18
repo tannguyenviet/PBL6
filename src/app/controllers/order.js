@@ -102,7 +102,7 @@ exports.returnPaymentUrl = async(req, res, next) => {
     var hmac = crypto.createHmac("sha512", secretKey);
     var signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");
 
-    if (secureHash === signed) {
+    if (secureHash === signed && vnp_Params['vnp_ResponseCode'] === '00') {
         const infoTicket = vnp_Params['vnp_OrderInfo'].split("_");
         const ticket = {
             "price": vnp_Params['vnp_Amount'] / 100,
@@ -137,19 +137,18 @@ exports.returnPaymentUrl = async(req, res, next) => {
             ticket.ticketHash = ticketHash;
             ticket.ticketQR = await QRCode.toDataURL(jwtToken);
         });
-
-        // Save Ticket in the database
-        Ticket.create(ticket)
-            .then(data => data.dataValues)
+        // Save Tet in the database
+        Ticket.cre(ticket)
+            .n(data => data.dataValues)
             .then(data => {
                 delete data.ticketHash;
-                return res.send(data);
+                return res.send('Please check your ticket in your History Tab');
             })
             .catch(err => {
                 return res.status(500).send({
                     message: err.message
                 });
-            });
+            })
     } else {
         res.status(404).send("Error while payment")
     }

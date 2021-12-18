@@ -17,7 +17,7 @@
 //     // const hashedPasswordLAnHAi = await bcrypt.hash('111', '$2b$10$S0VBT5SXpR/QgZjp');
 //     // console.log(hashedPasswordLAnHAi)
 
-//     // Store hash in your password DB.sss
+//     // Store hash in your password DB.sssss
 // })();
 
 var tickets = [{ id: 1, date: 'Mar 12 2012 10:00:00 AM' }, { id: 2, date: 'Mar 8 2012 08:00:00 AM' }];

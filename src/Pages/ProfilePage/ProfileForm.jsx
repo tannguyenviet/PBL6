@@ -5,6 +5,7 @@ import API from "../../API";
 
 function ProfileForm(props) {
   //States
+
   const userInfo = JSON.parse(localStorage.getItem("user_info"));
   const [profileInfo, setProfileInfo] = useState({
     username: "",

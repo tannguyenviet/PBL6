@@ -1,40 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 
-import API from "../../../API";
 import "./BookingHistory.scss";
-// import PropTypes from "prop-types";
 
-function History(props) {
-  const userInfo = JSON.parse(localStorage.getItem("user_info"));
-  const [listBookingHistory, setListBookingHistory] = useState();
+function History({ listTicket, type }) {
   const [hisorySelected, setHistorySelected] = useState();
 
-  useEffect(() => {
-    const getBookingHistory = async () => {
-      const url = `/ticket/account/${userInfo.id}`;
-      const res = await API.get(url);
-      if (res) {
-        setListBookingHistory(res);
-      }
-    };
-    getBookingHistory();
-  }, [userInfo.id]);
-
   const handleHistoryClicked = (item) => {
-    console.log(item);
     setHistorySelected(item);
   };
 
   //Render
   return (
     <section className="history__section">
+      <div className="history__filter"></div>
       <div className="history__container">
         <div className="history__list">
-          {listBookingHistory &&
-            listBookingHistory.map((item) => {
+          {listTicket &&
+            listTicket.map((item) => {
               return (
                 <div
-                  className="history__ticket"
+                  className={`history__ticket ${
+                    type === "expired" ? "invalid" : ""
+                  } ${
+                    hisorySelected && item.id === hisorySelected.id
+                      ? "active"
+                      : ""
+                  }`}
                   key={item.id}
                   onClick={() => handleHistoryClicked(item)}
                 >
@@ -42,6 +34,10 @@ function History(props) {
                     <h4 className="history__ticket-film">{item.film_name}</h4>
                     <span className="history__ticket-date">
                       Date: {item.date}
+                    </span>
+                    <span className="history__ticket-showtime">
+                      {item.time_start.slice(0, 5)} -{" "}
+                      {item.time_end.slice(0, 5)}
                     </span>
                   </div>
                 </div>
@@ -96,6 +92,14 @@ function History(props) {
   );
 }
 
-// History.propTypes = {};
+History.propTypes = {
+  listTicket: PropTypes.array,
+  type: PropTypes.string,
+};
+
+History.defaultProps = {
+  listTicket: null,
+  type: null,
+};
 
 export default History;

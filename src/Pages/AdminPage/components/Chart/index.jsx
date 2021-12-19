@@ -41,6 +41,7 @@ function Chart(props) {
       re: 1890,
       pv: 4800,
       amt: 2181,
+      xxx: 1239,
     },
   ];
 
@@ -49,7 +50,7 @@ function Chart(props) {
     <section className="chart__section">
       <h2 className="chart__title">Revenue</h2>
       <AreaChart
-        width={600}
+        width={1000}
         height={360}
         data={data}
         margin={{ top: 10, right: 30, left: 20, bottom: 0 }}
@@ -70,7 +71,21 @@ function Chart(props) {
         <Tooltip contentStyle={{ background: "#0a1e5e" }} />
         <Area
           type="monotone"
+          dataKey="pv"
+          stroke="#8884d8"
+          fillOpacity={1}
+          fill="url(#colorre)"
+        />
+        <Area
+          type="monotone"
           dataKey="re"
+          stroke="#8884d8"
+          fillOpacity={1}
+          fill="url(#colorre)"
+        />
+        <Area
+          type="monotone"
+          dataKey="amt"
           stroke="#8884d8"
           fillOpacity={1}
           fill="url(#colorre)"
@@ -87,4 +102,4 @@ function Chart(props) {
   );
 }
 // Chart.propTypes = {};
-export default Chart;
+export default React.memo(Chart);

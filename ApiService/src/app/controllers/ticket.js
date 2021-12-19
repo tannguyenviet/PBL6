@@ -76,40 +76,95 @@ exports.findLocationsByShowtimeId = (req, res) => {
         });
 };
 
-// [GET] ../ticket/revenue?idShowtime=
+// [GET] ../ticket/revenue?idTheater=&date=?&idFilm=?
 // Count revenue of a showtime by showtimeId
-exports.countRevenueByShowtimeId = (req, res) => {
-    const id = req.query.idShowtime;
-    Ticket.findAll({
-            where: {
-                [Op.and]: [{ show_time_id: id }]
-            }
-        })
-        .then(data => {
-            if (data.length > 0) {
-                dataAmount = data.map(r => {
-                    return r.amount
-                })
-                dataRevenue = data.map(r => {
-                    return r.price
-                })
-                const revenue = dataRevenue.reduce((a, b) => { return a + b })
-                const amount = dataAmount.reduce((a, b) => { return a + b })
-                return res.status(200).send({
-                    amount_ticket: amount,
-                    revenue: revenue
-                });
-            } else {
-                return res.status(404).send({
-                    message: `Cannot found any ticket with idShowtime = ${id}.`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message
-            });
+exports.countRevenueByShowtimeId = async(req, res) => {
+    try {
+        const idFilm = req.query.idFilm;
+        const idTheater = req.query.idTheater;
+        let date1 = null;
+        let date2 = null;
+        if (req.query.date) {
+            date1 = new Date(req.query.date);
+            date2 = new Date(req.query.date);
+            date2.setDate(date2.getDate() + 1);
+        }
+        // 
+        var listShowtimeId = [];
+        //
+        const listShowTimes = await Showtime.findAll({
+            where: idFilm && date1 ? {
+                [Op.and]: [
+                    { film_id: idFilm },
+                    {
+                        time_start: {
+                            [Op.between]: [date1, date2],
+                        },
+                    },
+                ],
+            } : date1 ? {
+                [Op.and]: [{
+                    time_start: {
+                        [Op.between]: [date1, date2],
+                    },
+                }, ],
+            } : idFilm ? {
+                [Op.and]: [{ film_id: idFilm }],
+            } : {},
         });
+        if (!idTheater) {
+            listShowtimeId = listShowTimes.map(r => r.id);
+        } else {
+            // get RoomFilmsIDs of a theater
+            const listTheaterRoomIDs = await RoomFilm.findAll({
+                attributes: ["id"],
+                where: {
+                    [Op.and]: [{ theater_id: idTheater }],
+                },
+            });
+            const listRoomIDs = listTheaterRoomIDs.map((r) => r.id);
+            // get RoomFilmsIDs of listFilms
+            const dataRoomIds = listShowTimes.map((r) => r.room_film_id);
+            //
+            const similarRoomIds = listRoomIDs.filter((x) => dataRoomIds.includes(x));
+
+            //
+            listShowtimeId = listShowTimes.filter((r) => similarRoomIds.includes(r.room_film_id)).map(r => r.id)
+        }
+        Ticket.findAll({
+                where: {
+                    [Op.and]: [{ show_time_id: listShowtimeId }]
+                }
+            })
+            .then(data => {
+                if (data.length > 0) {
+                    dataAmount = data.map(r => {
+                        return r.amount
+                    })
+                    dataRevenue = data.map(r => {
+                        return r.price
+                    })
+                    const revenue = dataRevenue.reduce((a, b) => { return a + b })
+                    const amount = dataAmount.reduce((a, b) => { return a + b })
+                    return res.status(200).send({
+                        amount_ticket: amount,
+                        revenue: revenue
+                    });
+                } else {
+                    return res.status(200).send(data);
+                }
+            })
+            .catch(err => {
+                res.status(500).send({
+                    message: err.message
+                });
+            });
+    } catch (err) {
+        return res.status(500).send({
+            message: err.message
+        });
+    }
+
 };
 
 const convertUTCDateToLocalDate = require('../../utils/convertUTCDateToLocalDate')
@@ -143,6 +198,7 @@ exports.findByAccountId = async(req, res) => {
                 //
                 const dateStrStart = showtime.time_start.toISOString();
                 const dateStrEnd = showtime.time_end.toISOString();
+                ticket.datetime = showtime.time_start;
                 ticket.date = dateStrStart.split("T")[0]
                 ticket.time_start = dateStrStart.split("T")[1]
                 ticket.time_end = dateStrEnd.split("T")[1]
@@ -152,7 +208,7 @@ exports.findByAccountId = async(req, res) => {
         }
         delete tickets.ticketHash;
         tickets = tickets.sort(function(less, greater) {
-            return new Date(greater.date) - new Date(less.date);
+            return new Date(greater.datetime) - new Date(less.datetime);
         });
         return res.status(200).send(tickets);
     } else {
@@ -187,3 +243,6 @@ exports.delete = (req, res) => {
             });
         });
 };
+exports.countRevenueByTheaterIdAndDate = (req, res) => {
+
+}

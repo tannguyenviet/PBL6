@@ -2,12 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 require("dotenv").config();
-require("./auth/passport");
 const route = require("./routes/index");
 const middlewares = require("./app/middlewares/notFound_errorHandleMiddleware");
 // const passport = require("passport");
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 4000;
 //const PORT = process.env.PORT || 8081;
 const db = require("./utils/db");
 const swaggerUI = require("swagger-ui-express");
@@ -15,7 +14,10 @@ const swaggerJsDoc = require("swagger-jsdoc");
 //
 db.sequelize.sync();
 //
-app.use(cors());
+var corsOptions = {
+  origin: "http://localhost:3000",
+};
+app.use(cors(corsOptions));
 // parse requests of content-type - application/json
 app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded

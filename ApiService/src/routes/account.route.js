@@ -1,5 +1,6 @@
 const account = require("../app/controllers/account");
-
+const authen = require("../app/middlewares/author");
+const author = require("../app/middlewares/author")
 const router = require("express").Router();
 
 /**

@@ -163,7 +163,7 @@ exports.login = async(req, res) => {
         //
         if (!checkPass)
             return res.status(400).json({ message: "Password does not match" });
-        const jwtToken = jwt.sign({ id: account.id, username: account.username },
+        const jwtToken = jwt.sign({ id: account.id, username: account.username, role: account.role_id },
             process.env.JWT_SECRET
         );
         delete account["password"];

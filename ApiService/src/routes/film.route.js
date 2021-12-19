@@ -1,4 +1,6 @@
 const film = require("../app/controllers/film");
+const authen = require("../app/middlewares/author");
+const author = require("../app/middlewares/author")
 const passport = require("passport");
 const router = require("express").Router();
 /**

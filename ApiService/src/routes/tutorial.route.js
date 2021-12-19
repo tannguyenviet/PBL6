@@ -1,7 +1,10 @@
 const tutorials = require("../app/controllers/tutorial");
 const passport = require("passport");
-const express = require("express")
+const express = require("express");
 const router = express.Router();
+const authen = require("../app/middlewares/authen");
+const author = require("../app/middlewares/author");
+
 /**
  * @swagger
  * components:
@@ -34,8 +37,12 @@ const router = express.Router();
  *   description: The tutorials managing API
  */
 // Create a new Tutorial
-router.post("/", passport.authenticate("jwt", { session: false }), tutorials.create);
-
+router.post(
+  "/",
+  authen.authenticationToken,
+  author.checkManagerRole,
+  tutorials.create
+);
 
 /**
  * @swagger
@@ -54,14 +61,24 @@ router.post("/", passport.authenticate("jwt", { session: false }), tutorials.cre
  *                 $ref: '#/components/schemas/Tutorial'
  */
 // Retrieve all Tutorials
-router.get("/", tutorials.findAll);
+router.get(
+  "/",
+  authen.authenticationToken,
+  author.checkManagerRole,
+  tutorials.findAll
+);
 
 // Retrieve all published Tutorials
 router.get("/published", tutorials.findAllPublished);
 // function get + /published -> hardcode
 
 // Retrieve a single Tutorial with id
-router.get("/:id", tutorials.findOne);
+router.get(
+  "/:id",
+  authen.authenticationToken,
+  author.checkMemberRole,
+  tutorials.findOne
+);
 
 // Update a Tutorial with id
 router.put("/:id", tutorials.update);
@@ -72,4 +89,4 @@ router.delete("/:id", tutorials.delete);
 // Delete all Tutorials
 // router.delete("/", tutorials.deleteAll);
 
-module.exports = router
+module.exports = router;

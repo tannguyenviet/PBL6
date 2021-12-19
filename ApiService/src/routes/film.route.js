@@ -1,7 +1,6 @@
 const film = require("../app/controllers/film");
 const passport = require("passport");
 const router = require("express").Router();
-
 /**
  * @swagger
  * components:

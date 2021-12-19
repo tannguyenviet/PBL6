@@ -67,17 +67,8 @@ exports.findAllWithIdFilmAndIdTheaterAndDate = async(req, res) => {
             date2 = new Date(req.query.date);
             date2.setDate(date2.getDate() + 1);
         }
-
         //
-        const listTheaterRoomIDs = await RoomFilm.findAll({
-            attributes: ["id"],
-            where: {
-                [Op.and]: [{ theater_id: idTheater }],
-            },
-        });
-        const listRoomIDs = listTheaterRoomIDs.map((r) => r.id);
-        //
-        const listShowTimes = await Showtime.findAll({
+        var listShowTimes = await Showtime.findAll({
             where: idFilm && date1 ? {
                 [Op.and]: [
                     { film_id: idFilm },
@@ -97,18 +88,32 @@ exports.findAllWithIdFilmAndIdTheaterAndDate = async(req, res) => {
                 [Op.and]: [{ film_id: idFilm }],
             } : {},
         });
-        const dataRoomIds = listShowTimes.map((r) => r.room_film_id);
-        //
-        const similarRoomIds = listRoomIDs.filter((x) => dataRoomIds.includes(x));
-
-        // Return
-        return res.send(
-            listShowTimes.filter((r) => similarRoomIds.includes(r.room_film_id))
-        );
-    } catch (error) {
-        return res.status(500).send({ message: err.message });
+        if (idTheater) {
+            // get RoomFilmsIDs of a theater
+            const listTheaterRoomIDs = await RoomFilm.findAll({
+                attributes: ["id"],
+                where: {
+                    [Op.and]: [{ theater_id: idTheater }],
+                },
+            });
+            const listRoomIDs = listTheaterRoomIDs.map((r) => r.id);
+            // get RoomFilmsIDs of listFilms
+            const dataRoomIds = listShowTimes.map((r) => r.room_film_id);
+            //
+            const similarRoomIds = listRoomIDs.filter((x) => dataRoomIds.includes(x));
+            listShowTimes = listShowTimes.filter((r) => similarRoomIds.includes(r.room_film_id))
+        } else {
+            listShowTimes = []; // Manager k nhap idTheater thi tra ve mang rong
+        }
+        listShowTimes = listShowTimes.sort(function(less, greater) {
+            return new Date(greater.time_start) - new Date(less.time_start);
+        });
+        return res.send(listShowTimes);
+    } catch (err) {
+        return res.status(500).send({
+            message: err.message
+        });
     }
-
 };
 
 // [GET] ../showtime/searchForAdmin?idFilm=""&idTheater=""&date=""
@@ -125,7 +130,7 @@ exports.findAllWithIdFilmAndIdTheaterAndDateForAdmin = async(req, res) => {
             date2.setDate(date2.getDate() + 1);
         }
         //
-        const listShowTimes = await Showtime.findAll({
+        var listShowTimes = await Showtime.findAll({
             where: idFilm && date1 ? {
                 [Op.and]: [
                     { film_id: idFilm },
@@ -145,26 +150,25 @@ exports.findAllWithIdFilmAndIdTheaterAndDateForAdmin = async(req, res) => {
                 [Op.and]: [{ film_id: idFilm }],
             } : {},
         });
-        if (!idTheater) {
-            return res.send(listShowTimes);
+        if (idTheater) {
+            // get RoomFilmsIDs of a theater
+            const listTheaterRoomIDs = await RoomFilm.findAll({
+                attributes: ["id"],
+                where: {
+                    [Op.and]: [{ theater_id: idTheater }],
+                },
+            });
+            const listRoomIDs = listTheaterRoomIDs.map((r) => r.id);
+            // get RoomFilmsIDs of listFilms
+            const dataRoomIds = listShowTimes.map((r) => r.room_film_id);
+            //
+            const similarRoomIds = listRoomIDs.filter((x) => dataRoomIds.includes(x));
+            listShowTimes = listShowTimes.filter((r) => similarRoomIds.includes(r.room_film_id))
         }
-        // get RoomFilmsIDs of a theater
-        const listTheaterRoomIDs = await RoomFilm.findAll({
-            attributes: ["id"],
-            where: {
-                [Op.and]: [{ theater_id: idTheater }],
-            },
+        listShowTimes = listShowTimes.sort(function(less, greater) {
+            return new Date(greater.time_start) - new Date(less.time_start);
         });
-        const listRoomIDs = listTheaterRoomIDs.map((r) => r.id);
-        // get RoomFilmsIDs of listFilms
-        const dataRoomIds = listShowTimes.map((r) => r.room_film_id);
-        //
-        const similarRoomIds = listRoomIDs.filter((x) => dataRoomIds.includes(x));
-
-        //
-        return res.send(
-            listShowTimes.filter((r) => similarRoomIds.includes(r.room_film_id))
-        );
+        return res.send(listShowTimes);
     } catch (err) {
         return res.status(500).send({
             message: err.message

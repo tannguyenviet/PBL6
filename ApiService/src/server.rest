@@ -1,0 +1,38 @@
+POST http://localhost:8080/tutorials
+content-type: application/json
+
+{
+    "title": "MongoDB",
+    "description": "Wed, 21 Oct 2015 18:27:50 GMT",
+    "published":1
+}
+###
+GET http://localhost:8080/tutorials
+
+###
+
+
+GET http://localhost:8080/tutorials/
+
+###
+
+POST http://localhost:8080/tutorials
+content-type: application/json
+
+{
+    "title": "POSTRES SQL",
+    "description": "Wed, 21 Oct 2015 18:27:50 GMT",
+    "published":1
+}
+###
+
+POST http://localhost:8080/account/login
+content-type: application/json
+
+{
+        "username": "member_1",
+        "password": "111"
+}
+###
+GET http://localhost:8080/tutorials/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJtZW1iZXJfMSIsInJvbGUiOjMsImlhdCI6MTYzOTkwNTMxNn0.hwU-houl4gvAgGUoHc4zhnLcDr3_HuTAeA8BlN5_4ig

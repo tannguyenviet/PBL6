@@ -79,7 +79,7 @@ exports.findLocationsByShowtimeId = (req, res) => {
 // [GET] ../ticket/revenue?idTheater=&date=?&idFilm=?
 // Count revenue of a showtime by showtimeId
 const dateformat = require('dateformat');
-exports.countRevenueByShowtimeId = async(req, res) => {
+exports.countRevenue = async(req, res) => {
     try {
         const idFilm = req.query.idFilm;
         const idTheater = req.query.idTheater;
@@ -239,12 +239,8 @@ exports.findByAccountId = async(req, res) => {
         tickets = tickets.sort(function(less, greater) {
             return new Date(greater.datetime) - new Date(less.datetime);
         });
-        return res.status(200).send(tickets);
-    } else {
-        return res.status(404).send({
-            message: `Cannot find any ticket with account_id = ${id}.`
-        });
     }
+    return res.status(200).send(tickets);
 };
 
 // [DELETE] ../ticket/id

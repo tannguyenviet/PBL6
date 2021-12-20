@@ -138,7 +138,7 @@ router.get("/location/list", ticket.findLocationsByShowtimeId);
  *                 $ref: '#/components/schemas/ticket'
  */
 // Retrieve all ticket-locations of a showtime by showtimeId
-router.get("/revenue", ticket.countRevenueByShowtimeId);
+router.get("/revenue", ticket.countRevenue);
 
 /**
  * @swagger

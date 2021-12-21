@@ -194,7 +194,7 @@ function ProfileForm(props) {
                   type="date"
                   className="form__ip"
                   name="birthday"
-                  value={birthday.slice(0, 10)}
+                  value={birthday && birthday.slice(0, 10)}
                   onChange={handleInputChange}
                 />
                 <span className="form__error"></span>

@@ -15,7 +15,28 @@
       margin-bottom: 2rem;
 
       &-item {
-        width: 15%;
+        &:not(first-child) {
+          width: 15%;
+        }
+        &:first-child {
+          width: 40%;
+        }
+      }
+
+      &-date {
+        background: $secondary-bg;
+        width: 6rem;
+        margin: 0 1rem;
+        padding: 3px 2.5rem;
+
+        border-radius: 6px;
+        border: 1px solid $secondary-text;
+        transition: all 0.2s linear;
+
+        &:hover {
+          cursor: pointer;
+          border-color: $success;
+        }
       }
     }
   }

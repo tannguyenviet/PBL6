@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { toast } from "react-toastify";
 import API from "../../../../../API";
 import PropTypes from "prop-types";
 
@@ -13,6 +14,7 @@ function UserDelete(props) {
     if (res) {
       setUpdated();
       onOpen();
+      toast.success("Delete successfully");
     }
   };
 

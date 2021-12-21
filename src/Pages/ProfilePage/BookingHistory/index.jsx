@@ -44,7 +44,7 @@ function History({ listTicket, type }) {
               );
             })}
         </div>
-        {hisorySelected && (
+        {hisorySelected ? (
           <div className="history__preview">
             <div className="history__content">
               <div className="history__detail">
@@ -85,6 +85,10 @@ function History({ listTicket, type }) {
             <span className="history__notice">
               * Save this QR to get your ticket
             </span>
+          </div>
+        ) : (
+          <div className="history__preview">
+            <img src="" alt="detail-ticket" className="history__preview-img" />
           </div>
         )}
       </div>

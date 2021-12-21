@@ -140,7 +140,9 @@ function Showtime() {
       try {
         const url = `theater/manager/${userInfo.id}`;
         const res = await API.get(url);
-        setTheaterInfo(res);
+        if (res.length !== 0) {
+          setTheaterInfo(res);
+        }
       } catch (error) {
         toast.error(error.message);
       }

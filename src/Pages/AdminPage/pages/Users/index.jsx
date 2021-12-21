@@ -3,7 +3,7 @@ import { Table } from "reactstrap";
 
 import API from "../../../../API";
 import UserAdd from "./UserAdd";
-import UserUpdate from "./UserUpdate";
+// import UserUpdate from "./UserUpdate";
 import UserDelete from "./UserDelete";
 Users.propTypes = {};
 const listRole = [
@@ -15,7 +15,7 @@ const listRole = [
 function Users() {
   const [listAccount, setListAccount] = useState();
   const [toggleAdd, setToggleAdd] = useState(false);
-  const [toggleUpdate, setToggleUpdate] = useState(false);
+  // const [toggleUpdate, setToggleUpdate] = useState(false);
   const [toggleDelete, setToggleDelete] = useState(false);
   const [updated, setUpdated] = useState(false); //Trigger rerender when modal finish
   const [selectedUser, setSelectedUser] = useState();
@@ -36,13 +36,13 @@ function Users() {
     setToggleAdd(!toggleAdd);
   }, [toggleAdd]);
 
-  const handleOpenModalUpdate = useCallback(
-    (user) => {
-      setSelectedUser(user);
-      setToggleUpdate(!toggleUpdate);
-    },
-    [toggleUpdate]
-  );
+  // const handleOpenModalUpdate = useCallback(
+  //   (user) => {
+  //     setSelectedUser(user);
+  //     setToggleUpdate(!toggleUpdate);
+  //   },
+  //   [toggleUpdate]
+  // );
 
   const handleOpenModalDelete = useCallback(
     (user) => {
@@ -107,10 +107,10 @@ function Users() {
                     <td>{phone}</td>
                     <td>{isVerified ? "Actived" : "Inactive"}</td>
                     <td>
-                      <i
+                      {/* <i
                         className="far fa-edit"
                         onClick={() => handleOpenModalUpdate(user)}
-                      ></i>
+                      ></i> */}
                       <i
                         className="far fa-trash-alt"
                         onClick={() => handleOpenModalDelete(user)}
@@ -132,7 +132,7 @@ function Users() {
             listRole={listRole}
           />
         )}
-        {toggleUpdate && (
+        {/* {toggleUpdate && (
           <UserUpdate
             toggle={toggleUpdate}
             onOpen={handleOpenModalUpdate}
@@ -140,7 +140,7 @@ function Users() {
             listRole={listRole}
             userInfo={selectedUser}
           />
-        )}
+        )} */}
         {toggleDelete && (
           <UserDelete
             toggle={toggleDelete}

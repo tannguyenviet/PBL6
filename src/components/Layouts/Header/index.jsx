@@ -56,42 +56,14 @@ function Header(props) {
                   Now Playing
                 </NavLink>
               </li>
-              {/* <li className="menu__sub-item">
-                <NavLink
-                  exact
-                  className="menu__link"
-                  activeClassName="menu__link--active"
-                  to="/ticket"
-                >
-                  Buy Ticket
-                </NavLink>
-              </li> */}
             </ul>
-          </li>
-          <li className="menu__item">
-            <NavLink
-              className="menu__link"
-              activeClassName="menu__link--active"
-              to="/contact"
-            >
-              Contact
-            </NavLink>
-          </li>
-          <li className="menu__item">
-            <NavLink
-              className="menu__link"
-              activeClassName="menu__link--active"
-              to="/about"
-            >
-              About
-            </NavLink>
           </li>
 
           {userInfo ? (
             <li className="menu__item user__info">
               <div className="menu__link">{userInfo.name}</div>
               <ul className="menu__sub">
-                {userInfo.role_id === 3 && (
+                {userInfo && (
                   <li className="menu__sub-item">
                     <NavLink
                       exact
@@ -148,3 +120,22 @@ function Header(props) {
 }
 
 export default Header;
+
+/* <li className="menu__item">
+<NavLink
+  className="menu__link"
+  activeClassName="menu__link--active"
+  to="/contact"
+>
+  Contact
+</NavLink>
+</li>
+<li className="menu__item">
+<NavLink
+  className="menu__link"
+  activeClassName="menu__link--active"
+  to="/about"
+>
+  About
+</NavLink>
+</li> */

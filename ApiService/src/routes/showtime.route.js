@@ -1,7 +1,8 @@
 const showtime = require("../app/controllers/showtime");
 const passport = require("passport");
 const router = require("express").Router();
-
+const authen = require("../app/middlewares/authen");
+const author = require("../app/middlewares/author");
 /**
  * @swagger
  * components:
@@ -71,7 +72,7 @@ const router = require("express").Router();
  *         description: Some server error
  */
 // Create a new showtime - Manager
-router.post("/create", showtime.create);
+router.post("/create", authen.authenticationToken, author.checkManagerRole, showtime.create);
 
 /**
  * @swagger
@@ -231,7 +232,7 @@ router.get("/:id", showtime.findById);
  *        description: Some error happened
  */
 // Update a showtime with id - Manager
-router.put("/:id", showtime.update);
+router.put("/:id", authen.authenticationToken, author.checkManagerRole, showtime.update);
 
 /**
  * @swagger
@@ -256,6 +257,6 @@ router.put("/:id", showtime.update);
  *         description: Some error happened
  */
 // Delete a showtime with id - Manager
-router.delete("/:id", showtime.delete);
+router.delete("/:id", authen.authenticationToken, author.checkManagerRole, showtime.delete);
 
 module.exports = router;

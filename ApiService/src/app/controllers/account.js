@@ -188,10 +188,10 @@ exports.findAll = (req, res) => {
 
     Account.findAll({ where: condition })
         .then((data) => {
-            res.send(data);
+            return res.send(data);
         })
         .catch((err) => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message
             });
         });

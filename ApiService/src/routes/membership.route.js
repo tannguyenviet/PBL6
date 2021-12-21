@@ -7,13 +7,13 @@ const author = require("../app/middlewares/author")
 // router.post("/create", membership.create);
 
 // Retrieve all membership of a city
-router.get("/list", authen.authenticationToken, author.checkManagerRole, membership.findAll);
+router.get("/list", authen.authenticationToken, author.checkAdminRole, membership.findAll);
 
 // Update a membership with id
-router.put("/:id", membership.update);
+router.put("/:id", authen.authenticationToken, author.checkMemberRole, membership.update);
 
 // Delete a membership with id
-router.delete("/:id", membership.delete);
+router.delete("/:id", authen.authenticationToken, author.checkMemberRole, membership.delete);
 
 
 

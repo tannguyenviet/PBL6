@@ -14,7 +14,6 @@ services:
   api:
     depends_on:
       - mysqldb
-      - nginx
     build: ./ApiService
     restart: unless-stopped
     env_file: ./.env
@@ -31,7 +30,6 @@ services:
   account:
     depends_on:
       - mysqldb
-      - nginx
     build: ./AccountService
     restart: unless-stopped
     ports:
@@ -45,6 +43,9 @@ services:
       - DB_NAME=$MYSQLDB_DATABASE
       - DB_PORT=$MYSQLDB_DOCKER_PORT
   nginx:
+    depends_on:
+      - account
+      - api
     restart: always
     image: nginx:1.21.4-alpine
     ports:

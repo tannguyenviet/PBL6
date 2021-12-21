@@ -76,7 +76,7 @@ exports.register = async(req, res) => {
             //const domain = "42.115.230.103:8080"
             console.log(req.headers.host)
             const msg = {
-                from: '"The Exapress App" <theExpressApp@example.com>', // sender address
+                from: '"The Movie PBL6 App" <theMovieApp@example.com>', // sender address
                 to: `${email}`, // list of receivers
                 subject: "Sup", // Subject line
                 text: `Hello, thanks for registering on our site.

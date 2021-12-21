@@ -13,7 +13,7 @@ router.get("/list", authen.authenticationToken, author.checkAdminRole, membershi
 router.put("/:id", authen.authenticationToken, author.checkMemberRole, membership.update);
 
 // Delete a membership with id
-router.delete("/:id", authen.authenticationToken, author.checkMemberRole, membership.delete);
+router.delete("/:id", authen.authenticationToken, author.checkAdminRole, membership.delete);
 
 
 

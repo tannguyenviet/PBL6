@@ -76,7 +76,7 @@ const author = require("../app/middlewares/author");
  *                 $ref: '#/components/schemas/pricetype'
  */
 // Retrieve all pricetype of a city
-router.get("/list", authen.authenticationToken, author.checkManagerRole, pricetype.findAll);
+router.get("/list", authen.authenticationToken, author.checkMemberRole, pricetype.findAll);
 
 /**
  * @swagger
@@ -102,7 +102,7 @@ router.get("/list", authen.authenticationToken, author.checkManagerRole, pricety
  *         description: The pricetype was not found
  */
 // Retrieve a pricetype by id
-router.get("/:id", authen.authenticationToken, author.checkManagerRole, pricetype.findByID);
+router.get("/:id", authen.authenticationToken, author.checkMemberRole, pricetype.findByID);
 
 /**
  * @swagger

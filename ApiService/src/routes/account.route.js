@@ -224,7 +224,7 @@ router.get("/list", authen.authenticationToken, author.checkAdminRole, account.f
  *         description: The account was not found
  */
 // Retrieve a single account with id
-router.get("/:id", authen.authenticationToken, author.checkAdminRole, account.findOne);
+router.get("/:id", authen.authenticationToken, author.checkMemberRole, account.findOne);
 
 /**
  * @swagger

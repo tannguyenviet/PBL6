@@ -12,7 +12,7 @@ const db = require("./utils/db");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 //
-db.sequelize.sync();
+db.sequelize.sync({ force: true });
 //
 var corsOptions = {
   origin: "http://localhost:3000",

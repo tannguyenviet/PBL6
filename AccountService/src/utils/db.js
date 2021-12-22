@@ -18,13 +18,16 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     operatorsAliases: false,
     logging: false,
     pool: {
-        max: dbConfig.pool.max,
-        min: dbConfig.pool.min,
-        acquire: dbConfig.pool.acquire,
-        idle: dbConfig.pool.idle,
-
-    }
-});
+      max: dbConfig.pool.max,
+      min: dbConfig.pool.min,
+      acquire: dbConfig.pool.acquire,
+      idle: dbConfig.pool.idle,
+    },
+    define: {
+      charset: "utf8",
+      collate: "utf8_general_ci",
+    },
+  });
 const db = {};
 
 db.Sequelize = Sequelize;

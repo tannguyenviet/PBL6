@@ -264,7 +264,7 @@ router.put("/info/:id", authen.authenticationToken, author.checkMemberRole, iden
 router.put("/password/:id", authen.authenticationToken, author.checkMemberRole, identity.identity, account.updatePassword);
 
 // reset password 
-router.post("/reset-password/", authen.authenticationToken, author.checkMemberRole, identity.identity, account.resetPassword);
+router.post("/reset-password/", account.resetPassword);
 /**
  * @swagger
  * /account/{id}:

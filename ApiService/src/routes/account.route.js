@@ -2,7 +2,7 @@ const account = require("../app/controllers/account");
 const authen = require("../app/middlewares/authen");
 const author = require("../app/middlewares/author")
 const router = require("express").Router();
-
+const identity = require("../app/middlewares/identity");
 /**
  * @swagger
  * components:
@@ -224,7 +224,7 @@ router.get("/list", authen.authenticationToken, author.checkAdminRole, account.f
  *         description: The account was not found
  */
 // Retrieve a single account with id
-router.get("/:id", authen.authenticationToken, author.checkMemberRole, account.findOne);
+router.get("/:id", authen.authenticationToken, author.checkMemberRole, identity.identity, account.findOne);
 
 /**
  * @swagger
@@ -258,7 +258,13 @@ router.get("/:id", authen.authenticationToken, author.checkMemberRole, account.f
  *        description: Some error happened
  */
 // Update a account with id
-router.put("/info/:id", authen.authenticationToken, author.checkMemberRole, account.updateAccountInfo);
+router.put("/info/:id", authen.authenticationToken, author.checkMemberRole, identity.identity, account.updateAccountInfo);
+
+// Update password 
+router.put("/password/:id", authen.authenticationToken, author.checkMemberRole, identity.identity, account.updatePassword);
+
+// reset password 
+router.post("/reset-password/", authen.authenticationToken, author.checkMemberRole, identity.identity, account.resetPassword);
 /**
  * @swagger
  * /account/{id}:
@@ -282,5 +288,6 @@ router.put("/info/:id", authen.authenticationToken, author.checkMemberRole, acco
  */
 // Delete a account with id
 router.delete("/:id", authen.authenticationToken, author.checkAdminRole, account.delete);;
+
 
 module.exports = router

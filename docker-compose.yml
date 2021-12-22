@@ -16,7 +16,7 @@ services:
       - mysqldb
     build: ./ApiService
     restart: unless-stopped
-    env_file: ./.env
+    env_file: ./ApiService/.env
     # ports:
     #   - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     environment:
@@ -32,6 +32,7 @@ services:
       - mysqldb
     build: ./AccountService
     restart: unless-stopped
+    env_file: ./AccountService/.env
     ports:
       - 4000:4000
     stdin_open: true
@@ -47,7 +48,7 @@ services:
       - account
       - api
     restart: always
-    image: nginx:1.21.4-alpine
+    image: nginx:1.17.10
     ports:
       - "8080:80"
     volumes:

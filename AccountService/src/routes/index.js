@@ -3,12 +3,8 @@ const accountRoute = require("./account.route");
 const siteRouter = require("./site.route");
 
 function route(app) {
-  // simple route
-  app.use("/tutorials", tutorialRoute);
-  app.use("/account", accountRoute);
-
-  //get page Home
-  app.use("/", siteRouter);
+  app.use("/home", siteRouter);
+  app.use("/", accountRoute);
 }
 
 module.exports = route;

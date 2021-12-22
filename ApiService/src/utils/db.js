@@ -23,8 +23,14 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
         acquire: dbConfig.pool.acquire,
         idle: dbConfig.pool.idle,
 
+    },
+    // add new
+    define: {
+        charset: "utf8",
+        collate: "utf8_general_ci",
     }
 });
+
 const db = {};
 
 db.Sequelize = Sequelize;

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PBL6</title>
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background: #001232;
+        color: #bfccfa;
+      }
+      .container {
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      h1 {
+        text-transform: uppercase;
+        font-size: 40px;
+      }
+
+      p {
+        font-size: 25px;
+      }
+
+      .redirect {
+        display: block;
+        text-decoration: none;
+        padding: 15px 20px;
+        border-radius: 5px;
+
+        background: #0a1e5e;
+        color: #bfccfa;
+        transition: all 0.2s linear;
+      }
+
+      .redirect:hover {
+        color: #ece21c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="message">
+        <h1>You successfully created your booking</h1>
+        <p>See your ticket at your profile</p>
+      </div>
+      <a class="redirect" href="http://localhost:3000/profile"
+        >Back to profile page</a
+      >
+    </div>
+  </body>
+</html>

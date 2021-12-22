@@ -78,7 +78,7 @@ exports.register = async(req, res) => {
             const msg = {
                 from: '"The Movie PBL6 App" <theMovieApp@example.com>', // sender address
                 to: `${email}`, // list of receivers
-                subject: "Sup", // Subject line
+                subject: "Verification for your account", // Subject line
                 text: `Hello, thanks for registering on our site.
                     Please click the link below to verify your account: 
                     http://${req.headers.host}/account/verify-email?token=${newAccount.emailToken}`, // plain text body

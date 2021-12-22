@@ -157,7 +157,8 @@ exports.returnPaymentUrl = async(req, res, next) => {
             .then(data => data.dataValues)
             .then(data => {
                 delete data.ticketHash;
-                return res.send('Please check your ticket in your History Tab');
+                return res.render('returnPayment')
+
             })
             .catch(err => {
                 return res.status(500).send({

@@ -17,8 +17,8 @@ services:
     build: ./ApiService
     restart: unless-stopped
     env_file: ./ApiService/.env
-    # ports:
-    #   - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     environment:
       - DB_HOST=mysqldb
       - DB_USER=$MYSQLDB_USER

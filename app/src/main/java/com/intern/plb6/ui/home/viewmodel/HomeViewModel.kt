@@ -26,7 +26,7 @@ class HomeViewModel(private val navigator: HomeNavigator) : ViewModel() {
 
     init {
         fetchCategory()
-        fetchFilm()
+        fetchFilm("")
         fetchCity()
     }
 
@@ -43,8 +43,8 @@ class HomeViewModel(private val navigator: HomeNavigator) : ViewModel() {
         this.categories.postValue(Resource.success(categories))
     }
 
-    private fun fetchFilm() {
-        dataManager?.getFilmsByCategory("")?.observeOnUiThread()?.let {
+    fun fetchFilm(category: String) {
+        dataManager?.getFilmsByCategory(category)?.observeOnUiThread()?.let {
             compositeDisposable.add(
                 it.subscribe({ response ->
                     this.films.postValue(Resource.success(response))

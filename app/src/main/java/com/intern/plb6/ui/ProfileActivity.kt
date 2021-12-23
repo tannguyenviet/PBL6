@@ -1,12 +1,12 @@
-package com.intern.plb6.ui.resetvation
+package com.intern.plb6.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.intern.plb6.R
 
-class ReservationActivity : AppCompatActivity() {
+class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reservation)
+        setContentView(R.layout.activity_profile)
     }
 }

@@ -14,14 +14,27 @@
         android:theme="@style/Theme.PLB6"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.resetvation.ReservationActivity"
+            android:name=".ui.ProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.history.HistoryActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.vnpay.PaymentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.ticket.TicketActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.reservation.ReservationActivity"
             android:exported="true" />
         <activity
             android:name=".ui.detailfilm.DetailFilmActivity"
             android:exported="true" />
         <activity
             android:name=".ui.home.view.HomeActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.register.RegisterActivity"
             android:exported="true" />

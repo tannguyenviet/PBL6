@@ -29,4 +29,8 @@
     <string name="time_start">Time start</string>
     <string name="time_end">Time End</string>
     <string name="available">Available</string>
+    <string name="user_name">User Name</string>
+    <string name="price">%d VND</string>
+    <string name="location_seat">Location Seat</string>
+    <string name="date_of_birth">Date of birth</string>
 </resources>

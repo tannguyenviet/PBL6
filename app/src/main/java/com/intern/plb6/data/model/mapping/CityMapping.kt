@@ -10,9 +10,6 @@ class CityMapping (var city: String,var selected: Boolean){
             for (city in cities) {
                 citiesMap.add(CityMapping(city.city.toString(), false))
             }
-            if (citiesMap.size > 0) {
-                citiesMap[0].selected = true
-            }
             return citiesMap
         }
     }

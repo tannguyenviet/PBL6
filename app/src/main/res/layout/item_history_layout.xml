@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lyTicket"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dimen_8"
+    android:padding="@dimen/dimen_16"
+    android:elevation="@dimen/dimen_16"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_primary">
+
+    <TextView
+        android:id="@+id/txtNameFilm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="ten film"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_18"/>
+
+    <TextView
+        android:id="@+id/txtMovie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txtNameFilm"
+        android:text="Da nang"
+        android:textColor="@color/color_hint"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/dimen_8"/>
+
+    <TextView
+        android:id="@+id/txtTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="16h:32asdasd"
+        android:textSize="@dimen/font_18"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/txtLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txtNameFilm"
+        android:text="Da nang"
+        android:textColor="@color/color_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/dimen_8"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,11 +43,23 @@
             android:id="@+id/imgTicket"
             android:layout_width="@dimen/dimen_32"
             android:layout_height="@dimen/dimen_32"
-            android:layout_marginEnd="@dimen/dimen_24"
-            android:src="@drawable/ic_baseline_location_city_24"
+            android:layout_marginEnd="@dimen/dimen_32"
+            android:onClick="startHistory"
+            android:src="@drawable/ic_baseline_history_24"
             app:layout_constraintBottom_toBottomOf="@id/imgProfile"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/imgProfile" />
+            app:layout_constraintTop_toTopOf="@id/imgProfile"
+            tools:ignore="UsingOnClickInXml" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ticket history"
+            android:textColor="@color/color_hint"
+            app:layout_constraintTop_toBottomOf="@id/imgTicket"
+            app:layout_constraintStart_toStartOf="@id/imgTicket"
+            app:layout_constraintEnd_toEndOf="@id/imgTicket"
+            android:layout_marginTop="@dimen/dimen_4"/>
 
         <EditText
             android:id="@+id/edtSearch"

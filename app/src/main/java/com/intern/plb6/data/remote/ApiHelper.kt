@@ -22,4 +22,14 @@ interface ApiHelper {
     fun getTheaterByCity(cityName: String): Single<List<Theater>>?
 
     fun getShowTime(idTheater: String, idFilm: String, date: String): Single<List<ShowTimeResponse>>?
+
+    fun getShowTimeById(idShowTime: String): Single<ShowTimeResponse>?
+
+    fun getLocation(idShowTime: String): Single<List<String>>?
+
+    fun getPriceType(idType: String): Single<PriceTypeResponse>?
+
+    fun createPayment(request: PaymentRequest): Single<String>?
+
+    fun getTicket(idAccount: String): Single<List<TicketResponse>>?
 }

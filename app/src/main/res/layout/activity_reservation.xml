@@ -1,211 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_primary"
-    tools:context=".ui.resetvation.ReservationActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lyMain"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/bg_reservation"
-        android:layout_marginTop="180dp">
 
-        <LinearLayout
-            android:id="@+id/lyDetail"
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="@dimen/dimen_64"
-            android:layout_marginTop="100dp"
-            android:weightSum="3"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_height="wrap_content">
+    <data>
 
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
+        <import type="android.view.View" />
 
-                <ImageView
-                    android:layout_width="@dimen/dimen_30"
-                    android:layout_height="@dimen/dimen_30"
-                    android:layout_gravity="center_horizontal"
-                    android:elevation="@dimen/dimen_8"
-                    android:background="@drawable/bg_available"/>
-                
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/available"
-                    android:textSize="@dimen/dimen_16"
-                    android:textColor="@color/color_dialog_text"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/dimen_8"/>
-                
-            </LinearLayout>
+        <variable
+            name="navigator"
+            type="com.intern.plb6.ui.reservation.ReservationNavigator" />
 
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
+        <variable
+            name="viewModel"
+            type="com.intern.plb6.ui.reservation.ReservationViewModel" />
 
-                <ImageView
-                    android:elevation="@dimen/dimen_8"
-                    android:layout_width="@dimen/dimen_30"
-                    android:layout_height="@dimen/dimen_30"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/bg_selected"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Selected"
-                    android:textSize="@dimen/dimen_16"
-                    android:textColor="@color/color_dialog_text"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/dimen_8"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="@dimen/dimen_30"
-                    android:elevation="@dimen/dimen_8"
-                    android:layout_height="@dimen/dimen_30"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/bg_booked"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Booked"
-                    android:textSize="@dimen/dimen_16"
-                    android:textColor="@color/color_dialog_text"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/dimen_8"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lyDetail"
-            android:layout_marginTop="@dimen/dimen_16"
-            android:layout_marginHorizontal="@dimen/dimen_8"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Booking"
-            android:background="@drawable/bg_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="@dimen/font_16"
-            android:textColor="@color/white"
-            android:paddingVertical="@dimen/dimen_6"
-            android:paddingHorizontal="@dimen/dimen_64"
-            android:layout_marginBottom="@dimen/dimen_16"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/lyMain"
-        android:background="@drawable/bg_sub_ly"
-        android:elevation="@dimen/dimen_16"
-        android:padding="@dimen/dimen_32"
-        android:layout_marginHorizontal="@dimen/dimen_32"
-        app:layout_constraintBottom_toTopOf="@id/lyMain">
+        android:layout_height="match_parent"
+        android:background="@color/bg_primary"
+        tools:context=".ui.reservation.ReservationActivity">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/time_start"
-            android:textSize="@dimen/font_18"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textColor="@color/color_dialog_text"/>
-
-        <TextView
-            android:id="@+id/txtTimeStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="08:00"
-            android:textSize="@dimen/font_18"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lyMain"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="180dp"
+            android:background="@drawable/bg_reservation"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textColor="@color/color_dialog_text"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/time_end"
-            android:textSize="@dimen/font_18"
-            android:textStyle="bold"
-            android:layout_marginTop="@dimen/dimen_8"
             app:layout_constraintStart_toStartOf="parent"
-            android:textColor="@color/color_dialog_text"
-            app:layout_constraintTop_toBottomOf="@id/txtTimeStart"/>
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/txtTimeEnd"
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/lyDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_64"
+                android:layout_marginTop="130dp"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen_30"
+                        android:layout_height="@dimen/dimen_30"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/bg_available"
+                        android:elevation="@dimen/dimen_8" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/dimen_8"
+                        android:text="@string/available"
+                        android:textColor="@color/color_dialog_text"
+                        android:textSize="@dimen/dimen_16" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen_30"
+                        android:layout_height="@dimen/dimen_30"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/bg_selected"
+                        android:elevation="@dimen/dimen_8" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/dimen_8"
+                        android:text="Selected"
+                        android:textColor="@color/color_dialog_text"
+                        android:textSize="@dimen/dimen_16" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen_30"
+                        android:layout_height="@dimen/dimen_30"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/bg_booked"
+                        android:elevation="@dimen/dimen_8" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/dimen_8"
+                        android:text="Booked"
+                        android:textColor="@color/color_dialog_text"
+                        android:textSize="@dimen/dimen_16" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rclBooking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_32"
+                android:layout_marginTop="@dimen/dimen_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lyDetail" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dimen_16"
+                android:background="@drawable/bg_button"
+                android:onClick="payment"
+                android:paddingHorizontal="@dimen/dimen_64"
+                android:paddingVertical="@dimen/dimen_6"
+                android:text="Booking"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="UsingOnClickInXml" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="10:00"
-            android:textSize="@dimen/font_18"
-            android:textStyle="bold"
-            android:layout_marginTop="@dimen/dimen_8"
-            app:layout_constraintTop_toBottomOf="@id/txtTimeStart"
+            android:layout_marginHorizontal="@dimen/dimen_32"
+            android:background="@drawable/bg_sub_ly"
+            android:elevation="@dimen/dimen_4"
+            android:padding="@dimen/dimen_32"
+            app:layout_constraintBottom_toTopOf="@id/lyMain"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textColor="@color/color_dialog_text"/>
-
-        <TextView
-            android:id="@+id/txtPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/txtTimeEnd"
-            android:text="150000 VND"
-            android:textColor="#FA4141"
-            android:textSize="@dimen/font_18"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/dimen_16"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Price"
-            android:textSize="@dimen/font_18"
-            android:textStyle="bold"
-            android:layout_marginTop="@dimen/dimen_16"
-            app:layout_constraintTop_toBottomOf="@id/txtTimeEnd"
             app:layout_constraintStart_toStartOf="parent"
-            android:textColor="@color/color_dialog_text"/>
+            app:layout_constraintTop_toTopOf="@id/lyMain">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time_start"
+                android:textColor="@color/color_dialog_text"
+                android:textSize="@dimen/font_18"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtTimeStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="08:00"
+                android:textColor="@color/color_dialog_text"
+                android:textSize="@dimen/font_18"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:text="@string/time_end"
+                android:textColor="@color/color_dialog_text"
+                android:textSize="@dimen/font_18"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTimeStart" />
+
+            <TextView
+                android:id="@+id/txtTimeEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:text="10:00"
+                android:textColor="@color/color_dialog_text"
+                android:textSize="@dimen/font_18"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTimeStart" />
+
+            <TextView
+                android:id="@+id/txtPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16"
+                android:text="0 VND"
+                android:textColor="#FA4141"
+                android:textSize="@dimen/font_18"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTimeEnd" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16"
+                android:text="Price"
+                android:textColor="@color/color_dialog_text"
+                android:textSize="@dimen/font_18"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtTimeEnd" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

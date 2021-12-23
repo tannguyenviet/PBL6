@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable-v24/bg_btn_cancel.xml" value="0.20277777777777778" />
+        <entry key="app/src/main/res/drawable-v24/bg_btn_exit.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/bg_button.xml" value="0.19907407407407407" />
+        <entry key="app/src/main/res/drawable-v24/bg_gradient_detai_film.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/bg_gradient_info_videos.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/bg_input_light.xml" value="0.14629629629629629" />
+        <entry key="app/src/main/res/drawable/bg_available.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/bg_booked.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/bg_category_no_selected.xml" value="0.16574074074074074" />
+        <entry key="app/src/main/res/drawable/bg_category_selected.xml" value="0.16574074074074074" />
+        <entry key="app/src/main/res/drawable/bg_dialog.xml" value="0.10520833333333333" />
+        <entry key="app/src/main/res/drawable/bg_input.xml" value="0.19907407407407407" />
+        <entry key="app/src/main/res/drawable/bg_input_8.xml" value="0.18796296296296297" />
+        <entry key="app/src/main/res/drawable/bg_reservation.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/bg_selected.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/bg_sub_ly.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/cb_state.xml" value="0.19907407407407407" />
+        <entry key="app/src/main/res/drawable/custom_checkbox.xml" value="0.19907407407407407" />
+        <entry key="app/src/main/res/drawable/ic_baseline_mail_outline_24.xml" value="0.19907407407407407" />
+        <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1712962962962963" />
+        <entry key="app/src/main/res/drawable/ic_ticket_svgrepo_com.xml" value="0.1712962962962963" />
+        <entry key="app/src/main/res/layout/activity_detail_film.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_history.xml" value="0.19322916666666667" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.17" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19322916666666667" />
+        <entry key="app/src/main/res/layout/activity_payment.xml" value="0.19322916666666667" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_reservation.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_ticket.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_loading_layout.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/dialog_location_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_category_layout.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/item_film_layout.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/item_history_layout.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/item_reservation_layout.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/item_showtime_layout.xml" value="0.3384615384615385" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.1" />
+      </ProjectState>
+    </option>
+  </component>
+</project>

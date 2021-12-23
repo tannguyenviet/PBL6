@@ -1,7 +1,9 @@
 package com.intern.plb6.ui.login.viewmodel
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.bumptech.glide.load.HttpException
 import com.intern.plb6.data.AppDataManager
 import com.intern.plb6.data.model.api.LoginRequest
 import com.intern.plb6.ui.login.view.LoginNavigator
@@ -17,8 +19,9 @@ class LoginViewModel(
     private var dataManager: AppDataManager? = AppDataManager.getInstance()
 
     fun login(request: LoginRequest) {
+//        LoginRequest("member_1","111")
         navigator.loading()
-        dataManager?.doLoginApiCall(LoginRequest("manager_1","111"))
+        dataManager?.doLoginApiCall(request)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())?.let {
                 compositeDisposable.add(
@@ -34,9 +37,11 @@ class LoginViewModel(
                             navigator.openHomeActivity()
                             navigator.dismissDialog()
                         }) { throwable ->
+                            if (throwable is HttpException) {
+                                Log.d("LoginViewModel", throwable.message.toString())
+                            }
                             navigator.showMessage("UserName or PassWord is not Correct!!!")
                             navigator.dismissDialog()
-                            Log.d("LoginViewModel", throwable.message.toString())
                         })
             }
     }

@@ -25,4 +25,6 @@
     <dimen name="dimen_30">30dp</dimen>
     <dimen name="font_18">18sp</dimen>
     <dimen name="dimen_64">64dp</dimen>
+    <dimen name="font_28">28sp</dimen>
+    <dimen name="dimen_250">250dp</dimen>
 </resources>

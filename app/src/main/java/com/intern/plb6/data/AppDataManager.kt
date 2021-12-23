@@ -69,6 +69,21 @@ class AppDataManager : DataManager {
     ): Single<List<ShowTimeResponse>>? =
         mApiHelper?.getShowTime(idTheater, idFilm, date)
 
+    override fun getShowTimeById(idShowTime: String): Single<ShowTimeResponse>? =
+        mApiHelper?.getShowTimeById(idShowTime)
+
+    override fun getLocation(idShowTime: String): Single<List<String>>? =
+        mApiHelper?.getLocation(idShowTime)
+
+    override fun getPriceType(idType: String): Single<PriceTypeResponse>? =
+        mApiHelper?.getPriceType(idType)
+
+    override fun createPayment(request: PaymentRequest): Single<String>? =
+        mApiHelper?.createPayment(request)
+
+    override fun getTicket(idAccount: String): Single<List<TicketResponse>>? =
+        mApiHelper?.getTicket(idAccount)
+
     override fun getAccessToken(): String? = mPreferencesHelper?.getAccessToken()
 
     override fun setAccessToken(accessToken: String?) {

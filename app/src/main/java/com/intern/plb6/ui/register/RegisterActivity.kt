@@ -12,6 +12,7 @@ import com.intern.plb6.data.model.api.RegisterRequest
 import com.intern.plb6.databinding.ActivityRegisterBinding
 import com.intern.plb6.ui.base.BaseActivity
 import com.intern.plb6.ui.login.view.LoginActivity
+import com.intern.plb6.utils.Constants
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_register.*
 
@@ -40,26 +41,24 @@ class RegisterActivity : BaseActivity(), RegisterNavigator {
     }
 
     override fun register() {
-//        val email = edtEmail.text
-//        val pass = edtPass.text
-//        val confirmPass = edtConfirmPass.text
-//        val name = edtName.text
-//        val phone = edtPhone.text
-//
-//        if (email.isNullOrEmpty() || pass.isNullOrEmpty() || confirmPass.isNullOrEmpty() || name.isNullOrEmpty() || phone.isNullOrEmpty()) {
-//            Toast.makeText(this, "Please enter enough information !!!", Toast.LENGTH_LONG)
-//                .show()
-//        } else {
-//            if (pass.toString() != confirmPass.toString()) {
-//                Toast.makeText(this, "Password is not mapping !!!" + pass + " " + confirmPass, Toast.LENGTH_LONG)
-//                    .show()
-//            } else {
-//                mViewModel.register(RegisterRequest("sanh","111", "sanh","091","sanhltt1999@gmail.com", 3))
-//            }
-//        }
+        val email = edtEmail.text
+        val pass = edtPass.text
+        val confirmPass = edtConfirmPass.text
+        val name = edtName.text
+        val phone = edtPhone.text
+        val userName = edtUserName.text
 
-        mViewModel.register(RegisterRequest("sanh","111", "sanh","091","sanhltt1999@gmail.com", 3))
-
+        if (email.isNullOrEmpty() || pass.isNullOrEmpty() || confirmPass.isNullOrEmpty() || name.isNullOrEmpty() || phone.isNullOrEmpty() || userName.isNullOrEmpty()) {
+            Toast.makeText(this, "Please enter enough information !!!", Toast.LENGTH_LONG)
+                .show()
+        } else {
+            if (pass.toString() != confirmPass.toString()) {
+                Toast.makeText(this, "Password is not mapping !!!$pass $confirmPass", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                mViewModel.register(RegisterRequest(userName.toString(),pass.toString(), name.toString(),phone.toString(), email.toString(), Constants.ID_ROLE_USER))
+            }
+        }
     }
 
     override fun showMess(mess: String) {

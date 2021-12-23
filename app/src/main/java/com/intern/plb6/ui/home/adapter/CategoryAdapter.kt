@@ -8,7 +8,8 @@ import com.intern.plb6.data.model.api.Category
 import com.intern.plb6.databinding.ItemCategoryLayoutBinding
 
 class CategoryAdapter(
-    private val categories: ArrayList<Category>
+    private val categories: ArrayList<Category>,
+    var onClickListener: (String) -> Unit
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -28,7 +29,7 @@ class CategoryAdapter(
         categories.addAll(list)
     }
 
-    class CategoryViewHolder(private val itemCategoryBinding: ItemCategoryLayoutBinding) :
+    inner class CategoryViewHolder(private val itemCategoryBinding: ItemCategoryLayoutBinding) :
         RecyclerView.ViewHolder(itemCategoryBinding.root) {
             fun bind(category: Category) {
                 itemCategoryBinding.txtCategory.text = category.name
@@ -38,7 +39,20 @@ class CategoryAdapter(
                 } else {
                     itemCategoryBinding.frCategory.setBackgroundResource(R.drawable.bg_category_no_selected)
                 }
+
+                itemCategoryBinding.frCategory.setOnClickListener {
+                    unSelectedAll()
+                    category.selected = true
+                    onClickListener.invoke(category.name)
+                    notifyDataSetChanged()
+                }
             }
         }
+
+    fun unSelectedAll() {
+        for(i in categories) {
+            i.selected = false
+        }
+    }
 
 }

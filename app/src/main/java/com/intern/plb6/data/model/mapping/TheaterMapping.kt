@@ -10,9 +10,6 @@ class TheaterMapping (var theater: Theater,var selected: Boolean){
             for (theater in theaters) {
                 theatersMap.add(TheaterMapping(theater, false))
             }
-            if (theatersMap.size > 0) {
-                theatersMap[0].selected = true
-            }
             return theatersMap
         }
     }

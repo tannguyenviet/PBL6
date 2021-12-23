@@ -3,6 +3,7 @@ package com.intern.plb6.ui.home.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,7 @@ import com.intern.plb6.data.model.api.Category
 import com.intern.plb6.data.model.api.Film
 import com.intern.plb6.databinding.ActivityHomeBinding
 import com.intern.plb6.ui.detailfilm.DetailFilmActivity
+import com.intern.plb6.ui.history.HistoryActivity
 import com.intern.plb6.ui.home.adapter.CategoryAdapter
 import com.intern.plb6.ui.home.adapter.FilmsAdapter
 import com.intern.plb6.ui.home.viewmodel.HomeFactory
@@ -48,7 +50,9 @@ class HomeActivity : AppCompatActivity(), HomeNavigator {
 
     private fun setupUI() {
         rclShowTime.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        mCategoryAdapter = CategoryAdapter(arrayListOf())
+        mCategoryAdapter = CategoryAdapter(arrayListOf()) {
+            mViewModel.fetchFilm(if (it == "All") "" else it )
+        }
         rclShowTime.addItemDecoration(
             DividerItemDecoration(
                 rclShowTime.context,
@@ -70,10 +74,6 @@ class HomeActivity : AppCompatActivity(), HomeNavigator {
             )
         )
         rclFilm.adapter = mFilmAdapter
-
-        imgTicket.setOnClickListener {
-            startActivity(Intent(this, DetailFilmActivity::class.java))
-        }
     }
 
     private fun setupObserver() {
@@ -102,5 +102,9 @@ class HomeActivity : AppCompatActivity(), HomeNavigator {
     private fun renderListFilm(films: List<Film>) {
         mFilmAdapter.addData(films)
         mFilmAdapter.notifyDataSetChanged()
+    }
+
+    fun startHistory(view: View) {
+        startActivity(Intent(this, HistoryActivity::class.java))
     }
 }

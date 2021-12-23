@@ -46,7 +46,8 @@ class LoginActivity : BaseActivity(), LoginNavigator {
         if (userName.isNullOrEmpty() || pass.isNullOrEmpty()) {
             Toast.makeText(this, "Please Enter your username and pass !!!", Toast.LENGTH_LONG).show()
         } else {
-            mViewModel.login(LoginRequest(userName.toString(), pass.toString()))
+//            mViewModel.login(LoginRequest(userName.toString(), pass.toString()))
+            mViewModel.login(LoginRequest("member_1","111"))
         }
     }
 }

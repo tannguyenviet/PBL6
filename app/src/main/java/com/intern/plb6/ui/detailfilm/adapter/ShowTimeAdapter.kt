@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.intern.plb6.R
 import com.intern.plb6.data.model.mapping.ShowTimeMapping
 import com.intern.plb6.databinding.ItemShowtimeLayoutBinding
-import com.intern.plb6.generated.callback.OnClickListener
-import java.text.SimpleDateFormat
+import com.intern.plb6.utils.DateTimeUtils
 
 class ShowTimeAdapter(
     private val showTimes: ArrayList<ShowTimeMapping>,
@@ -39,10 +38,8 @@ class ShowTimeAdapter(
             @SuppressLint("SimpleDateFormat")
             fun bind(showTime: ShowTimeMapping, position: Int) {
 
-                val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                val formatter = SimpleDateFormat("HH:mm")
-                val timeStart: String = formatter.format(parser.parse(showTime.showTimeResponse.timeStart))
-                val timeEnd: String = formatter.format(parser.parse(showTime.showTimeResponse.timeEnd))
+                val timeStart: String = DateTimeUtils.formatDateFromDB(showTime.showTimeResponse.timeStart)
+                val timeEnd: String = DateTimeUtils.formatDateFromDB(showTime.showTimeResponse.timeEnd)
 
                 itemShowTimeBinding.txtCategory.text = "$timeStart - $timeEnd"
 

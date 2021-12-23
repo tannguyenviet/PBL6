@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.intern.plb6.ui.ticket.TicketViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_primary"
+        tools:context=".ui.ticket.TicketActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            app:title="Ticket Detail"
+            app:titleTextColor="@color/white"
+            android:layout_height="wrap_content"/>
+
+
+        <TextView
+            android:id="@+id/txtNameFilm"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/dimen_32"
+            android:text="Interstellar"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/font_32"/>
+
+        <TextView
+            android:id="@+id/txtPriceType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ve 2D - Ngay Thuong"
+            android:textColor="@color/color_hint"
+            android:textSize="@dimen/font_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtNameFilm"
+            android:layout_marginTop="@dimen/dimen_8"/>
+
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/txtPriceType"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/dimen_32"
+            android:text="14 February"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/font_28"/>
+
+        <TextView
+            android:id="@+id/txtTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="08:00"
+            android:textColor="@color/color_hint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtDate"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:textSize="@dimen/font_18"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtTitleLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/location_seat"
+            android:textColor="@color/color_hint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTime"
+            android:layout_marginTop="@dimen/dimen_32"
+            android:textSize="@dimen/font_18"/>
+
+        <TextView
+            android:id="@+id/txtLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/txtTitleLocation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:text="B1 B2"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/font_32"/>
+
+        <ImageView
+            android:id="@+id/imgQR"
+            android:layout_width="@dimen/dimen_250"
+            android:layout_height="@dimen/dimen_250"
+            app:layout_constraintTop_toBottomOf="@id/txtLocation"
+            android:layout_marginTop="@dimen/font_32"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtWaring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/imgQR"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:text="Please, don't share this QR code of your"
+            android:textColor="#FF0000"
+            android:textSize="@dimen/font_12"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

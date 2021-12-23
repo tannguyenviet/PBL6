@@ -8,6 +8,10 @@
         <import type="android.view.View" />
 
         <variable
+            name="navigator"
+            type="com.intern.plb6.ui.detailfilm.DetailNavigator" />
+
+        <variable
             name="viewModel"
             type="com.intern.plb6.ui.detailfilm.DetailViewModel" />
 
@@ -75,19 +79,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_input_light"
-                android:text="3-12-2021"
+                android:text="4-12-2021"
                 android:textSize="@dimen/font_16"
                 app:layout_constraintTop_toBottomOf="@id/rating"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="@dimen/dimen_12"
                 android:textColor="@color/white"
-                android:paddingHorizontal="@dimen/font_16"/>
+                android:paddingHorizontal="@dimen/font_16"
+                android:onClick="showDialog"
+                tools:ignore="UsingOnClickInXml" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rclCity"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_30"
-                android:layout_marginTop="@dimen/dimen_4"
+                android:layout_marginTop="@dimen/dimen_16"
                 app:layout_constraintTop_toBottomOf="@id/txtDate" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -95,6 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_30"
                 android:layout_marginTop="@dimen/dimen_4"
+                android:visibility="invisible"
                 app:layout_constraintTop_toBottomOf="@id/rclCity" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -153,6 +160,7 @@
                 android:paddingHorizontal="@dimen/dimen_50"
                 android:textSize="@dimen/font_16"
                 android:paddingVertical="@dimen/dimen_12"
+                android:onClick="@{() -> navigator.openReservationActivity()}"
                 android:background="@drawable/bg_button"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

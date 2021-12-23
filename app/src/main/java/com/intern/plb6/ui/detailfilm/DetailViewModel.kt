@@ -33,8 +33,11 @@ class DetailViewModel(private var navigator: DetailNavigator) : ViewModel() {
             compositeDisposable.add(
                 it.subscribe({ response ->
                     val showTimeMap = ShowTimeMapping.mapListShowTime(response)
-                    showTimes.value = Resource.success(showTimeMap)
-                    showTimes.postValue(Resource.success(showTimeMap))
+                    if (showTimeMap.isNotEmpty()) {
+                        showTimes.postValue(Resource.success(showTimeMap))
+                    } else {
+                        showTimes.postValue(Resource.error("no data", null))
+                    }
                 }) { throwable ->
                     showTimes.postValue(Resource.error("no data", null))
                     Log.d("DetailViewModel", "ShowTime " + throwable.message.toString())

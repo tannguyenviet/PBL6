@@ -48,7 +48,7 @@ services:
       - mysqldb
     build: ./PayMentService
     restart: unless-stopped
-    env_file: ./PaymentService/.env
+    env_file: ./PayMentService/.env
     ports:
       - 6000:6000
     stdin_open: true

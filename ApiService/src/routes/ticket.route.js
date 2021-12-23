@@ -3,6 +3,8 @@ const router = require("express").Router();
 const payment = require("../app/controllers/order")
 const authen = require("../app/middlewares/authen");
 const author = require("../app/middlewares/author");
+const identity = require("../app/middlewares/identity");
+
 /**
  * @swagger
  * components:
@@ -165,7 +167,7 @@ router.get("/revenue", authen.authenticationToken, author.checkManagerRole, tick
  *         description: The ticket was not found
  */
 // Retrieve all ticket of a ticket  - Phanquyen
-router.get("/account/:id", authen.authenticationToken, author.checkMemberRole, ticket.findByAccountId);
+router.get("/account/:id", authen.authenticationToken, author.checkMemberRole, identity.identity, ticket.findByAccountId);
 
 /**
  * @swagger

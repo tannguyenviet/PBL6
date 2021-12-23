@@ -81,8 +81,9 @@ exports.register = async (req, res) => {
     .then((data) => {
       const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
-        secure: true,
-        port: 456,
+        port: 587,
+        ignoreTLS: false,
+        secure: false,
         auth: {
           user: process.env.EMAIL_ADDRESS, // ethereal us er
           pass: process.env.EMAIL_PASSWORD, // ethereal password

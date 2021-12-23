@@ -52,17 +52,32 @@ exports.register = async(req, res) => {
         gender,
         role_id,
     };
-    newAccount.emailToken = crypto.randomBytes(64).toString("hex");
-    newAccount.isVerified = false;
-    // Before - Save account in the database
-    Account.beforeCreate(async(newAccount, options) => {
+    var newPassword;
+    if (role_id == 3) {
+        newAccount.emailToken = crypto.randomBytes(64).toString("hex");
+        newAccount.isVerified = false;
+        // Before - Save account in the database
+        Account.beforeCreate(async(newAccount, options) => {
+            const saltRounds = 10;
+            const salt = bcrypt.genSaltSync(saltRounds);
+            const hashedPassword = bcrypt.hashSync(password, salt);
+            newAccount.password = hashedPassword;
+        });
+        // Save account in the database
+    } else {
+        newAccount.emailToken = null;
+        newAccount.isVerified = true;
+        var generator = require('generate-password');
+        newPassword = generator.generate({
+            length: 10,
+            numbers: true
+        });
         const saltRounds = 10;
         const salt = bcrypt.genSaltSync(saltRounds);
-        const hashedPassword = bcrypt.hashSync(password, salt);
+        const hashedPassword = bcrypt.hashSync(newPassword, salt);
         newAccount.password = hashedPassword;
-    });
-    // Save account in the database
-    Account.create(newAccount)
+    }
+    await Account.create(newAccount)
         .then((data) => {
             const transporter = nodemailer.createTransport({
                 service: "gmail",
@@ -73,13 +88,21 @@ exports.register = async(req, res) => {
             });
             //const domain = "tuantanminhsanh.hopto.org:8080"
             //const domain = "42.115.230.103:8080"
-            const msg = {
+            const msg = role_id == 3 ? {
                 from: '"The Movie PBL6 App" <theMovieApp@example.com>', // sender address
                 to: `${email}`, // list of receivers
                 subject: "Verification for your account", // Subject line
                 text: `Hello, thanks for registering on our site.
                     Please click the link below to verify your account: 
                     http://${req.headers.host}/account/verify-email?token=${newAccount.emailToken}`, // plain text body
+            } : {
+                from: '"The Movie PBL6 App" <theMovieApp@example.com>', // sender address
+                to: `${email}`, // list of receivers
+                subject: "Account created by Admin", // Subject line
+                text: `Hello this is your account: 
+                    Username: ${data.username}
+                    Password: ${newPassword}
+                    Role id: ${data.role_id}` //
             };
             // send mail with defined transport object
             transporter
@@ -179,7 +202,7 @@ exports.findAll = (req, res) => {
     const idRole = req.query.idRole;
     var condition = idRole ? {
             role_id: {
-                [Op.like]: `%${idRole}%`,
+                [Op.like]: ` % $ { idRole } % `,
             },
         } :
         null;
@@ -205,7 +228,9 @@ exports.findOne = (req, res) => {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `Cannot find account with id =${id}`,
+                    message: `
+                            Cannot find account with id = $ { id }
+                            `,
                 });
             }
         })
@@ -308,9 +333,14 @@ exports.resetPassword = async(req, res) => {
             //const domain = "42.115.230.103:8080"
             const msg = {
                 from: '"The Movie PBL6 App" <theMovieApp@example.com>', // sender address
-                to: `${email}`, // list of receivers
+                to: `
+                            $ { email }
+                            `, // list of receivers
                 subject: "Reset Password", // Subject line
-                text: `Hello, this is your reset password: ${newPassword}`, // plain text body
+                text: `
+                            Hello,
+                            this is your reset password: $ { newPassword }
+                            `, // plain text body
             };
             // send mail with defined transport object
             transporter
@@ -346,7 +376,8 @@ exports.delete = (req, res) => {
                 });
             } else {
                 res.status(404).send({
-                    message: `Cannot delete account with id = ${id}.Maybe account was not found!`,
+                    message: `
+                            Cannot delete account with id = $ { id }.Maybe account was not found!`,
                 });
             }
         })

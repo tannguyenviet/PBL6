@@ -8,7 +8,6 @@ const jwt = require("jsonwebtoken");
  * @param {function} next action to next request
  */
 const authenticationToken = async (req, res, next) => {
-  console.log("vao authen");
   try {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
@@ -26,7 +25,6 @@ const authenticationToken = async (req, res, next) => {
       }
     });
   } catch (err) {
-    console.log("error", err);
     res.statusMessage = "Something error";
     res.status(500).send();
   }

@@ -74,7 +74,6 @@ exports.register = async (req, res) => {
       });
       //const domain = "tuantanminhsanh.hopto.org:8080"
       //const domain = "42.115.230.103:8080"
-      console.log(req.headers.host);
       const msg = {
         from: '"The Exapress App" <theExpressApp@example.com>', // sender address
         to: `${email}`, // list of receivers
@@ -87,14 +86,11 @@ exports.register = async (req, res) => {
       transporter
         .sendMail(msg)
         .then((info) => {
-          console.log("Message sent: %s", info.messageId);
-          console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
           return res.json({
             message: "Please check your Email to active your Account!",
           });
         })
         .catch((err) => {
-          console.log("Error while sending email: %s", err);
           return res.status(500).send({
             message: err.message,
           });

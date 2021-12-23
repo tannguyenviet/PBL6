@@ -51,7 +51,6 @@ function convertObject(arrLabel, str) {
 
   str = str.replace(/\;/g, "");
   str = str.replace(/NULL/g, "null");
-  console.log("str", str);
   const arr = str.split("\n").map((row) => {
     let cleanRow = row;
     if (row[row.length - 1] === ",") {
@@ -121,26 +120,17 @@ const showTimeKey = [
 ];
 
 const roles = convertObject(roleKey, role);
-// console.log(roles);
-// console.log(convertObject([`id`, `name`], role));
 
 const accounts = convertObject(accountKey, account);
-// console.log(accounts);
 
-// const films = convertObject(filmKey, film);
-// console.log(films);
 
 const priceTypes = convertObject(priceTypeKey, price_type);
-// console.log(priceTypes);
 
 const theathers = convertObject(theatherKey, theather);
-// console.log(theathers);
 
 const roomFilms = convertObject(roomFilmKey, room_film);
-// console.log(roomFilms);
 
 const showTimes = convertObject(showTimeKey, show_time);
-// console.log(showTimes);
 
 const films = [
   {

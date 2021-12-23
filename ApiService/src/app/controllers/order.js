@@ -149,7 +149,6 @@ exports.returnPaymentUrl = async(req, res, next) => {
         //Before - Save account in the database
         Ticket.beforeCreate(async(ticket, options) => {
             ticket.ticketHash = generateTicketHash(ticket);
-            console.log(ticket.ticketHash);
             ticket.ticketQR = await QRCode.toDataURL(ticket.ticketHash);
         });
         // Save Tet in the database

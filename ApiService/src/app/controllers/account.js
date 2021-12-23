@@ -85,14 +85,11 @@ exports.register = async(req, res) => {
             transporter
                 .sendMail(msg)
                 .then((info) => {
-                    console.log("Message sent: %s", info.messageId);
-                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
                     return res.json({
                         message: "Please check your Email to active your Account!",
                     });
                 })
                 .catch((err) => {
-                    console.log("Error while sending email: %s", err);
                     return res.status(500).send({
                         message: err.message
                     });
@@ -157,7 +154,6 @@ exports.login = async(req, res) => {
         //
 
         const checkPass = await bcrypt.compare(password, account.password);
-        console.log(account.password.length);
         //
         if (!checkPass)
             return res.status(400).json({ message: "Password does not match" });
@@ -316,7 +312,6 @@ exports.resetPassword = async(req, res) => {
             transporter
                 .sendMail(msg)
                 .then((info) => {
-                    console.log("Message sent: %s", info.messageId);
                     return res.json({
                         message: "Please check your Email to get your reset password!",
                     });

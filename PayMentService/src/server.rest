@@ -16,7 +16,9 @@ GET http://localhost:8080/tutorials/
 
 ###
 
-POST http://localhost:8080/tutorials
+POST http://localhost:5000/tutorials
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJtZW1iZXJfMSIsInJvbGUiOjMsImlhdCI6MTYzOTkwNTMxNn0.hwU-houl4gvAgGUoHc4zhnLcDr3_HuTAeA8BlN5_4ig
+
 content-type: application/json
 
 {
@@ -26,8 +28,7 @@ content-type: application/json
 }
 ###
 
-# 163.44.206.93:8080/account/login
-POST 163.44.206.93:8080/account/login
+POST http://localhost:5000/account/films
 content-type: application/json
 
 {
@@ -37,3 +38,8 @@ content-type: application/json
 ###
 GET http://localhost:8080/tutorials/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJtZW1iZXJfMSIsInJvbGUiOjMsImlhdCI6MTYzOTkwNTMxNn0.hwU-houl4gvAgGUoHc4zhnLcDr3_HuTAeA8BlN5_4ig
+###
+GET http://localhost:6000/api
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlcm5hbWUiOiJtZW1iZXJfMSIsInJvbGUiOjMsImlhdCI6MTYzOTkwNTMxNn0.hwU-houl4gvAgGUoHc4zhnLcDr3_HuTAeA8BlN5_4ig
+
+

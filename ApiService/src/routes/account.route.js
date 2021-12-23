@@ -1,7 +1,8 @@
 const account = require("../app/controllers/account");
-
+const authen = require("../app/middlewares/authen");
+const author = require("../app/middlewares/author")
 const router = require("express").Router();
-
+const identity = require("../app/middlewares/identity");
 /**
  * @swagger
  * components:
@@ -197,7 +198,7 @@ router.post("/login", account.login);
  *                 $ref: '#/components/schemas/account'
  */
 // Retrieve all account
-router.get("/list", account.findAll);
+router.get("/list", authen.authenticationToken, author.checkAdminRole, account.findAll);
 
 /**
  * @swagger
@@ -223,7 +224,7 @@ router.get("/list", account.findAll);
  *         description: The account was not found
  */
 // Retrieve a single account with id
-router.get("/:id", account.findOne);
+router.get("/:id", authen.authenticationToken, author.checkMemberRole, identity.identity, account.findOne);
 
 /**
  * @swagger
@@ -257,7 +258,13 @@ router.get("/:id", account.findOne);
  *        description: Some error happened
  */
 // Update a account with id
-router.put("/info/:id", account.updateAccountInfo);
+router.put("/info/:id", authen.authenticationToken, author.checkMemberRole, identity.identity, account.updateAccountInfo);
+
+// Update password 
+router.put("/password/:id", authen.authenticationToken, author.checkMemberRole, identity.identity, account.updatePassword);
+
+// reset password 
+router.post("/reset-password/", account.resetPassword);
 /**
  * @swagger
  * /account/{id}:
@@ -280,6 +287,7 @@ router.put("/info/:id", account.updateAccountInfo);
  *         description: Some error happened
  */
 // Delete a account with id
-router.delete("/:id", account.delete);;
+router.delete("/:id", authen.authenticationToken, author.checkAdminRole, account.delete);;
+
 
 module.exports = router

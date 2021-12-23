@@ -1,6 +1,7 @@
 const film = require("../app/controllers/film");
-const passport = require("passport");
 const router = require("express").Router();
+const authen = require("../app/middlewares/authen");
+const author = require("../app/middlewares/author");
 /**
  * @swagger
  * components:
@@ -185,7 +186,7 @@ router.get("/category", film.category);
  *                 $ref: '#/components/schemas/film'
  */
 // Create a new film
-router.get("/create", film.create);
+router.get("/create", authen.authenticationToken, author.checkAdminRole, film.create);
 
 /**
  * @swagger
@@ -245,7 +246,7 @@ router.get("/:id", film.findOne);
  *        description: Some error happened
  */
 // Update a film with id
-router.put("/:id", film.update);
+router.put("/:id", authen.authenticationToken, author.checkAdminRole, film.update);
 
 /**
  * @swagger
@@ -270,6 +271,6 @@ router.put("/:id", film.update);
  *         description: Some error happened
  */
 // Delete a film with id
-router.delete("/:id", film.delete);
+router.delete("/:id", authen.authenticationToken, author.checkAdminRole, film.delete);
 
 module.exports = router

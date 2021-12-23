@@ -1,6 +1,7 @@
 const pricetype = require("../app/controllers/pricetype");
 const router = require("express").Router();
-
+const authen = require("../app/middlewares/authen");
+const author = require("../app/middlewares/author");
 /**
  * @swagger
  * components:
@@ -75,7 +76,7 @@ const router = require("express").Router();
  *                 $ref: '#/components/schemas/pricetype'
  */
 // Retrieve all pricetype of a city
-router.get("/list", pricetype.findAll);
+router.get("/list", authen.authenticationToken, author.checkMemberRole, pricetype.findAll);
 
 /**
  * @swagger
@@ -101,7 +102,7 @@ router.get("/list", pricetype.findAll);
  *         description: The pricetype was not found
  */
 // Retrieve a pricetype by id
-router.get("/:id", pricetype.findByID);
+router.get("/:id", authen.authenticationToken, author.checkMemberRole, pricetype.findByID);
 
 /**
  * @swagger
@@ -135,7 +136,7 @@ router.get("/:id", pricetype.findByID);
  *        description: Some error happened
  */
 // Update a pricetype with id
-router.put("/:id", pricetype.update);
+router.put("/:id", authen.authenticationToken, author.checkAdminRole, pricetype.update);
 
 /**
  * @swagger
@@ -160,7 +161,7 @@ router.put("/:id", pricetype.update);
  *         description: Some error happened
  */
 // Delete a pricetype with id
-router.delete("/:id", pricetype.delete);
+router.delete("/:id", authen.authenticationToken, author.checkAdminRole, pricetype.delete);
 
 
 

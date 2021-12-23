@@ -3,7 +3,7 @@ let role = `(1, 'admin'),
 (3, 'member');`;
 
 let account = `(1, 'manager_2', '$2b$10$Hn4/7AVbWhzLQJvW83v8SuALOoBKty2lTWTSnIBuYjIB5JJ.fR7Le', 'tuandeptrai', 'sdsds', 'tuanak691@gmail.com', NULL, NULL, NULL, NULL, 1, 2),
-(2, 'manager_1', '$2b$10$DPH6Mzm9rMwvxM78x6KSfuL.S8hYBFvuhLLbn6QCZduMeRX2xvOYq', 'duydeptrai', 'sdsds', 'duysinheng75@gmail.com', NULL, NULL, NULL, NULL, 1, 2),
+(2, 'admin_1', '$2b$10$DPH6Mzm9rMwvxM78x6KSfuL.S8hYBFvuhLLbn6QCZduMeRX2xvOYq', 'duydeptrai', 'sdsds', 'duysinheng75@gmail.com', NULL, NULL, NULL, NULL, 1, 1),
 (5, 'member_1', '$2b$10$S0VBT5SXpR/QgZjp.wtEpumRZ2tYA/fyQojB27ZuJo7JPgEca2ZIm', 'tudeptrai', 'sdsds', 'tuakb881@gmail.com', NULL, NULL, NULL, NULL, 1, 3);`;
 
 let film = `(1, 'Ri¢hie Ri¢h', '1994-12-19 00:00:00', 'United States of America', 'Davis Entertainment, Silver Pictures, Warner Bros. Pictures', 95, 'C16', 'Macaulay Culkin, John Larroquette, Edward Herrmann, Christine Ebersole, Jonathan Hyde, Michael Maccarone, Joel Robinson, Jonathan Hilario, Rory Culkin, Michael McShane', 'Billionaire heir Richie Rich has it all, including Reggie Jackson as a batting coach and Claudia Schiffer as a personal trainer -- but no playmates. What\'s more, scoundrel Laurence Van Dough is scheming to take over the family empire. Uh-oh! Enter faithful butler Cadbury to save the day.', 'Comedy, Family', 5.8, 'https://image.tmdb.org/t/p/w500/qgGh5d0IHAZRlHIdFS3XWVygumR.jpg', 'https://www.youtube.com/embed/c7nNTdnPC3U', 11011),
@@ -122,7 +122,6 @@ const showTimeKey = [
 const roles = convertObject(roleKey, role);
 
 const accounts = convertObject(accountKey, account);
-
 
 const priceTypes = convertObject(priceTypeKey, price_type);
 

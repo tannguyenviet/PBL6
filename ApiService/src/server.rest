@@ -7,7 +7,7 @@ content-type: application/json
     "published":1
 }
 ###
-GET http://localhost:8080/tutorials
+GET http://localhost:8080/payment/home
 
 ###
 

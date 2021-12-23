@@ -83,6 +83,26 @@ const Op = db.Sequelize.Op;
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const QRCode = require('qrcode');
+
+function generateTicketHash(ticket) {
+    var ticketParams = {};
+    ticketParams['id_account'] = ticket.account_id;
+    ticketParams['id_showtime'] = ticket.show_time_id;
+    ticketParams['location'] = ticket.location;
+    // ticketParams['vnp_Merchant'] = ''
+    ticketParams['price'] = ticket.price;
+    ticketParams['time_booking'] = ticket.time_booking;
+    ticketParams['amount'] = ticket.amount;
+    ticketParams = sortObject(ticketParams);
+
+    var querystring = require('qs');
+    var signData = querystring.stringify(ticketParams, { encode: false });
+    var crypto = require("crypto");
+    var hmac = crypto.createHmac("sha512", process.env.JWT_TICKET_SECRET);
+    var signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");
+    ticketParams['vnp_SecureHash'] = signed;
+    return signed
+}
 exports.returnPaymentUrl = async(req, res, next) => {
     var vnp_Params = req.query;
 
@@ -128,21 +148,17 @@ exports.returnPaymentUrl = async(req, res, next) => {
 
         //Before - Save account in the database
         Ticket.beforeCreate(async(ticket, options) => {
-            const saltRounds = 10;
-            const salt = await bcrypt.genSalt(saltRounds);
-            const ticketHash = await bcrypt.hash(process.env.JWT_TICKET_SECRET, salt);
-            const jwtToken = jwt.sign({ account_id: ticket.account_id, show_time_id: ticket.show_time_id },
-                process.env.JWT_SECRET
-            );
-            ticket.ticketHash = ticketHash;
-            ticket.ticketQR = await QRCode.toDataURL(jwtToken);
+            ticket.ticketHash = generateTicketHash(ticket);
+            console.log(ticket.ticketHash);
+            ticket.ticketQR = await QRCode.toDataURL(ticket.ticketHash);
         });
         // Save Tet in the database
         Ticket.create(ticket)
             .then(data => data.dataValues)
             .then(data => {
                 delete data.ticketHash;
-                return res.send('Please check your ticket in your History Tab');
+                return res.render('returnPayment')
+
             })
             .catch(err => {
                 return res.status(500).send({

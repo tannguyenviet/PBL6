@@ -1,6 +1,7 @@
 const film = require("../app/controllers/film");
-const passport = require("passport");
 const router = require("express").Router();
+const authen = require("../app/middlewares/authen");
+const author = require("../app/middlewares/author");
 /**
  * @swagger
  * components:
@@ -245,7 +246,12 @@ router.get("/:id", film.findOne);
  *        description: Some error happened
  */
 // Update a film with id
-router.put("/:id", film.update);
+router.put(
+  "/:id",
+  authen.authenticationToken,
+  author.checkAdminRole,
+  film.update
+);
 
 /**
  * @swagger
@@ -260,7 +266,7 @@ router.put("/:id", film.update);
  *           type: string
  *         required: true
  *         description: The film id
- * 
+ *
  *     responses:
  *       200:
  *         description: The film was deleted
@@ -270,6 +276,11 @@ router.put("/:id", film.update);
  *         description: Some error happened
  */
 // Delete a film with id
-router.delete("/:id", film.delete);
+router.delete(
+  "/:id",
+  authen.authenticationToken,
+  author.checkAdminRole,
+  film.delete
+);
 
-module.exports = router
+module.exports = router;

@@ -1,6 +1,7 @@
 const theater = require("../app/controllers/theater");
 const router = require("express").Router();
-
+const authen = require("../app/middlewares/authen");
+const author = require("../app/middlewares/author");
 /**
  * @swagger
  * components:
@@ -65,7 +66,7 @@ const router = require("express").Router();
  *         description: Some server error
  */
 // Create a new theater
-router.post("/create", theater.create);
+router.post("/create", authen.authenticationToken, author.checkAdminRole, theater.create);
 
 /**
  * @swagger
@@ -147,7 +148,7 @@ router.get("/list", theater.findAll);
  *                 $ref: '#/components/schemas/theater'
  */
 // Get list manager available for a new Theater
-router.get("/manager-available/list", theater.managerAvailable);
+router.get("/manager-available/list", authen.authenticationToken, author.checkManagerRole, theater.managerAvailable);
 
 /**
  * @swagger
@@ -173,7 +174,7 @@ router.get("/manager-available/list", theater.managerAvailable);
  *         description: The theater was not found
  */
 // Get a Theater by id Account (manager)
-router.get("/manager/:id", theater.findByIdManager);
+router.get("/manager/:id", authen.authenticationToken, author.checkManagerRole, theater.findByIdManager);
 
 /**
  * @swagger
@@ -207,7 +208,7 @@ router.get("/manager/:id", theater.findByIdManager);
  *        description: Some error happened
  */
 // Update a theater with id
-router.put("/:id", theater.update);
+router.put("/:id", authen.authenticationToken, author.checkAdminRole, theater.update);
 
 /**
  * @swagger
@@ -231,6 +232,6 @@ router.put("/:id", theater.update);
  *         description: Some error happened
  */
 // Delete a theater with id
-router.delete("/:id", theater.delete);
+router.delete("/:id", authen.authenticationToken, author.checkManagerRole, theater.delete);
 
 module.exports = router

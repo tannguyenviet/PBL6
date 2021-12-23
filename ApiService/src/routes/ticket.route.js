@@ -1,62 +1,63 @@
 const ticket = require("../app/controllers/ticket");
-const passport = require("passport");
 const router = require("express").Router();
 const payment = require("../app/controllers/order")
-    /**
-     * @swagger
-     * components:
-     *   schemas:
-     *    ticket:
-     *       type: object
-     *       required:
-     *          - amount
-     *          - price
-     *          - time_booking
-     *          - account_id 
-     *          - show_time_id 
-     *          - location
-     *          - ticketHash
-     *          - ticketQR
-     *          - check_in
-     *       properties:
-     *         id:
-     *          type: int
-     *          description: The auto-generated id of theticket
-     *         amount:
-     *          type: string
-     *          description: The ticket title
-     *         price:
-     *          type: string
-     *          description: The ticket title
-     *         time_booking:
-     *          type: string
-     *          description: The ticket title
-     *         account_id:
-     *          type: string
-     *          description: The ticket title
-     *         show_time_id:
-     *          type: string
-     *          description: The ticket title
-     *         location:
-     *          type: string
-     *          description: The ticket title
-     *         ticketHash:
-     *          type: date
-     *          description: The ticket title
-     *         ticketQR:
-     *          type: boolean
-     *          description: The ticket author
-     *         check_in:
-     *          type: int
-     *          description: The ticket author
-     *       example:
-     *          amount: 2
-     *          price: 100000
-     *          time_booking: 2021-11-19T19:00:00.000Z
-     *          account_id: 10
-     *          show_time_id: 2
-     *          location: A2,B2,C2,D2
-     */
+const authen = require("../app/middlewares/authen");
+const author = require("../app/middlewares/author");
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *    ticket:
+ *       type: object
+ *       required:
+ *          - amount
+ *          - price
+ *          - time_booking
+ *          - account_id 
+ *          - show_time_id 
+ *          - location
+ *          - ticketHash
+ *          - ticketQR
+ *          - check_in
+ *       properties:
+ *         id:
+ *          type: int
+ *          description: The auto-generated id of theticket
+ *         amount:
+ *          type: string
+ *          description: The ticket title
+ *         price:
+ *          type: string
+ *          description: The ticket title
+ *         time_booking:
+ *          type: string
+ *          description: The ticket title
+ *         account_id:
+ *          type: string
+ *          description: The ticket title
+ *         show_time_id:
+ *          type: string
+ *          description: The ticket title
+ *         location:
+ *          type: string
+ *          description: The ticket title
+ *         ticketHash:
+ *          type: date
+ *          description: The ticket title
+ *         ticketQR:
+ *          type: boolean
+ *          description: The ticket author
+ *         check_in:
+ *          type: int
+ *          description: The ticket author
+ *       example:
+ *          amount: 2
+ *          price: 100000
+ *          time_booking: 2021-11-19T19:00:00.000Z
+ *          account_id: 10
+ *          show_time_id: 2
+ *          location: A2,B2,C2,D2
+ */
 
 /**
  * @swagger
@@ -88,7 +89,7 @@ const payment = require("../app/controllers/order")
  *         description: Some server error
  */
 // Create a new ticket
-router.post("/create", ticket.create);
+router.post("/create", authen.authenticationToken, author.checkMemberRole, ticket.create);
 
 /**
  * @swagger
@@ -113,7 +114,7 @@ router.post("/create", ticket.create);
  *                 $ref: '#/components/schemas/ticket'
  */
 // Retrieve all ticket-locations of a showtime by showtimeId
-router.get("/location/list", ticket.findLocationsByShowtimeId);
+router.get("/location/list", authen.authenticationToken, author.checkMemberRole, ticket.findLocationsByShowtimeId);
 
 /**
  * @swagger
@@ -138,7 +139,7 @@ router.get("/location/list", ticket.findLocationsByShowtimeId);
  *                 $ref: '#/components/schemas/ticket'
  */
 // Retrieve all ticket-locations of a showtime by showtimeId
-router.get("/revenue", ticket.countRevenueByShowtimeId);
+router.get("/revenue", authen.authenticationToken, author.checkManagerRole, ticket.countRevenue);
 
 /**
  * @swagger
@@ -164,7 +165,7 @@ router.get("/revenue", ticket.countRevenueByShowtimeId);
  *         description: The ticket was not found
  */
 // Retrieve all ticket of a ticket  - Phanquyen
-router.get("/account/:id", ticket.findByAccountId);
+router.get("/account/:id", authen.authenticationToken, author.checkMemberRole, ticket.findByAccountId);
 
 /**
  * @swagger
@@ -188,7 +189,7 @@ router.get("/account/:id", ticket.findByAccountId);
  *         description: Some error happened
  */
 // Delete a ticket with id
-router.delete("/:id", ticket.delete);
+router.delete("/:id", authen.authenticationToken, author.checkAdminRole, ticket.delete);
 
 
 module.exports = router

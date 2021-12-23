@@ -127,13 +127,7 @@ exports.findByIdManager = (req, res) => {
             }
         })
         .then(data => {
-            if (data) {
-                res.send(data);
-            } else {
-                res.status(404).send({
-                    message: `Cannot find Theater with idAccount=${id}.`
-                });
-            }
+            res.send([]);
         })
         .catch(err => {
             res.status(500).send({

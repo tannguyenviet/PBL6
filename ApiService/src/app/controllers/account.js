@@ -44,7 +44,6 @@ exports.register = async(req, res) => {
     } = req.body;
     const newAccount = {
         username,
-        password,
         name,
         phone,
         email,
@@ -59,13 +58,13 @@ exports.register = async(req, res) => {
     Account.beforeCreate(async(newAccount, options) => {
         const saltRounds = 10;
         const salt = bcrypt.genSaltSync(saltRounds);
-        const hashedPassword = bcrypt.hashSync(newAccount.password, salt);
+        const hashedPassword = bcrypt.hashSync(password, salt);
         newAccount.password = hashedPassword;
     });
     // Save account in the database
     Account.create(newAccount)
         .then((data) => {
-            let transporter = nodemailer.createTransport({
+            const transporter = nodemailer.createTransport({
                 service: "gmail",
                 auth: {
                     user: process.env.EMAIL_ADDRESS, // ethereal us er
@@ -74,11 +73,10 @@ exports.register = async(req, res) => {
             });
             //const domain = "tuantanminhsanh.hopto.org:8080"
             //const domain = "42.115.230.103:8080"
-            console.log(req.headers.host)
             const msg = {
-                from: '"The Exapress App" <theExpressApp@example.com>', // sender address
+                from: '"The Movie PBL6 App" <theMovieApp@example.com>', // sender address
                 to: `${email}`, // list of receivers
-                subject: "Sup", // Subject line
+                subject: "Verification for your account", // Subject line
                 text: `Hello, thanks for registering on our site.
                     Please click the link below to verify your account: 
                     http://${req.headers.host}/account/verify-email?token=${newAccount.emailToken}`, // plain text body
@@ -163,7 +161,7 @@ exports.login = async(req, res) => {
         //
         if (!checkPass)
             return res.status(400).json({ message: "Password does not match" });
-        const jwtToken = jwt.sign({ id: account.id, username: account.username },
+        const jwtToken = jwt.sign({ id: account.id, username: account.username, role: account.role_id },
             process.env.JWT_SECRET
         );
         delete account["password"];
@@ -188,10 +186,10 @@ exports.findAll = (req, res) => {
 
     Account.findAll({ where: condition })
         .then((data) => {
-            res.send(data);
+            return res.send(data);
         })
         .catch((err) => {
-            res.status(500).send({
+            return res.status(500).send({
                 message: err.message
             });
         });
@@ -243,7 +241,97 @@ exports.updateAccountInfo = async(req, res) => {
             });
         });
 };
+exports.updatePassword = async(req, res) => {
+    const id = req.params.id;
+    const account = await Account.findByPk(id)
+    if (!account) {
+        return res.status(404).send({ message: "This User not found" })
+    }
+    //check currentPassword is true
+    const { currentPassword, newPassword } = req.body;
+    const checkPass = await bcrypt.compare(currentPassword, account.password);
+    if (!checkPass) return res.status(400).json({ message: "Your current password does not match" });
+    // change password
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hashedPassword = bcrypt.hashSync(newPassword, salt);
+    // Save the password
+    account.set({
+        password: hashedPassword
+    });
+    account.save()
+        .then(() => {
+            res.send({
+                message: "Password was updated successfully.",
+            });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: err.message
+            });
+        });
+};
+exports.resetPassword = async(req, res) => {
+    // check alreadyExistsUserr
+    const email = req.body.email
+    const account = await Account.findOne({
+        where: { email: email }
+    })
+    if (!account) {
+        return res
+            .status(400)
+            .json({ message: "This email does not belong to any accounts" });
+    }
+    // reset password
+    var generator = require('generate-password');
+    var newPassword = generator.generate({
+        length: 10,
+        numbers: true
+    });
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hashedPassword = bcrypt.hashSync(newPassword, salt);
+    // Save the password
+    account.set({
+        password: hashedPassword
+    });
+    account.save()
+        .then(() => {
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: process.env.EMAIL_ADDRESS, // ethereal us er
+                    pass: process.env.EMAIL_PASSWORD, // ethereal password
+                },
+            });
+            //const domain = "tuantanminhsanh.hopto.org:8080"
+            //const domain = "42.115.230.103:8080"
+            const msg = {
+                from: '"The Movie PBL6 App" <theMovieApp@example.com>', // sender address
+                to: `${email}`, // list of receivers
+                subject: "Reset Password", // Subject line
+                text: `Hello, this is your reset password: ${newPassword}`, // plain text body
+            };
+            // send mail with defined transport object
+            transporter
+                .sendMail(msg)
+                .then((info) => {
+                    console.log("Message sent: %s", info.messageId);
+                    return res.json({
+                        message: "Please check your Email to get your reset password!",
+                    });
+                })
+                .catch((err) => {
+                    console.log("Error while sending email: %s", err);
+                });
+        })
+        .catch((err) => {
+            res.status(500).send({
+                message: err.message
+            });
+        });
 
+};
 // [DELETE] ../account/id
 // Delete a account with the specified id in the request
 exports.delete = (req, res) => {

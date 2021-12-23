@@ -54,15 +54,17 @@ function ProfilePage(props) {
 
   const checkExpireTicket = (date, timeEnd) => {
     const ticketEnd = timeEnd.split(":");
-    if (date.slice(8) < today.getDate()) {
+
+    if (parseInt(date.slice(8)) < today.getDate()) {
       return true;
-    }
-    if (
-      parseInt(ticketEnd[0]) < today.getHours() ||
-      (parseInt(ticketEnd[0]) === today.getHours() &&
-        parseInt(ticketEnd[1]) < today.getMinutes())
-    ) {
-      return true;
+    } else if (parseInt(date.slice(8)) === today.getDate()) {
+      if (
+        parseInt(ticketEnd[0]) < today.getHours() ||
+        (parseInt(ticketEnd[0]) === today.getHours() &&
+          parseInt(ticketEnd[1]) < today.getMinutes())
+      ) {
+        return true;
+      }
     }
     return false;
   };

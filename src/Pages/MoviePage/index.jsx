@@ -60,14 +60,14 @@ function MovieList(props) {
               data-index="0"
               onClick={handleTabActive}
             >
-              Now Showing
+              Now Playing
             </div>
             <div
               className="gallery__tab"
               data-index="1"
               onClick={handleTabActive}
             >
-              Comming soon
+              Coming soon
             </div>
             <div className="gallery__underline" ref={tabRef}></div>
           </div>

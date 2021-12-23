@@ -10,9 +10,9 @@
     background-color: #01173f;
     border-bottom: 1px solid $secondary-bg;
     @include flex(center);
+    padding: 2rem;
   }
   &__movie {
-    padding: 2rem;
     flex-basis: 40%;
     border-right: 0.2px solid $secondary-bg;
     @include flex(center, space-evenly);
@@ -25,9 +25,10 @@
     }
 
     &-name {
-      font-size: 2.4rem;
+      font-size: 2rem;
       margin-bottom: 1rem;
       color: $secondary-text;
+      @include truncate-text(1);
     }
 
     span {

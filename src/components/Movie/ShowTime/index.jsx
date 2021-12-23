@@ -22,13 +22,12 @@ function ShowTime(props) {
       <div className="showtime__movie">
         <div className="showtime__movie-img">
           <img
-            src="https://i.pinimg.com/564x/c4/a1/e6/c4a1e6d2af85b003575f96e4484ac9e9.jpg"
+            src="https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg"
             alt="movide-img"
           />
         </div>
         <div className="showtime__movie-content">
-          <h4 className="showtime__movie-name">Mr Bean</h4>
-          <span className="showtime__movie-type">Comedy</span>
+          <h4 className="showtime__movie-name">SPIDER-MAN: NO WAY HOME</h4>
           <span className="showtime__movie-duration">128 mins</span>
         </div>
       </div>

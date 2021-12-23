@@ -5,7 +5,6 @@ import Context from "../../Context/Context";
 import API from "../../API";
 import "./Login.scss";
 import Logo from "../../components/Layouts/Logo";
-import { toast } from "react-toastify";
 
 // const isEmail = (email) => {
 //   const regex =
@@ -79,7 +78,6 @@ function LoginForm(props) {
           username: "Username or Password is not correct",
           password: "Username or Password is not correct",
         });
-        toast.error(error.message);
       }
     }
   };
@@ -126,6 +124,9 @@ function LoginForm(props) {
             <span>
               <Link to="/register">Sign up</Link>
             </span>
+            <p>
+              <Link to="/forgot-password">Forgot password?</Link>
+            </p>
           </div>
           <div className="form__btn">
             <button type="submit">Login</button>

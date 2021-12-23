@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Container } from "reactstrap";
+import useLoading from "../../hooks/useLoading";
 import API from "../../API";
 
 function ProfileForm(props) {
@@ -15,12 +16,16 @@ function ProfileForm(props) {
     address: "",
     gender: "",
     birthday: "",
+    password: "",
+    newpass: "",
+    confirm: "",
   });
   const [formErrors, setFormErrors] = useState({
     password: "",
     newpass: "",
     confirm: "",
   });
+  const [showLoading, hideLoading] = useLoading();
 
   useEffect(() => {
     const getprofileInfo = async () => {
@@ -28,7 +33,10 @@ function ProfileForm(props) {
       const res = await API.get(url);
       if (res) {
         delete res.password;
-        setProfileInfo(res);
+        setProfileInfo((prevInfo) => ({
+          ...prevInfo,
+          ...res,
+        }));
       }
     };
     getprofileInfo();
@@ -61,23 +69,67 @@ function ProfileForm(props) {
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
+    let flag = true;
+
+    setFormErrors({
+      password: "",
+      newpass: "",
+      confirm: "",
+    });
+
     if (!profileInfo.password) {
       setFormErrors((prevErrors) => ({
         ...prevErrors,
         password: "This field is required",
       }));
+      flag = false;
     }
     if (!profileInfo.newpass) {
       setFormErrors((prevErrors) => ({
         ...prevErrors,
         newpass: "This field is required",
       }));
+      flag = false;
     }
     if (!profileInfo.confirm) {
       setFormErrors((prevErrors) => ({
         ...prevErrors,
         confirm: "This field is required",
       }));
+      flag = false;
+    }
+
+    if (profileInfo.confirm !== profileInfo.newpass) {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        confirm: "Password does not match",
+      }));
+      flag = false;
+    }
+
+    if (flag) {
+      showLoading();
+      try {
+        const url = `account/password/${userInfo.id}`;
+        const data = {
+          currentPassword: profileInfo.password,
+          newPassword: profileInfo.newpass,
+        };
+        const res = await API.put(url, data);
+        if (res) {
+          toast.success("Change password successfully");
+          setProfileInfo((prevInfo) => ({
+            ...prevInfo,
+            password: "",
+            newpass: "",
+            confirm: "",
+          }));
+          hideLoading();
+        }
+      } catch (err) {
+        hideLoading();
+        toast.error("Change password fail. Please try again");
+      }
     }
   };
 
@@ -217,13 +269,14 @@ function ProfileForm(props) {
             onSubmit={handleChangePassword}
           >
             <div className="form__group">
-              <label htmlFor="email" className="form__lb">
+              <label htmlFor="password" className="form__lb">
                 Current Password
               </label>
               <input
                 type="password"
                 className="form__ip"
                 name="password"
+                value={profileInfo.password}
                 onChange={handleInputChange}
               />
               <span className="form__error">{formErrors.password}</span>
@@ -236,18 +289,20 @@ function ProfileForm(props) {
                 type="password"
                 className="form__ip"
                 name="newpass"
+                value={profileInfo.newpass}
                 onChange={handleInputChange}
               />
               <span className="form__error">{formErrors.newpass}</span>
             </div>
             <div className="form__group">
-              <label htmlFor="email" className="form__lb">
+              <label htmlFor="confirm" className="form__lb">
                 Confirm New Password
               </label>
               <input
                 type="password"
                 className="form__ip"
-                name="confim"
+                name="confirm"
+                value={profileInfo.confirm}
                 onChange={handleInputChange}
               />
               <span className="form__error">{formErrors.confirm}</span>

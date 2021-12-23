@@ -11,7 +11,7 @@ import "./Chart.scss";
 // import PropTypes from "prop-types";
 
 function Chart({ data }) {
-  console.log("REVENUE DATA", data);
+  // console.log("REVENUE DATA", data);
   //Render
   return (
     <section className="chart__section">

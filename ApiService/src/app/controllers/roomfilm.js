@@ -6,32 +6,32 @@ const convertUTCDateToLocalDate = require('../../utils/convertUTCDateToLocalDate
 
 // [POST] ../RoomFilm/create
 // Create and Save a new RoomFilm
-// exports.create = async(req, res) => {
+exports.create = async(req, res) => {
 
-//     const { name, address, RoomFilms } = req.body;
-//     const newRoomFilm = { name, address, RoomFilms };
-//     const listRoomFilmBefore = await RoomFilm.findAll({
-//         where: {
-//             [Op.and]: [{ name: name }]
-//         }
-//     });
-//     if (listRoomFilmBefore.length > 0) {
-//         return res.status(400).send({
-//             message: "RoomFilm with name already exists!"
-//         });
-//     }
-//     //res.json(newRoomFilm)
-//     // Save RoomFilm in the database
-//     RoomFilm.create(newRoomFilm)
-//         .then(data => {
-//             return res.send(data);
-//         })
-//         .catch(err => {
-//             return res.status(500).send({
-//                 message: err.message || "Some error occurred while creating the RoomFilm."
-//             });
-//         });
-// };
+    const { name, column, row, theater_id } = req.body;
+    const newRoomFilm = { name, column, row, theater_id };
+    const listRoomFilmBefore = await RoomFilm.findAll({
+        where: {
+            [Op.and]: [{ name: name }]
+        }
+    });
+    if (listRoomFilmBefore.length > 0) {
+        return res.status(400).send({
+            message: "RoomFilm with name already exists!"
+        });
+    }
+    //res.json(newRoomFilm)
+    // Save RoomFilm in the database
+    RoomFilm.create(newRoomFilm)
+        .then(data => {
+            return res.send(data);
+        })
+        .catch(err => {
+            return res.status(500).send({
+                message: err.message || "Some error occurred while creating the RoomFilm."
+            });
+        });
+};
 
 // [GET] ../RoomFilm/id
 // Retrieve a RoomFilm by id

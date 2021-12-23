@@ -127,7 +127,7 @@ exports.findByIdManager = (req, res) => {
             }
         })
         .then(data => {
-            res.send([]);
+            res.send(data);
         })
         .catch(err => {
             res.status(500).send({

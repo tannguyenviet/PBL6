@@ -3,8 +3,8 @@ const router = require("express").Router();
 const authen = require("../app/middlewares/authen");
 const author = require("../app/middlewares/author");
 
-// // Create a new roomfilm
-// router.post("/create", roomfilm.create);
+// Create a new roomfilm
+router.post("/create", roomfilm.create);
 
 // Retrieve all roomfilm of a city with idTheater=&state=
 router.get("/list", authen.authenticationToken, author.checkManagerRole, roomfilm.findAll);

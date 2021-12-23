@@ -8,9 +8,9 @@ const { listFilmsIds, getListDetailFilms } = require("../../utils/createFilms");
 // Import nowPlaying Film from Create_films.js and save in database
 exports.create = (req, res) => {
   try {
-    console.log("hererrrerere");
     // (async() => {
     //     // get film IDs from web
+    //     initDb();
     //     const listIds = await listFilmsIds();
     //     // get film IDs from database
     //     const dataFilms = await Film.findAll().catch((err) => {
@@ -41,7 +41,7 @@ exports.create = (req, res) => {
     //     }
     // })();
     initDb();
-    res.send("Init Success!");
+    res.send("Ok");
   } catch (error) {
     res.status(500).send({
       message: error.message,

@@ -21,7 +21,7 @@ app.engine('.hbs', engine({
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'views'));
 //
-db.sequelize.sync({ force: true });
+db.sequelize.sync();
 //
 var corsOptions = {
     origin: "http://localhost:3000",

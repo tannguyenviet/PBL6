@@ -46,7 +46,7 @@ services:
   payment:
     depends_on:
       - mysqldb
-    build: ./PaymentService
+    build: ./PayMentService
     restart: unless-stopped
     env_file: ./PaymentService/.env
     ports:

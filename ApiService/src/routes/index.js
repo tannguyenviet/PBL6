@@ -16,7 +16,7 @@ function route(app) {
   app.use("/theater", theater);
   app.use("/tutorials", tutorialRoute);
   app.use("/film", filmRoute);
-  app.use("/account", accountRoute);
+  //   app.use("/account", accountRoute);
   app.use("/showtime", showtime);
   app.use("/ticket", ticket);
   app.use("/membership", membership);

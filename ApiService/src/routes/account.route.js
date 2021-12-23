@@ -3,6 +3,7 @@ const authen = require("../app/middlewares/authen");
 const author = require("../app/middlewares/author")
 const router = require("express").Router();
 const identity = require("../app/middlewares/identity");
+const createCheck = require("../app/middlewares/createCheck");
 /**
  * @swagger
  * components:
@@ -143,7 +144,7 @@ const identity = require("../app/middlewares/identity");
  *         description: Some server error
  */
 // Register a new account
-router.post("/register", account.register);
+router.post("/register", createCheck.createCheck, account.register);
 // Verify a new account
 router.get("/verify-email", account.verifyEmail);
 

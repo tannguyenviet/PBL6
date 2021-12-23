@@ -80,7 +80,9 @@ exports.register = async (req, res) => {
   await Account.create(newAccount)
     .then((data) => {
       const transporter = nodemailer.createTransport({
-        service: "gmail",
+        host: "smtp.gmail.com",
+        secure: true,
+        port: 456,
         auth: {
           user: process.env.EMAIL_ADDRESS, // ethereal us er
           pass: process.env.EMAIL_PASSWORD, // ethereal password

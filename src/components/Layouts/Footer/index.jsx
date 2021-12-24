@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import Logo from "../../Layouts/Logo";
 import "./Footer.scss";
@@ -12,22 +13,25 @@ function Footer(props) {
             <Logo />
           </div>
           <ul className="footer__socials">
-            <li className="footer__socials-icon">
+            {/* <li className="footer__socials-icon">
               <a href="#a" className="footer__socials-link">
-                <i className="fab fa-facebook-f"></i>
+                <i className="fab fa-facebook-f" />
               </a>
-            </li>
+            </li> */}
             <li className="footer__socials-icon">
               <a
                 href="https://github.com/KimTanneel/PBL6"
                 className="footer__socials-link"
               >
-                <i className="fab fa-github"></i>
+                <i className="fab fa-github" />
               </a>
             </li>
             <li className="footer__socials-icon">
-              <a href="#a" className="footer__socials-link">
-                <i className="fab fa-instagram"></i>
+              <a
+                href="https://trello.com/b/8kRzsr2U/movie-theater"
+                className="footer__socials-link"
+              >
+                <i className="fab fa-trello" />
               </a>
             </li>
           </ul>
@@ -35,7 +39,7 @@ function Footer(props) {
         <div className="footer__bot">
           <div className="footer__bot-left">
             <p>
-              Copyright © 2020.All Rights Reserved By <a href="#a">PBL6</a>
+              Copyright © 2020.All Rights Reserved By <Link to="/">STMT</Link>
             </p>
           </div>
           <div className="footer__bot-right">

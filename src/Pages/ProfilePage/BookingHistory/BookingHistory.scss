@@ -4,10 +4,12 @@
 .history {
   &__container {
     @include flex(flex-start, space-between);
+    padding-bottom: 4rem;
   }
 
   &__preview {
-    width: 35%;
+    width: 40rem;
+    height: 61rem;
     padding: 4rem 2rem;
     background: $secondary-bg;
     border: 1px dashed $secondary-text;
@@ -37,7 +39,6 @@
   }
 
   &__list {
-    padding-top: 4rem;
     width: 50%;
     @include flex(stretch, flex-start, nowrap, column);
   }

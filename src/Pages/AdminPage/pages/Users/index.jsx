@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Table } from "reactstrap";
+import Select from "react-select";
+import { style } from "../../../../components/Ticket/TicketForm/TicketFormSetup";
 
 import API from "../../../../API";
 import UserAdd from "./UserAdd";
-// import UserUpdate from "./UserUpdate";
+import UserUpdate from "./UserUpdate";
 import UserDelete from "./UserDelete";
-Users.propTypes = {};
+
 const listRole = [
   { value: 1, label: "Admin" },
   { value: 2, label: "Manager" },
@@ -14,18 +16,21 @@ const listRole = [
 
 function Users() {
   const [listAccount, setListAccount] = useState();
+  const [listFilterByRole, setListFilterByRole] = useState();
   const [toggleAdd, setToggleAdd] = useState(false);
-  // const [toggleUpdate, setToggleUpdate] = useState(false);
+  const [toggleUpdate, setToggleUpdate] = useState(false);
   const [toggleDelete, setToggleDelete] = useState(false);
   const [updated, setUpdated] = useState(false); //Trigger rerender when modal finish
   const [selectedUser, setSelectedUser] = useState();
 
+  //Get all account
   useEffect(() => {
     const getListAccount = async () => {
       const url = `/account/list?idRole=`;
       const res = await API.get(url);
       if (res) {
         setListAccount(res);
+        setListFilterByRole(res);
       }
     };
     getListAccount();
@@ -36,13 +41,13 @@ function Users() {
     setToggleAdd(!toggleAdd);
   }, [toggleAdd]);
 
-  // const handleOpenModalUpdate = useCallback(
-  //   (user) => {
-  //     setSelectedUser(user);
-  //     setToggleUpdate(!toggleUpdate);
-  //   },
-  //   [toggleUpdate]
-  // );
+  const handleOpenModalUpdate = useCallback(
+    (user) => {
+      setSelectedUser(user);
+      setToggleUpdate(!toggleUpdate);
+    },
+    [toggleUpdate]
+  );
 
   const handleOpenModalDelete = useCallback(
     (user) => {
@@ -68,10 +73,30 @@ function Users() {
     return "Member";
   };
 
+  //Filter list account when role change
+  const handleRoleChange = (option) => {
+    const accountsFilter = listAccount.filter(
+      (acc) => acc.role_id === option.value
+    );
+    if (accountsFilter.length === 0) {
+      setListFilterByRole(listAccount);
+      return;
+    }
+    setListFilterByRole(accountsFilter);
+  };
+
   //Render
   return (
     <>
       <section className="dashboard__users">
+        <div className="dashboard__users-filter">
+          <Select
+            options={listRole}
+            styles={style}
+            placeholder="Select role ..."
+            onChange={handleRoleChange}
+          />
+        </div>
         <Table bordered>
           <thead>
             <tr>
@@ -86,8 +111,8 @@ function Users() {
             </tr>
           </thead>
           <tbody>
-            {listAccount &&
-              listAccount.map((user) => {
+            {listFilterByRole &&
+              listFilterByRole.map((user) => {
                 const {
                   id,
                   username,
@@ -107,14 +132,16 @@ function Users() {
                     <td>{phone}</td>
                     <td>{isVerified ? "Actived" : "Inactive"}</td>
                     <td>
-                      {/* <i
-                        className="far fa-edit"
-                        onClick={() => handleOpenModalUpdate(user)}
-                      ></i> */}
                       <i
-                        className="far fa-trash-alt"
-                        onClick={() => handleOpenModalDelete(user)}
+                        className="fas fa-eye"
+                        onClick={() => handleOpenModalUpdate(user)}
                       ></i>
+                      {user.role_id !== 1 && (
+                        <i
+                          className="far fa-trash-alt"
+                          onClick={() => handleOpenModalDelete(user)}
+                        ></i>
+                      )}
                     </td>
                   </tr>
                 );
@@ -132,7 +159,7 @@ function Users() {
             listRole={listRole}
           />
         )}
-        {/* {toggleUpdate && (
+        {toggleUpdate && (
           <UserUpdate
             toggle={toggleUpdate}
             onOpen={handleOpenModalUpdate}
@@ -140,7 +167,7 @@ function Users() {
             listRole={listRole}
             userInfo={selectedUser}
           />
-        )} */}
+        )}
         {toggleDelete && (
           <UserDelete
             toggle={toggleDelete}
@@ -153,5 +180,7 @@ function Users() {
     </>
   );
 }
+
+Users.propTypes = {};
 
 export default Users;

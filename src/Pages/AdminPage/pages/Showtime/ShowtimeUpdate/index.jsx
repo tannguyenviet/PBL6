@@ -36,6 +36,8 @@ function ShowtimeUpdate(props) {
 
   const [theaterAdminInfo, setTheaterAdminInfo] = useState();
   const [cityAdminInfo, setCityAdminInfo] = useState();
+  console.log("Theater Ìno", theaterAdminInfo);
+  console.log("List Theater", listTheater);
 
   //Get Theater when in admin page
   useEffect(() => {
@@ -43,7 +45,8 @@ function ShowtimeUpdate(props) {
       try {
         const url = `/roomfilm/${id}`;
         const res = await API.get(url);
-        setTheaterAdminInfo(res.id);
+        console.log(res);
+        setTheaterAdminInfo(res.theater_id);
       } catch (error) {
         toast.error(error.message);
       }
@@ -54,7 +57,7 @@ function ShowtimeUpdate(props) {
   //Get City when in admin page
   useEffect(() => {
     if (theaterAdminInfo) {
-      const theater = listTheater.find((t) => (t.id = theaterAdminInfo));
+      const theater = listTheater.find((t) => t.value === theaterAdminInfo);
       setCityAdminInfo(theater.city);
     }
   }, [userInfo.role_id, listTheater, theaterAdminInfo]);
@@ -126,7 +129,7 @@ function ShowtimeUpdate(props) {
     theater: theaterInfo ? theaterInfo.name : "",
   };
 
-  if (userInfo.id === 2) {
+  if (userInfo.role_id === 2) {
     initialValues.city = theaterInfo.city;
     initialValues.theater = theaterInfo.name;
   }

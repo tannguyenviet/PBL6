@@ -73,7 +73,7 @@ function UserUpdate(props) {
   return (
     <div>
       <Modal toggle={onOpen} isOpen={toggle} className="modal__container">
-        <ModalHeader>Update User</ModalHeader>
+        <ModalHeader>User {userInfo.username}</ModalHeader>
         <ModalBody>
           <Formik
             initialValues={initialValues}
@@ -105,6 +105,7 @@ function UserUpdate(props) {
                       component={InputField}
                       label="Name"
                       placeholder="Name"
+                      disabled={true}
                     />
                     <Field
                       name="password"
@@ -112,6 +113,7 @@ function UserUpdate(props) {
                       label="Password"
                       placeholder="Password"
                       type="password"
+                      disabled={true}
                     />
                   </div>
                   <div className="form-side row">
@@ -121,12 +123,14 @@ function UserUpdate(props) {
                       label="Phone"
                       placeholder="Phone"
                       type="number"
+                      disabled={true}
                     />
                     <Field
                       name="address"
                       component={InputField}
                       label="Address"
                       placeholder="Address"
+                      disabled={true}
                     />
                   </div>
                   <div className="form-side row">
@@ -136,12 +140,14 @@ function UserUpdate(props) {
                       label="Birthday"
                       placeholder="Birthday"
                       type="date"
+                      disabled={true}
                     />
                     <Field
                       name="gender"
                       component={GenderField}
                       label="Gender"
                       placeholder="Gender"
+                      disabled={true}
                     />
                   </div>
                   <div className="form-side row">
@@ -155,11 +161,11 @@ function UserUpdate(props) {
                     />
                   </div>
                   <div className="form-options">
-                    <FormGroup>
+                    {/* <FormGroup>
                       <Button type="submit">Create</Button>
-                    </FormGroup>
+                    </FormGroup> */}
                     <FormGroup>
-                      <Button onClick={handleCloseModal}>Cancel</Button>
+                      <Button onClick={handleCloseModal}>Close</Button>
                     </FormGroup>
                   </div>
                 </Form>

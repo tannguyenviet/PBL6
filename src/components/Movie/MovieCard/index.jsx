@@ -6,6 +6,7 @@ import Context from "../../../Context/Context";
 
 function MovieCard(props) {
   const history = useHistory();
+  const imgPlaceholder = "/images/thumb_placeholder.png";
 
   //Get context to set ON-OFF modal
   const context = useContext(Context);
@@ -31,7 +32,10 @@ function MovieCard(props) {
   return (
     <div className="movie__item" onClick={(e) => handleMovieCardClicked(e, id)}>
       <div className="movie__item-img">
-        <img src={image} alt="movie-poster" />
+        <img
+          src={image.includes("null") ? imgPlaceholder : image}
+          alt="movie-poster"
+        />
       </div>
       <div className="movie__item-content">
         <div className="movie__item-info">

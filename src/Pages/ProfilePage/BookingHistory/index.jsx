@@ -88,7 +88,11 @@ function History({ listTicket, type }) {
           </div>
         ) : (
           <div className="history__preview">
-            <img src="" alt="detail-ticket" className="history__preview-img" />
+            <img
+              src="/images/ticket_placeholder.png"
+              alt="detail-ticket"
+              className="history__preview-img"
+            />
           </div>
         )}
       </div>

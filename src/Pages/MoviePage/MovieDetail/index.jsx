@@ -133,7 +133,7 @@ function MovieDetail(props) {
       </div>
       <div className="showtime__section">
         <div className="container showtime__container">
-          <ShowTime showtime={showTime} />
+          <ShowTime showtime={showTime} movieInfo={movieInfo} />
         </div>
       </div>
       {openModal && (

@@ -45,7 +45,7 @@ function HomePage() {
           <div className="search-ticket__box">
             <div className="search-ticket__top">
               <div className="search-ticket__header">
-                <h6 className="category">Welcome to PBL6</h6>
+                <h6 className="category">Welcome to STMT</h6>
                 <h3 className="title">What are you looking for</h3>
               </div>
               <div className="search-ticket__menu">

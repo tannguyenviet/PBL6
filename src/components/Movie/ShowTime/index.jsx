@@ -1,9 +1,14 @@
 import React, { useContext } from "react";
 import Context from "../../../Context/Context";
+import PropTypes from "prop-types";
 import "./ShowTime.scss";
 
 function ShowTime(props) {
   const listShowTime = props.showtime;
+  const day = listShowTime
+    ? listShowTime[0]?.time_start.slice(0, 10)
+    : listShowTime;
+  const movieInfo = props.movieInfo;
 
   const { ticketInfo, setTicketInfo } = useContext(Context);
 
@@ -19,20 +24,23 @@ function ShowTime(props) {
 
   return (
     <div className="showtime__info">
-      <div className="showtime__movie">
-        <div className="showtime__movie-img">
-          <img
-            src="https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg"
-            alt="movide-img"
-          />
+      {movieInfo && (
+        <div className="showtime__movie">
+          <div className="showtime__movie-img">
+            <img src={movieInfo.image} alt={movieInfo.name} />
+          </div>
+          <div className="showtime__movie-content">
+            <h4 className="showtime__movie-name">{movieInfo.name}</h4>
+            <span className="showtime__movie-duration">
+              {movieInfo.duration} mins
+            </span>
+          </div>
         </div>
-        <div className="showtime__movie-content">
-          <h4 className="showtime__movie-name">SPIDER-MAN: NO WAY HOME</h4>
-          <span className="showtime__movie-duration">128 mins</span>
-        </div>
-      </div>
+      )}
       <div className="showtime__time">
-        <div className="showtime__day">Monday</div>
+        <div className="showtime__day">
+          {day && new Date(day).toString().slice(0, 3)}
+        </div>
         <div className="showtime__group">
           {listShowTime &&
             listShowTime.map((st) => (
@@ -50,5 +58,15 @@ function ShowTime(props) {
     </div>
   );
 }
+
+ShowTime.propTypes = {
+  showtime: PropTypes.array,
+  movieInfo: PropTypes.object,
+};
+
+ShowTime.defaultProps = {
+  showtime: null,
+  movieInfo: null,
+};
 
 export default ShowTime;

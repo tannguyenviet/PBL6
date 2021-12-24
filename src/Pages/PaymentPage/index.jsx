@@ -48,6 +48,7 @@ function PaymentPage(props) {
     const res = await API.post(url, data, config);
     if (res) {
       window.location.href = res;
+      console.log(res);
     }
   };
 
@@ -101,14 +102,14 @@ function PaymentPage(props) {
                 <span>Tickets Price</span>
                 <span>{totalPrice} VND</span>
               </div>
-              <div className="payment__price-item">
+              {/* <div className="payment__price-item">
                 <span>Member</span>
                 <span>-$10</span>
-              </div>
+              </div> */}
             </div>
             <div className="payment__total">
               <span>Total price</span>
-              <span>$140</span>
+              <span>{totalPrice} VND</span>
             </div>
           </div>
           <div className="payment__right">

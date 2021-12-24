@@ -45,6 +45,7 @@
     color: $secondary-text;
     padding-left: 2rem;
     margin-bottom: 3rem;
+    text-transform: uppercase;
   }
   &__group {
     @include flex(center, space-evenly);

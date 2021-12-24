@@ -141,6 +141,7 @@ function Showtime() {
         const url = `theater/manager/${userInfo.id}`;
         const res = await API.get(url);
         if (res.length !== 0) {
+          console.log("Theater", res);
           setTheaterInfo(res);
         }
       } catch (error) {
@@ -166,13 +167,19 @@ function Showtime() {
       try {
         const url = `/showtime/searchForAdmin`;
         const res = await API.get(url);
+        console.log(res);
         setListShowtime(res);
       } catch (error) {
         toast.error(error.message);
       }
     };
-    theaterInfo ? getShowTimeForManager(theaterInfo.id) : getShowTimeForAdmin();
-  }, [updated, theaterInfo]);
+
+    theaterInfo &&
+      userInfo.role_id === 2 &&
+      getShowTimeForManager(theaterInfo.id);
+
+    userInfo.role_id === 1 && getShowTimeForAdmin();
+  }, [updated, theaterInfo, userInfo.role_id]);
 
   //Functions
   const handleOpenModal = useCallback(() => {

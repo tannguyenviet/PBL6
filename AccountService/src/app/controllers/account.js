@@ -99,7 +99,7 @@ exports.register = async (req, res) => {
               subject: "Verification for your account", // Subject line
               text: `Hello, thanks for registering on our site.
                     Please click the link below to verify your account: 
-                    http://${req.headers.host}/account/verify-email?token=${newAccount.emailToken}`, // plain text body
+                    http://${req.headers.host}:8080/account/verify-email?token=${newAccount.emailToken}`, // plain text body
             }
           : {
               from: '"The Movie PBL6 App" <theMovieApp@example.com>', // sender address
@@ -333,8 +333,9 @@ exports.resetPassword = async (req, res) => {
     .then(() => {
       const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
+        port: 587,
+        ignoreTLS: false,
+        secure: false,
         auth: {
           user: process.env.EMAIL_ADDRESS, // ethereal us er
           pass: process.env.EMAIL_PASSWORD, // ethereal password

@@ -207,7 +207,7 @@ exports.findAll = (req, res) => {
   var condition = idRole
     ? {
         role_id: {
-          [Op.like]: ` % $ { idRole } % `,
+          [Op.like]: `%${idRole}%`,
         },
       }
     : null;
@@ -233,9 +233,7 @@ exports.findOne = (req, res) => {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `
-                            Cannot find account with id = $ { id }
-                            `,
+          message: `Cannot find account with id =${id}`,
         });
       }
     })
@@ -345,14 +343,9 @@ exports.resetPassword = async (req, res) => {
       //const domain = "42.115.230.103:8080"
       const msg = {
         from: '"The Movie PBL6 App" <theMovieApp@example.com>', // sender address
-        to: `
-                            $ { email }
-                            `, // list of receivers
+        to: `${email}`, // list of receivers
         subject: "Reset Password", // Subject line
-        text: `
-                            Hello,
-                            this is your reset password: $ { newPassword }
-                            `, // plain text body
+        text: `Hello,this is your reset password: ${newPassword}`, // plain text body
       };
       // send mail with defined transport object
       transporter
@@ -386,8 +379,7 @@ exports.delete = (req, res) => {
         });
       } else {
         res.status(404).send({
-          message: `
-                            Cannot delete account with id = $ { id }.Maybe account was not found!`,
+          message: `Cannot delete account with id = ${id}.Maybe account was not found!`,
         });
       }
     })

@@ -11,6 +11,7 @@ class AppDataManager : DataManager {
 
     companion object {
         private var mInstance: AppDataManager? = null
+        var mInfo = Info()
 
         fun getInstance(): AppDataManager? {
             if (mInstance == null) {
@@ -33,13 +34,19 @@ class AppDataManager : DataManager {
         userId: Int?,
         userName: String?,
         email: String?,
-        pass: String
+        pass: String,
+        info: Info
     ) {
         setAccessToken(accessToken)
         setCurrentUserId(userId)
         setCurrentUserName(userName)
         setCurrentEmail(email)
         setCurrentPassWord(pass)
+        mInfo = info
+    }
+
+    override fun getUserInfo(): Info {
+        return mInfo
     }
 
     override fun getFilms(): Single<List<Film>>? = mApiHelper?.getFilms()

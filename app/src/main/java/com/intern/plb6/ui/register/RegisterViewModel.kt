@@ -26,7 +26,7 @@ class RegisterViewModel(private var navigator: RegisterNavigator): ViewModel() {
                     it
                         .subscribe({ response ->
                             navigator.dismissDialog()
-                            navigator.showMess(response.message.toString())
+                            navigator.showMess("Please verify your email!!!")
                             navigator.openLoginActivity()
                             Log.d("RegisterViewModel", "success")
                         }) { throwable ->

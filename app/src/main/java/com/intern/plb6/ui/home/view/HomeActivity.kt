@@ -19,6 +19,7 @@ import com.intern.plb6.ui.home.adapter.CategoryAdapter
 import com.intern.plb6.ui.home.adapter.FilmsAdapter
 import com.intern.plb6.ui.home.viewmodel.HomeFactory
 import com.intern.plb6.ui.home.viewmodel.HomeViewModel
+import com.intern.plb6.ui.profile.ProfileActivity
 import com.intern.plb6.utils.Status
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -106,5 +107,9 @@ class HomeActivity : AppCompatActivity(), HomeNavigator {
 
     fun startHistory(view: View) {
         startActivity(Intent(this, HistoryActivity::class.java))
+    }
+
+    fun startProfile(view: View) {
+        startActivity(Intent(this, ProfileActivity::class.java))
     }
 }

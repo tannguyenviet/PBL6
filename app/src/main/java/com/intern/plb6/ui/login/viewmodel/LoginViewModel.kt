@@ -27,13 +27,16 @@ class LoginViewModel(
                 compositeDisposable.add(
                     it
                         .subscribe({ response ->
-                            dataManager?.updateUserInfo(
-                                response.token,
-                                response.info?.id,
-                                response.info?.username,
-                                response.info?.email,
-                                ""
-                            )
+                            response.info?.let { it1 ->
+                                dataManager?.updateUserInfo(
+                                    response.token,
+                                    response.info?.id,
+                                    response.info?.username,
+                                    response.info?.email,
+                                    "",
+                                    it1
+                                )
+                            }
                             navigator.openHomeActivity()
                             navigator.dismissDialog()
                         }) { throwable ->

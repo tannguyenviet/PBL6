@@ -20,10 +20,10 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "BASE_URL", "\"http://192.168.1.49:8080\""
+            buildConfigField "String", "BASE_URL", "\"http://163.44.206.93:8080\""
         }
         release {
-            buildConfigField "String", "BASE_URL", "\"http://192.168.1.49:8080\""
+            buildConfigField "String", "BASE_URL", "\"http://163.44.206.93:8080\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

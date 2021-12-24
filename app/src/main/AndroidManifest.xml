@@ -14,7 +14,7 @@
         android:theme="@style/Theme.PLB6"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.ProfileActivity"
+            android:name=".ui.profile.ProfileActivity"
             android:exported="true" />
         <activity
             android:name=".ui.history.HistoryActivity"

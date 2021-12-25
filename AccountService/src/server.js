@@ -15,7 +15,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 db.sequelize.sync();
 //
 var corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://163.44.206.93:3000",
 };
 app.use(cors(corsOptions));
 // parse requests of content-type - application/json

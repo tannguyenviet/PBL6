@@ -70,5 +70,14 @@ services:
       - "8080:80"
     volumes:
       - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+  reactapp:
+    depends_on:
+      - nginx
+    build: ./MovieApp
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
 volumes:
   db:

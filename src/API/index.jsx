@@ -1,8 +1,10 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-const PORT = process.env.REACT_APP_PORT;
+// const BASE_URL = process.env.REACT_APP_BASE_URL;
+// const PORT = process.env.REACT_APP_PORT;
+const BASE_URL = "http://163.44.206.93";
+const PORT = "8080";
 
 const axiosInstance = axios.create({
   baseURL: `${BASE_URL}:${PORT}`,

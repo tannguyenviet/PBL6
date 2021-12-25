@@ -13,6 +13,16 @@
     font-size: 2.5rem;
     font-weight: 500;
     flex-grow: 1;
+    a {
+      color: $secondary-text;
+      transition: all 0.2s linear;
+    }
+
+    &:hover {
+      a {
+        color: $success;
+      }
+    }
   }
   &__nav {
     flex-basis: 15%;

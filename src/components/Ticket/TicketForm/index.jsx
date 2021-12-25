@@ -41,7 +41,7 @@ function TicketForm(props) {
   //context
   const context = useContext(Context);
   const { ticketInfo, setTicketInfo } = context;
-  console.log(ticketInfo);
+  // console.log(ticketInfo);
 
   //Get Cities
   useEffect(() => {

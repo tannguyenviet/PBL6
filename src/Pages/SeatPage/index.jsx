@@ -103,7 +103,7 @@ function SeatPage() {
             </div>
           </div>
           <div className="seat-area">
-            {listRow.reverse().map((row) => (
+            {listRow.map((row) => (
               <div className="seat-row" key={row}>
                 <span>{row}</span>
                 <ul className="seat-list">

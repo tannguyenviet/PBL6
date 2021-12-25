@@ -8,6 +8,12 @@
     margin-bottom: 5rem;
   }
 
+  &__users {
+    &-filter {
+      width: 20%;
+    }
+  }
+
   .chart {
     &__filter {
       @include flex(center, flex-start);
@@ -40,4 +46,10 @@
       }
     }
   }
+}
+
+.manager__filter {
+  width: 60%;
+  @include flex(center, flex-start);
+  gap: 2rem;
 }

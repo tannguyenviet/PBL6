@@ -5,11 +5,11 @@
   &__container {
     @include flex(flex-start, space-between);
     padding-bottom: 4rem;
+    height: 61rem;
   }
 
   &__preview {
     width: 40rem;
-    height: 61rem;
     padding: 4rem 2rem;
     background: $secondary-bg;
     border: 1px dashed $secondary-text;
@@ -40,7 +40,9 @@
 
   &__list {
     width: 50%;
+    height: 100%;
     @include flex(stretch, flex-start, nowrap, column);
+    overflow-y: scroll;
   }
   &__ticket {
     width: 100%;

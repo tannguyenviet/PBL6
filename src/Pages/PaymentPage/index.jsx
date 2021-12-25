@@ -30,7 +30,7 @@ function PaymentPage(props) {
   const timeBooking = parseISOLocalTime();
 
   const handleCreateTicket = async () => {
-    const url = "/order/create_payment_url";
+    const url = "/payment/create_payment_url";
     const data = {
       amount: locations.length,
       price: totalPrice,

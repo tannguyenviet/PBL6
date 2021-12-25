@@ -36,8 +36,8 @@ function ShowtimeUpdate(props) {
 
   const [theaterAdminInfo, setTheaterAdminInfo] = useState();
   const [cityAdminInfo, setCityAdminInfo] = useState();
-  console.log("Theater Ìno", theaterAdminInfo);
-  console.log("List Theater", listTheater);
+  // console.log("Theater Ìno", theaterAdminInfo);
+  // console.log("List Theater", listTheater);
 
   //Get Theater when in admin page
   useEffect(() => {
@@ -45,7 +45,7 @@ function ShowtimeUpdate(props) {
       try {
         const url = `/roomfilm/${id}`;
         const res = await API.get(url);
-        console.log(res);
+        // console.log(res);
         setTheaterAdminInfo(res.theater_id);
       } catch (error) {
         toast.error(error.message);

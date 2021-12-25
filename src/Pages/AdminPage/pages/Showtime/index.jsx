@@ -1,17 +1,21 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import { Table } from "reactstrap";
 
-import Context from "../../../../Context/Context";
+// import Context from "../../../../Context/Context";
 import ShowtimeAdd from "./ShowtimeAdd";
 import ShowtimeDelete from "./ShowtimeDelete";
 import ShowtimeUpdate from "./ShowtimeUpdate";
 import API from "../../../../API";
 
 function Showtime() {
+  const userInfo = JSON.parse(localStorage.getItem("user_info"));
+  // const { today } = useContext(Context);
+
   const [toggle, setToggle] = useState(false);
   const [toggleDelete, setToggleDelete] = useState(false);
   const [toggleUpdate, setToggleUpdate] = useState(false);
+
   const [updated, setUpdated] = useState(false); //Trigger rerender when modal finish
   const [selectedId, setSelectedId] = useState(); //For delete
   const [selectedShowtime, setSelectedShowtime] = useState({}); // For update
@@ -19,13 +23,14 @@ function Showtime() {
   const [listCity, setListCity] = useState();
   const [listTheater, setListTheater] = useState();
   const [theaterInfo, setTheaterInfo] = useState(null);
-  const [listShowtime, setListShowtime] = useState();
+
+  const [listShowtime, setListShowtime] = useState([]);
+  const [dateFilter, setDateFilter] = useState("");
+  const [listShowtimeFilter, setListShowtimeFilter] = useState([]);
+
   const [listMovie, setListMovie] = useState([]);
   const [listPriceType, setListPriceType] = useState([]);
   const [listRoomFilm, setListRoomFilm] = useState([]);
-
-  const userInfo = JSON.parse(localStorage.getItem("user_info"));
-  const { today } = useContext(Context);
 
   //Get Cities
   useEffect(() => {
@@ -167,7 +172,6 @@ function Showtime() {
       try {
         const url = `/showtime/searchForAdmin`;
         const res = await API.get(url);
-        console.log(res);
         setListShowtime(res);
       } catch (error) {
         toast.error(error.message);
@@ -180,6 +184,18 @@ function Showtime() {
 
     userInfo.role_id === 1 && getShowTimeForAdmin();
   }, [updated, theaterInfo, userInfo.role_id]);
+
+  //Filter list showtime by date
+  useEffect(() => {
+    if (!dateFilter) {
+      setListShowtimeFilter(listShowtime);
+      return;
+    }
+    const listShowtimeByDate = listShowtime.filter(
+      (st) => st.time_start.slice(0, 10) === dateFilter
+    );
+    setListShowtimeFilter(listShowtimeByDate);
+  }, [dateFilter, listShowtime]);
 
   //Functions
   const handleOpenModal = useCallback(() => {
@@ -206,7 +222,9 @@ function Showtime() {
     setUpdated(!updated);
   };
 
-  const handleDateChange = () => {};
+  const handleDateChange = (e) => {
+    setDateFilter(e.target.value);
+  };
 
   const getPriceTypeById = (id) => {
     if (listPriceType.length > 0) {
@@ -233,9 +251,12 @@ function Showtime() {
         <input
           type="date"
           name="date"
-          value={today}
+          value={dateFilter}
           onChange={handleDateChange}
         />
+        <button className="btn btn-add" onClick={() => handleOpenModal()}>
+          New Showtime
+        </button>
       </div>
       <section className="dashboard__showtime">
         <Table bordered>
@@ -251,8 +272,8 @@ function Showtime() {
             </tr>
           </thead>
           <tbody>
-            {listShowtime &&
-              listShowtime.map((item) => {
+            {listShowtimeFilter &&
+              listShowtimeFilter.map((item) => {
                 const {
                   id,
                   film_id,
@@ -285,9 +306,7 @@ function Showtime() {
               })}
           </tbody>
         </Table>
-        <button className="btn btn-add" onClick={() => handleOpenModal()}>
-          New Showtime
-        </button>
+
         {toggle && (
           <ShowtimeAdd
             toggle={toggle}

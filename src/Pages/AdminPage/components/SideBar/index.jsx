@@ -1,6 +1,6 @@
 import React from "react";
 import "./SideBar.scss";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import Logo from "../../../../components/Layouts/Logo";
 
@@ -17,7 +17,9 @@ function SideBar(props) {
       <div className="sidebar__user">
         <span className="sidebar__user-name">Admin</span>
         <span className="sidebar__user-out">
-          <i className="fas fa-sign-out-alt"></i>
+          <Link to="/">
+            <i className="fas fa-sign-out-alt"></i>
+          </Link>
         </span>
       </div>
       <nav className="sidebar__nav">

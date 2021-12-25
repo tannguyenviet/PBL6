@@ -1,0 +1,47 @@
+@import "../../../../sass/variables";
+@import "../../../../sass/mixins";
+
+.dashbox {
+  position: relative;
+  @include flex-row(4, 5rem);
+  @include flex(stretch, space-between, nowrap, row-reverse);
+
+  padding: 4rem 2rem;
+  border-radius: 6px;
+  overflow: hidden;
+  background: $secondary-bg;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.85;
+  }
+
+  &__icon {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: $primary-bg;
+    @include flex(center, center);
+
+    i {
+      font-size: 1.6rem;
+      color: $hover-text;
+    }
+  }
+
+  &__main {
+    width: 80%;
+
+    span {
+      font-size: 2rem;
+      font-weight: 600;
+      color: $secondary-text;
+      letter-spacing: 1px;
+    }
+  }
+
+  &__name {
+    margin-bottom: 2rem;
+    text-transform: capitalize;
+  }
+}

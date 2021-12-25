@@ -1,0 +1,55 @@
+@import "../../../../sass/variables";
+@import "../../../../sass/mixins";
+
+.dashboard {
+  &__home {
+    @include flex(center, flex-start, wrap);
+    gap: 5rem;
+    margin-bottom: 5rem;
+  }
+
+  &__users {
+    &-filter {
+      width: 20%;
+    }
+  }
+
+  .chart {
+    &__filter {
+      @include flex(center, flex-start);
+      gap: 2rem;
+      margin-bottom: 2rem;
+
+      &-item {
+        &:not(first-child) {
+          width: 15%;
+        }
+        &:first-child {
+          width: 40%;
+        }
+      }
+
+      &-date {
+        background: $secondary-bg;
+        width: 6rem;
+        margin: 0 1rem;
+        padding: 3px 2.5rem;
+
+        border-radius: 6px;
+        border: 1px solid $secondary-text;
+        transition: all 0.2s linear;
+
+        &:hover {
+          cursor: pointer;
+          border-color: $success;
+        }
+      }
+    }
+  }
+}
+
+.manager__filter {
+  width: 60%;
+  @include flex(center, flex-start);
+  gap: 2rem;
+}

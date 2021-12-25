@@ -1,0 +1,216 @@
+@import "./mixins";
+@import "./variables";
+*,
+*::after,
+*:before {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(transparent, #eca1fe);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(transparent, $hover-text);
+}
+
+html {
+  font-size: 62.5%;
+  font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-size: 1.6rem;
+  background-color: $primary-bg;
+  color: #fff;
+}
+
+body.hidden {
+  overflow: hidden;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background: #0a1e5e;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.container {
+  max-width: 117rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.btn-to-top {
+  @include flex(center, center);
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: $hover-text;
+  cursor: pointer;
+
+  position: fixed;
+  bottom: 100vh;
+  right: 3rem;
+  opacity: 0;
+  transition: all 0.9s ease;
+
+  &.active {
+    opacity: 1;
+    bottom: 3rem;
+  }
+
+  &:hover {
+    box-shadow: 0px 2px 6px 0 $hover-text;
+  }
+
+  i {
+    color: $primary-bg;
+  }
+}
+
+.page {
+  &-404 {
+    padding: 15rem 0 5rem;
+    @include flex(center, center);
+  }
+  &-img {
+    width: 80rem;
+    height: 52rem;
+    background: url("../assets/images/backgrounds/404.png") no-repeat center /
+      cover;
+  }
+}
+
+.loading-overlay {
+  @include flex(center, center);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: $primary-bg;
+  opacity: 0.85;
+  z-index: 9999;
+}
+
+.dashboard {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: $primary-bg;
+  padding: 8rem 0 0 26rem;
+
+  &__container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 26rem;
+    margin: 0 2.5rem;
+  }
+  &__content {
+    padding: 2rem 1rem;
+  }
+}
+
+.table {
+  border-radius: 6px;
+  width: 100%;
+  text-align: left;
+  margin: 2rem 0;
+
+  overflow: hidden;
+  letter-spacing: 1px;
+  box-shadow: $shadow-primary;
+  color: $secondary-text;
+
+  thead {
+    box-shadow: $shadow-primary;
+  }
+  th {
+    padding: 2.5rem 2rem;
+    font-weight: 600;
+  }
+
+  tr:nth-child(even) {
+    background-color: $secondary-bg;
+  }
+
+  td {
+    padding: 1.6rem 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+
+    white-space: nowrap;
+    max-width: 25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:last-child {
+      @include flex(center);
+      gap: 2rem;
+      i {
+        transition: all 0.2s linear;
+
+        &:hover {
+          color: $hover-text;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+input {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+input[type="radio"] {
+  margin: 0;
+}
+
+button {
+  border: 0;
+  cursor: none;
+  text-align: center;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+}
+
+.btn {
+  display: inline-block;
+  width: 14rem;
+  padding: 1.2rem 1.5rem;
+  border-radius: 5px;
+
+  border: 0;
+  outline: none;
+  text-align: center;
+  cursor: pointer;
+
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: $secondary-text;
+  background: $gradient-btn;
+
+  &:focus,
+  &:hover {
+    color: $hover-text;
+  }
+}

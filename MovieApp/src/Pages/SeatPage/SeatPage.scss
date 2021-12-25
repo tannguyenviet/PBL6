@@ -1,0 +1,107 @@
+@import "../../sass/mixins";
+@import "../../sass/variables";
+
+.seat {
+  &__section {
+    padding: 10rem 0;
+  }
+
+  &-area {
+    margin-bottom: 5rem;
+  }
+  &-row {
+    @include flex(center, space-between);
+    margin-bottom: 2rem;
+  }
+  &-list {
+    @include flex(center);
+    gap: 1.5em 3rem;
+  }
+
+  &-guide {
+    @include flex(center, space-around);
+    background-color: $secondary-bg;
+    padding: 5rem;
+  }
+
+  &-status {
+    @include flex(center);
+    gap: 1rem;
+    font-size: 1.2rem;
+    color: $secondary-text;
+
+    span {
+      &:first-child {
+        display: inline-block;
+        width: 3rem;
+        height: 3rem;
+        background-color: $primary-bg;
+      }
+    }
+  }
+
+  &-img {
+    @include flex(center, center);
+    cursor: pointer;
+    width: 4.5rem;
+    height: 4.5rem;
+    background: url("../../assets/images/others/seat.png") no-repeat center /
+      cover;
+    font-size: 1.2rem;
+  }
+}
+
+.screen {
+  &-area {
+    @include flex(center, center, nowrap, column);
+    color: $secondary-text;
+  }
+  &-title {
+    position: relative;
+    font-size: 3rem;
+    font-weight: bold;
+    padding: 2.5rem 0;
+    text-transform: uppercase;
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      height: 2px;
+      background-color: $secondary-bg;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &:before {
+      top: 0;
+      width: 200%;
+    }
+    &:after {
+      bottom: 0;
+      width: 250%;
+    }
+  }
+  &-img {
+    margin: 4rem auto 10rem;
+    width: 80%;
+    height: 7.2rem;
+  }
+}
+
+.selecting {
+  filter: hue-rotate(300deg) saturate(3) contrast(90%);
+}
+.selected {
+  filter: hue-rotate(130deg) saturate(1.5);
+  pointer-events: none;
+}
+.vip {
+  filter: hue-rotate(60deg) saturate(2);
+}
+
+.btn-proceed {
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 5rem;
+}

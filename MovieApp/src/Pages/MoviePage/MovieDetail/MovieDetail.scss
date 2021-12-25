@@ -1,0 +1,178 @@
+@import "../../../sass/variables";
+@import "../../../sass/mixins";
+
+.detail {
+  &__section {
+    position: relative;
+    padding: 22rem 0 10rem;
+  }
+
+  &__background {
+    background: url("../../../assets/images/backgrounds/ticket-banner.jpg")
+      no-repeat center / cover fixed;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0.25;
+  }
+
+  &__movie {
+    @include flex();
+    color: $secondary-text;
+    &-img {
+      position: relative;
+      width: 26rem;
+      height: 39rem;
+      border: 1px solid $hover-text;
+      border-radius: 6px;
+
+      margin-right: 4rem;
+      flex-shrink: 0;
+      overflow: hidden;
+      opacity: 1;
+
+      &:hover {
+        cursor: pointer;
+        img {
+          opacity: 0.7;
+        }
+
+        .play-btn {
+          transform: translate(-50%, -50%) scale(1);
+          pointer-events: auto;
+        }
+      }
+
+      img {
+        transition: all 0.2s linear;
+      }
+
+      .play-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5rem;
+        height: 5rem;
+
+        border: 2px solid #fff;
+        border-radius: 50%;
+        color: #ffffff;
+        background-color: rgba(0, 0, 0, 0.5);
+
+        cursor: pointer;
+        transform: translate(-50%, -50%) scale(0);
+        transition: all 0.2s linear;
+        pointer-events: none;
+        @include flex(center, center);
+
+        &:hover {
+          border-color: $secondary-text;
+          i {
+            color: $secondary-text;
+          }
+        }
+
+        i {
+          transition: all 0.2s linear;
+          font-size: 2rem;
+        }
+      }
+    }
+
+    &-info {
+      padding: 3rem 2rem 0;
+
+      > div {
+        > span:first-child {
+          color: #fff;
+          opacity: 0.85;
+          font-size: 1.4rem;
+          width: 10rem;
+        }
+      }
+    }
+
+    &-name {
+      font-size: 3.2rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4rem;
+      color: #fff;
+    }
+
+    &-rating {
+      margin: 1rem 0 3rem;
+      @include flex(center);
+      span {
+        font-size: 1.4rem;
+      }
+      i {
+        margin-left: 6px;
+        font-size: 12px;
+      }
+    }
+
+    &-genre {
+      margin-bottom: 3rem;
+      @include flex(center, flex-start);
+
+      span:not(:first-child) {
+        padding: 8px 2.2rem;
+        margin: 1rem;
+        border: 1.5px solid $secondary-text;
+        border-radius: 3rem;
+        font-size: 1.4rem;
+        transition: all 0.2s linear;
+
+        &:hover {
+          cursor: pointer;
+          border-color: $hover-text;
+        }
+      }
+    }
+
+    &-datetime {
+      @include flex(center);
+      font-size: 1.3rem;
+      margin-bottom: 3rem;
+      i {
+        margin-right: 1rem;
+      }
+      > span {
+        @include flex(baseline);
+        margin-right: 2rem;
+      }
+    }
+
+    &-director {
+      @include flex();
+      margin-bottom: 1.5rem;
+    }
+
+    &-stars {
+      @include flex();
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+      p {
+        @include truncate-text(1);
+        max-width: 80%;
+      }
+    }
+
+    &-desc {
+      span {
+        display: inline-block;
+        margin-bottom: 1.5rem;
+      }
+      p {
+        line-height: 1.4;
+        max-width: 85%;
+        text-align: justify;
+      }
+    }
+  }
+}

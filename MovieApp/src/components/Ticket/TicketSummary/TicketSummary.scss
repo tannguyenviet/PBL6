@@ -1,0 +1,30 @@
+@import "../../../sass/variables";
+@import "../../../sass/mixins";
+.ticket__summary {
+  padding: 4rem;
+  background-color: $secondary-bg;
+  &-container {
+    @include flex(center, space-around);
+    text-align: center;
+  }
+  &-info {
+    @include flex(center, center, nowrap, column);
+    gap: 2rem;
+    max-width: 40%;
+    line-height: 1.4;
+  }
+  &-movie {
+    font-size: 2.8rem;
+    font-weight: 700;
+  }
+
+  &-showtime {
+    font-size: 2.5rem;
+    font-weight: 600;
+    width: 10rem;
+  }
+}
+
+.btn-back {
+  width: 10rem;
+}

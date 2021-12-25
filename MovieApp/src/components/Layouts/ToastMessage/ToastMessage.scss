@@ -1,0 +1,112 @@
+@import "../../../sass/variables";
+@import "../../../sass/mixins";
+.toast {
+  &__group {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1;
+  }
+  &__mess {
+    @include flex(center, space-between);
+    border: 1.5px solid;
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 1rem 2rem;
+
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 35rem;
+    height: 8rem;
+
+    opacity: 0;
+    transform: translateX(110%);
+    transition: all 0.6s ease;
+
+    &.active {
+      animation: activeToast 0.5s ease;
+    }
+
+    @keyframes activeToast {
+      from {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0%);
+      }
+    }
+
+    &--success {
+      background-color: $primary-bg;
+      border-color: $success;
+      .toast__mess {
+        &-icon {
+          background-color: $success;
+          i {
+            color: #000;
+          }
+        }
+        &-title {
+          color: $secondary-text;
+        }
+        &-desc {
+          color: rgba(238, 238, 238, 0.9);
+        }
+      }
+      &.active {
+        display: flex;
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    &--error {
+      background-color: $primary-bg;
+      border-color: $error;
+      .toast__mess {
+        &-icon {
+          background-color: $error;
+          i {
+            color: #000;
+          }
+        }
+        &-title {
+          color: $error;
+        }
+        &-desc {
+          color: rgba(238, 238, 238, 0.9);
+        }
+      }
+      &.active {
+        display: flex;
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    &-icon {
+      padding: 1rem;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      @include flex(center, center);
+      i {
+        font-size: 1.2rem;
+      }
+    }
+    &-content {
+      flex: 1;
+      margin-left: 2.5rem;
+    }
+    &-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    &-desc {
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+  }
+}

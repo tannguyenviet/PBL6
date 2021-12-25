@@ -1,0 +1,87 @@
+@import "../../../sass/mixins";
+@import "../../../sass/variables";
+
+.movie {
+  $movie-gap: 2rem;
+
+  &__section {
+    padding: 12rem 0;
+  }
+  &__top {
+    @include flex(center, space-between);
+    position: relative;
+    padding-bottom: 1rem;
+    margin-bottom: 3rem;
+
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    &:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+
+      height: 2px;
+      width: 10%;
+      background-color: $hover-text;
+    }
+    &-header {
+      font-size: 5rem;
+      line-height: 1.2;
+    }
+    &-btn {
+      color: $secondary-text;
+      transition: all 0.2s linear;
+      &:hover {
+        color: $hover-text;
+      }
+    }
+  }
+
+  &__list {
+    @include flex(stretch, space-around);
+    gap: $movie-gap;
+    align-content: space-around;
+  }
+}
+
+//Slick slider
+
+.slick-list {
+  margin: 0 -10px;
+}
+
+.slick-slide > div {
+  margin: 0 10px;
+}
+
+.slick-dots > ul > li button:before {
+  font-size: 12px;
+  color: $secondary-text;
+}
+
+.slick-dots > ul > li.slick-active button:before {
+  opacity: 0.75;
+  color: $hover-text;
+}
+
+.slick-arrow.slick-next,
+.slick-arrow.slick-prev {
+  width: 25px;
+  height: 25px;
+
+  &:before {
+    font-size: 30px;
+    color: $hover-text;
+    transition: all 0.2s linear;
+  }
+}
+
+.slick-arrow.slick-next {
+  right: -4rem;
+}
+.slick-arrow.slick-prev {
+  left: -4rem;
+}

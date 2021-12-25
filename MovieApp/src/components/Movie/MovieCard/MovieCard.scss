@@ -1,0 +1,107 @@
+@import "../../../sass/variables";
+@import "../../../sass/mixins";
+.movie {
+  $movie-gap: 2rem;
+  &__item {
+    position: relative;
+    width: calc(25% - #{$movie-gap});
+    width: 100%;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+
+    overflow: hidden;
+    color: $secondary-text;
+    transition: box-shadow 0.2s linear;
+    animation: movieReload 0.8s linear;
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: $shadow-secondary;
+      .movie__item-img {
+        img {
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    &-img {
+      width: 100%;
+      height: 34rem;
+      overflow: hidden;
+      img {
+        transition: all 0.2s linear;
+      }
+    }
+    &-content {
+      padding: 2rem 2rem 0;
+      background-color: $secondary-bg;
+    }
+    &-info {
+      @include flex(center, space-between);
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+      padding-bottom: 1.5rem;
+    }
+    &-title {
+      font-size: 1.8rem;
+      font-weight: 400;
+      line-height: 1.5;
+      flex-basis: 70%;
+      @include truncate-text(1);
+    }
+    &-rating {
+      @include flex(center);
+      font-size: 1.2rem;
+      padding: 5px 8px;
+      border-radius: 4px;
+      background-color: $primary-bg;
+
+      i {
+        font-size: 12px;
+        margin-left: 5px;
+        color: $hover-text;
+      }
+    }
+    &-options {
+      @include flex(center, space-around);
+      padding: 1rem 0;
+      gap: 2rem;
+      font-size: 1.5rem;
+    }
+    &-btn {
+      flex-basis: 50%;
+      text-align: center;
+      padding: 1rem;
+
+      cursor: pointer;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      transition: all 0.2s linear;
+
+      &.btn-buy {
+        a {
+          color: $secondary-text;
+        }
+      }
+
+      &:hover {
+        color: $hover-text;
+        border-color: currentColor;
+        a {
+          color: currentColor;
+        }
+      }
+    }
+  }
+
+  @keyframes movieReload {
+    from {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}

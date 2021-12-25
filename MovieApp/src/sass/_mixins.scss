@@ -1,0 +1,19 @@
+@mixin flex($align: stretch, $justify: flex-start, $wrap: nowrap, $dir: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+  flex-direction: $dir;
+}
+
+@mixin truncate-text($line) {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+}
+
+@mixin flex-row($col, $width_gap) {
+  $total_gap: calc(#{$width_gap} * (#{$col} - 1));
+  width: calc((100% - #{$total_gap}) / #{$col});
+}
